@@ -7,12 +7,11 @@ const UserForm = () => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
+    firstName: "Denisa",
+    lastName: "Cuta",
+    email: "123@yahoo.com",
+    password: "12345",
   });
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,42 +26,37 @@ const UserForm = () => {
       .then((res) => res.json())
       .then((allUser) => {
         setAllUser(allUser);
-        console.log(allUser)
+        console.log(allUser);
       });
   }, []);
 
-  const saveFormData = async () => {
-     await fetch(`http://localhost:8080/account/createUser`, {
+  const saveFormData = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:8080/account/createUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    }).then((res) => res.json());
-  };
-  
-  const onSubmit = async (event) => {
-    event.preventDefault();
-      try {
-        await saveFormData();
-        alert("Your registration was successfully submitted!");
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
         setUser({
           firstName: "",
           lastName: "",
           email: "",
-          password: ""
-        }
-        );
-      } catch (e) {
-        alert(`Registration failed! ${e.message}`);
-      }
-    console.log(user);
+          password: "",
+        });
+        alert("Your registration was successfully submitted!");
+      })
+      .catch((error) => {
+        alert(`Registration failed! ${error.message}`);
+      });
   };
 
-  
-
   return (
-    <form className="UserForm" onSubmit={onSubmit}>
+    <form className="UserForm" onSubmit={(e) => saveFormData(e)}>
       <div className="control">
         <label htmlFor="firstName">First Name:</label>
         <input

@@ -22,13 +22,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUsers(User user) {
+    public User addUsers(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if(userOptional.isPresent()) {
             throw new IllegalStateException("email taken");
         }
         userRepository.save(user);
         System.out.println(user);
+        return user;
     }
 
     public void deleteUser(Long userId) {

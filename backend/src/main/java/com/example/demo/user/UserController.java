@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class UserController {
     }
     @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createUser")
-    public void registerNewUser(@RequestBody User user){
-        userService.addUsers(user);
+    public ResponseEntity<User> registerNewUser(@RequestBody User user){
+        User newRegisterUser = userService.addUsers(user);
+        return ResponseEntity.ok(newRegisterUser);
     }
 
     @DeleteMapping(path = "{userId}")
