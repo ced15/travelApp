@@ -14,12 +14,12 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
-
+    @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createUser")
     public void registerNewUser(@RequestBody User user){
         userService.addUsers(user);
