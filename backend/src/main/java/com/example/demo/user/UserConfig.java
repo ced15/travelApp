@@ -27,6 +27,9 @@ public class UserConfig {
                     "12345@yahoo.com",
                     "1234567"
             );
+            repository.save(Paul);
+            repository.save(Denisa);
+            repository.save(George);
         };
     }
 }
