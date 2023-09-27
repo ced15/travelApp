@@ -1,9 +1,10 @@
 package com.example.demo.trip;
 
 import com.example.demo.location.Location;
-import com.example.demo.location.LocationConfig;
 import com.example.demo.location.LocationRepository;
-import com.example.demo.user.UserConfig;
+import com.example.demo.location.LocationService;
+import com.example.demo.memento.Memento;
+import com.example.demo.memento.MementoRepository;
 import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,7 @@ import org.springframework.core.Ordered;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 public class TripConfig implements CommandLineRunner, Ordered {
@@ -19,39 +21,48 @@ public class TripConfig implements CommandLineRunner, Ordered {
     TripRepository tripRepository;
     UserRepository userRepository;
     LocationRepository locationRepository;
+    MementoRepository mementoRepository;
 
     @Autowired
-    public TripConfig(LocationRepository locationRepository, UserRepository userRepository, TripRepository tripRepository) {
+    public TripConfig(LocationRepository locationRepository, UserRepository userRepository, TripRepository tripRepository, MementoRepository mementoRepository) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.locationRepository = locationRepository;
+        this.mementoRepository = mementoRepository;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
+        Location location1 = locationRepository.findLocationByLocationName("Location 1").orElse(null);
+        Location location2 = locationRepository.findLocationByLocationName("Location 2").orElse(null);
+         Memento memento1 = mementoRepository.findMementoById(1L).orElse(null);
+        Memento memento2 = mementoRepository.findMementoById(2L).orElse(null);
+
+        System.out.println(location1 + "++++++++++++++++++++++++++++++++++++");
+
         Trip trip = new Trip(
                 userRepository.findUserById(1L),
-                locationRepository.findLocationByLocationName("Location 1"),
+                List.of(location1, location2),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),
-                "Trip Message",
-                "Trip Event");
+                "Trip Event",
+                List.of(memento1, memento2)
+        );
         Trip trip1 = new Trip(
                 userRepository.findUserById(2L),
-                locationRepository.findLocationByLocationName("Location 2"),
+                List.of(location1, location2),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),
-                "Vacanta la munte",
-                "Vacanta de vara"
+                "Vacanta de vara",
+                List.of(memento1, memento2)
         );
         Trip trip2 = new Trip(
                 userRepository.findUserById(3L),
-                locationRepository.findLocationByLocationName("Location 3"),
+                List.of(location1, location2),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),
-                "Vacanta la munte",
-                "Vacanta de vara"
+                "Vacanta de vara",
+                List.of(memento1, memento2)
         );
 
         tripRepository.save(trip);
@@ -64,6 +75,6 @@ public class TripConfig implements CommandLineRunner, Ordered {
 
     @Override
     public int getOrder() {
-        return 3;
+        return 4;
     }
 }
