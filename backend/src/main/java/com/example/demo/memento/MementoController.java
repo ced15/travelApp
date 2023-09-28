@@ -16,13 +16,14 @@ public class MementoController {
     public MementoController(MementoService mementoService) {
         this.mementoService = mementoService;
     }
-
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllMementos")
     public List<Memento> getMementos() {
         return mementoService.getMementos();
     }
 
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createMemento")
     public ResponseEntity<Memento> createMemento(@RequestBody Memento memento) {
@@ -30,6 +31,7 @@ public class MementoController {
         return ResponseEntity.ok(newMemento);
     }
 
+    //tested
     @DeleteMapping(path = "{mementoId}")
     public ResponseEntity<String> deleteMemento(@PathVariable("mementoId") Long mementoId) {
         mementoService.deleteMemento(mementoId);
@@ -37,6 +39,7 @@ public class MementoController {
 
     }
 
+    //tested
     @PutMapping(path = "{mementoId}")
     public void updateMemento(
             @PathVariable("mementoId") Long mementoId,

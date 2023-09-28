@@ -2,7 +2,6 @@ package com.example.demo.trip;
 
 import com.example.demo.location.Location;
 import com.example.demo.location.LocationRepository;
-import com.example.demo.location.LocationService;
 import com.example.demo.memento.Memento;
 import com.example.demo.memento.MementoRepository;
 import com.example.demo.user.UserRepository;
@@ -13,7 +12,6 @@ import org.springframework.core.Ordered;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 public class TripConfig implements CommandLineRunner, Ordered {
@@ -37,8 +35,6 @@ public class TripConfig implements CommandLineRunner, Ordered {
         Location location2 = locationRepository.findLocationByLocationName("Location 2").orElse(null);
          Memento memento1 = mementoRepository.findMementoById(1L).orElse(null);
         Memento memento2 = mementoRepository.findMementoById(2L).orElse(null);
-
-        System.out.println(location1 + "++++++++++++++++++++++++++++++++++++");
 
         Trip trip = new Trip(
                 userRepository.findUserById(1L),

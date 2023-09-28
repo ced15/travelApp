@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,25 +27,27 @@ public class TripService {
         this.mementoRepository = mementoRepository;
     }
 
+    //tested
     public List<Trip> getTrips() {
         return tripRepository.findAll();
     }
 
+    //tested
     public Trip addTrip(Trip trip) {
         Optional<Trip> tripOptional = tripRepository.findTripById(trip.getId());
-        if(tripOptional.isPresent()) {
+        if (tripOptional.isPresent()) {
             throw new IllegalStateException("trip already exists");
         }
         LocalDate departureDate = trip.getDepartureDate();
-        LocalDate arrivalDate = trip.getArrivalDate();
-        if (departureDate != null && arrivalDate != null) {
+        LocalDate arrivalHomeDate = trip.getArrivalHomeDate();
+        if (departureDate != null && arrivalHomeDate != null) {
             if (departureDate.isBefore(LocalDate.now())) {
                 throw new IllegalArgumentException("Departure date must be in the future");
             }
-            if(departureDate.isBefore(arrivalDate)) {
+            if (departureDate.isBefore(arrivalHomeDate)) {
                 throw new IllegalArgumentException("Departure date must be after the arrival date");
             }
-            if (arrivalDate.isBefore(departureDate)) {
+            if (arrivalHomeDate.isBefore(departureDate)) {
                 throw new IllegalArgumentException("Arrival date must be after the departure date");
             }
         } else {
@@ -56,9 +58,15 @@ public class TripService {
         return trip;
     }
 
+    //tested
     public void deleteTripById(Long tripId) {
-        if(!tripRepository.existsById(tripId)) {
-            throw new IllegalStateException("trip with id " + tripId + " does not exist");
+        Trip trip = tripRepository.findTripById(tripId).orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
+        if (trip != null) {
+            List<Memento> mementosToRemove = new ArrayList<>(trip.getMementos());
+            for (Memento memento : mementosToRemove) {
+                trip.removeMemento(memento);
+            }
+            tripRepository.save(trip);
         }
         tripRepository.deleteById(tripId);
     }
@@ -113,25 +121,26 @@ public class TripService {
                 break;
             }
         }
-        if(!isNotPresentAndNull) {
+        if (!isNotPresentAndNull) {
             trip.getMementos().add(memento);
             mementoRepository.save(memento);
         }
     }
 
+    //tested
     @Transactional
-    public void editDatesForTrip(Long tripId, LocalDate departureDate, LocalDate arrivalDate) {
+    public void editDatesForTrip(Long tripId, LocalDate departureDate, LocalDate arrivalHomeDate) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        if(!departureDate.equals(trip.getDepartureDate())
-                && departureDate.isAfter(trip.getArrivalDate())) {
+        if (!arrivalHomeDate.equals(trip.getArrivalHomeDate())
+                && arrivalHomeDate.isAfter(trip.getDepartureDate())) {
+            trip.setArrivalHomeDate(arrivalHomeDate);
+            tripRepository.save(trip);
+        }
+        if (!departureDate.equals(trip.getDepartureDate())
+                && departureDate.isBefore(trip.getArrivalHomeDate())) {
             trip.setDepartureDate(departureDate);
+            tripRepository.save(trip);
         }
-        if(!arrivalDate.equals(trip.getArrivalDate())
-                && arrivalDate.isBefore(trip.getDepartureDate())) {
-            trip.setArrivalDate(arrivalDate);
-        }
-        tripRepository.save(trip);
     }
-
 }

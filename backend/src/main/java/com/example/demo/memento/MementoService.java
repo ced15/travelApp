@@ -21,20 +21,23 @@ public class MementoService {
         this.tripRepository = tripRepository;
     }
 
+    //tested
     public List<Memento> getMementos() {
         return mementoRepository.findAll();
     }
 
+    //tested
     public Memento addMemento(Memento memento) {
         Optional<Memento> mementoOptional = mementoRepository.findMementoById(memento.getId());
         if (mementoOptional.isPresent()) {
-            throw new IllegalStateException("location already exist in your trip");
+            throw new IllegalStateException("location already exists in your trip");
         }
         mementoRepository.save(memento);
         System.out.println(memento);
         return memento;
     }
 
+    //tested
     public void deleteMemento(Long mementoId) {
         List<Trip> tripList = tripRepository.findAll();
         Memento memento = mementoRepository.findMementoById(mementoId)
@@ -44,7 +47,6 @@ public class MementoService {
                 for (Memento memento1 : trip.getMementos()) {
                     if (memento1.getId().equals(mementoId)) {
                         trip.getMementos().remove(memento1);
-                        System.out.println(trip.getMementos() + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                         tripRepository.save(trip);
                     }
                 }
@@ -53,6 +55,7 @@ public class MementoService {
         }
     }
 
+    //tested
     @Transactional
     public void updateMementoDetails(Long mementoId, String mementoName, String mementoMessage, LocalDate alarmDate) {
         Memento memento = mementoRepository.findMementoById(mementoId)

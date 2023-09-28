@@ -18,12 +18,14 @@ public class PinPointController {
         this.pinPointService = pinPointService;
     }
 
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllPinPoints")
     public List<PinPoint> getPinPoints() {
         return pinPointService.getPinPoints();
     }
 
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createPinPoint")
     public ResponseEntity<PinPoint> addPinPoint(@RequestBody PinPoint pinPoint) {
@@ -31,31 +33,53 @@ public class PinPointController {
         return ResponseEntity.ok(newPinPoint);
     }
 
+    //tested
     @DeleteMapping(path = "{pinPointId}")
-    public void deletePinPoint(@PathVariable("pinPointId") Long pinPointId) {
+    public ResponseEntity<String> deletePinPoint(@PathVariable("pinPointId") Long pinPointId) {
         pinPointService.deletePinPointById(pinPointId);
+        return ResponseEntity.ok("Pin point deleted");
+    }
+    //tested
+    @DeleteMapping(path = "/deletePhotoFromPinPoint/{pinPointId}/{photoId}")
+    public ResponseEntity<String> deletePhotoFromPinPoint(
+            @PathVariable("pinPointId") Long pinPointId,
+            @PathVariable("photoId") Long photoId) {
+        pinPointService.removePhotoFromPinPoint(pinPointId, photoId);
+        return ResponseEntity.ok("Photo deleted from Pin Point");
+    }
+    //tested
+    @DeleteMapping(path = "/deleteVideoFromPinPoint/{pinPointId}/{videoId}")
+    public ResponseEntity<String> deleteVideoFromPinPoint(
+            @PathVariable("pinPointId") Long pinPointId,
+            @PathVariable("videoId") Long videoId) {
+        pinPointService.removeVideoFromPinPoint(pinPointId, videoId);
+        return ResponseEntity.ok("Video deleted from Pin Point");
     }
 
+    //tested
     @PostMapping(path = "/updatePhotos/{pinPointId}")
-    public void addPhotoToPinPoint(
+    public ResponseEntity<String> addPhotoToPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
             @RequestBody(required = false) Photo photo) {
         pinPointService.addPhotoToPinPoint(pinPointId, photo);
+        return ResponseEntity.ok("Photo added successfully");
     }
 
+    //tested
     @PostMapping(path = "/updateVideos/{pinPointId}")
-    public void addVideoToPinPoint(
+    public ResponseEntity<String> addVideoToPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
             @RequestBody(required = false) Video video) {
         pinPointService.addVideoToPinPoint(pinPointId, video);
+        return ResponseEntity.ok("Video added successfully");
     }
-
-//    @PutMapping(path = "{userId}")
-//    public void updateUser(
-//            @PathVariable("userId") Long userId,
-//            @RequestBody (required = false) User userUpdate) {
-//        String email = userUpdate.getEmail();
-//        String password = userUpdate.getPassword();
-//        userService.updateUserDetails(userId, email , password);
-//    }
+    //tested
+    @PutMapping(path = "{pinPointId}")
+    public ResponseEntity<String> updateNotesForPinPoint(
+            @PathVariable("pinPointId") Long pinPointId,
+            @RequestBody(required = false) PinPoint pinPointUpdate) {
+        String notes = pinPointUpdate.getNotes();
+        pinPointService.updatePinPointDetails(pinPointId, notes);
+        return ResponseEntity.ok("Pin Point updated");
+    }
 }

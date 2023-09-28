@@ -25,7 +25,7 @@ public class User {
     private String password;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Trip> trip;
+    private List<Trip> trips;
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;

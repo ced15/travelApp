@@ -15,13 +15,14 @@ public class LocationController {
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
-
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllLocations")
     public List<Location> getLocations() {
         return locationService.getLocations();
     }
 
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createLocation")
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
@@ -29,13 +30,16 @@ public class LocationController {
         return ResponseEntity.ok(newLocation);
     }
 
+    //tested
     @DeleteMapping(path = "{locationId}")
-    public void deleteLocation(@PathVariable("locationId") Long locationId) {
+    public ResponseEntity<String> deleteLocation(@PathVariable("locationId") Long locationId) {
         locationService.deleteLocation(locationId);
+        return ResponseEntity.ok("Location deleted");
     }
 
+    //tested
     @PutMapping(path = "{locationId}")
-    public void updateLocation(
+    public ResponseEntity<String> updateLocation(
             @PathVariable("locationId") Long locationId,
             @RequestBody(required = false) Location locationUpdate) {
         String locationName = locationUpdate.getLocationName();
@@ -44,6 +48,6 @@ public class LocationController {
         Boolean visited = locationUpdate.isVisited();
         String notes = locationUpdate.getNotes();
         locationService.updateLocationDetails(locationId, type, locationName, locationAddress, visited, notes);
-
+        return ResponseEntity.ok("Location successfully updated");
     }
 }

@@ -15,11 +15,15 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
+
+    //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @PostMapping(path = "/createUser")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
@@ -27,11 +31,13 @@ public class UserController {
         return ResponseEntity.ok(newRegisterUser);
     }
 
+    //tested
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
+    //tested
     @PutMapping(path = "{userId}")
     public void updateUser(
             @PathVariable("userId") Long userId,

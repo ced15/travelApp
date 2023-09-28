@@ -2,7 +2,6 @@ package com.example.demo.trip;
 
 import com.example.demo.location.Location;
 import com.example.demo.memento.Memento;
-import com.example.demo.pinPoint.PinPoint;
 import com.example.demo.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -37,7 +36,7 @@ public class Trip {
     )
     private List<Location> locationList = new ArrayList<>();
     private LocalDate departureDate;
-    private LocalDate arrivalDate;
+    private LocalDate arrivalHomeDate;
     private String event;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -48,14 +47,15 @@ public class Trip {
     )
     private List<Memento> mementos = new ArrayList<>();
 
-    public Trip(User user, List<Location> locationList, LocalDate departureDate, LocalDate arrivalDate, String event, List<Memento> mementos) {
+    public Trip(User user, List<Location> locationList, LocalDate departureDate, LocalDate arrivalHomeDate, String event, List<Memento> mementos) {
         this.user = user;
         this.locationList = locationList;
         this.departureDate = departureDate;
-        this.arrivalDate = arrivalDate;
+        this.arrivalHomeDate = arrivalHomeDate;
         this.event = event;
         this.mementos = mementos;
     }
+
     public void removeMemento(Memento memento) {
         mementos.remove(memento);
         memento.getTrips().remove(this);
@@ -67,7 +67,7 @@ public class Trip {
                 "id=" + id +
                 ", locationList=" + locationList +
                 ", departureDate=" + departureDate +
-                ", arrivalDate=" + arrivalDate +
+                ", arrivalDate=" + arrivalHomeDate +
                 ", event='" + event + '\'' +
                 '}';
     }

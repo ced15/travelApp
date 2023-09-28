@@ -19,11 +19,12 @@ public class LocationService {
         this.locationRepository = locationRepository;
         this.tripRepository = tripRepository;
     }
-
+    //tested
     public List<Location> getLocations() {
         return locationRepository.findAll();
     }
 
+    //tested
     public Location addLocation(Location location) {
         Optional<Location> locationOptional = locationRepository.findLocationById(location.getId());
         if (locationOptional.isPresent()) {
@@ -34,6 +35,7 @@ public class LocationService {
         return location;
     }
 
+    //tested
     public void deleteLocation(Long locationId) {
         Location location = locationRepository.findLocationById(locationId)
                 .orElseThrow(() -> new IllegalStateException("Location with ID " + locationId + " does not exist"));
@@ -53,6 +55,7 @@ public class LocationService {
         }
     }
 
+    //tested
     @Transactional
     public void updateLocationDetails(Long locationId, String type, String locationName, String locationAddress, boolean visited, String notes) {
         Location location = locationRepository.findLocationById(locationId)
