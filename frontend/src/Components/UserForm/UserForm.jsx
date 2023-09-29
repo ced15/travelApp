@@ -9,7 +9,7 @@ const UserForm = () => {
   const [user, setUser] = useState({
     firstName: "Denisa",
     lastName: "Cuta",
-    email: "123@yahoo.com",
+    email: "denisacuta@yahoo.com",
     password: "12345",
   });
 
