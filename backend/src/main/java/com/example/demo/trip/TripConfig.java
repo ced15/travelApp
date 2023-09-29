@@ -41,7 +41,7 @@ public class TripConfig implements CommandLineRunner, Ordered {
                 List.of(location1, location2),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),
-                "Trip Event",
+                "Road trip",
                 List.of(memento1, memento2)
         );
         Trip trip1 = new Trip(

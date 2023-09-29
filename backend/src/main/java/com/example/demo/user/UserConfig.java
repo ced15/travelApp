@@ -28,19 +28,19 @@ public class UserConfig implements CommandLineRunner, Ordered {
         Paul = new User(
                 "Paul",
                 "Costea",
-                "123@yahoo.com",
+                "costeapaul@yahoo.com",
                 "12345"
         );
         Denisa = new User(
                 "Denisa",
                 "Cuta",
-                "1234@yahoo.com",
+                "denisa1506@yahoo.com",
                 "123456"
         );
         George = new User(
                 "George",
                 "Mihai",
-                "12345@yahoo.com",
+                "georgemihai@yahoo.com",
                 "1234567"
         );
         userRepository.save(Paul);

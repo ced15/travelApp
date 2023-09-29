@@ -22,17 +22,17 @@ public class LocationConfig implements CommandLineRunner, Ordered {
     @Transactional
     public void run(String... args) throws Exception {
         Location location1 = new Location(
-                "Type1",
-                "Location 1",
-                "Address 1",
-                false,
-                "asd");
-        Location location2 = new Location(
-                "Type2",
-                "Location 2",
-                "Address 2",
+                "Restaurant",
+                "La calul alb",
+                "Timisoara",
                 true,
-                "asd");
+                "Best cuisine");
+        Location location2 = new Location(
+                "Lake",
+                "Ochiul Beiului lake",
+                "Cheile Nerei",
+                true,
+                "Beautiful view");
 
         locationRepository.save(location1);
         locationRepository.save(location2);

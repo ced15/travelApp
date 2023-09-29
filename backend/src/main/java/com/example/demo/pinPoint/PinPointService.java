@@ -87,7 +87,7 @@ public class PinPointService {
         videoRepository.save(video);
         pinPointRepository.save(pinPoint);
     }
-
+    //tested
     public void removePhotoFromPinPoint(Long pinPointId, Long photoId) {
         PinPoint pinPoint = pinPointRepository.findById(pinPointId)
                 .orElseThrow(() -> new IllegalStateException("Pin Point with id " + pinPointId + " does not exist"));
@@ -99,7 +99,7 @@ public class PinPointService {
             }
         }
     }
-
+    //tested
     public void removeVideoFromPinPoint(Long pinPointId, Long videoId) {
         PinPoint pinPoint = pinPointRepository.findById(pinPointId)
                 .orElseThrow(() -> new IllegalStateException("Pin Point with id " + pinPointId + " does not exist"));
@@ -111,7 +111,7 @@ public class PinPointService {
             }
         }
     }
-
+    //tested
     @Transactional
     public void updatePinPointDetails(Long pinPointId, String pinPointNotes) {
         PinPoint pinPoint = pinPointRepository.findPinPointById(pinPointId)
