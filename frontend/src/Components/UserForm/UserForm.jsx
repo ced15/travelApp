@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
+import React from "react";
 
 const UserForm = () => {
   const [allUser, setAllUser] = useState([]);
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
     firstName: "Denisa",
     lastName: "Cuta",
     email: "denisacuta@yahoo.com",
     password: "12345",
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +22,33 @@ const UserForm = () => {
       ...prevUser,
       [name]: value,
     }));
+    if (name === "email") {
+      const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      if (!emailPattern.test(value) && value !== "") {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Invalid email format",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "",
+        }));
+      }
+    }
+    if (name === "password") {
+      if (value.length < 6 && value.length > 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          password: "Password must be at least 6 characters long",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          password: "",
+        }));
+      }
+    }
   };
 
   useEffect(() => {
@@ -32,6 +62,11 @@ const UserForm = () => {
 
   const saveFormData = (e) => {
     e.preventDefault();
+    if (errors.email || errors.password) {
+      alert("Please fix the validation errors before submitting.");
+      return;
+    }
+
     fetch(`http://localhost:8080/account/createUser`, {
       method: "POST",
       headers: {
@@ -56,61 +91,55 @@ const UserForm = () => {
   };
 
   return (
-    <form className="UserForm" onSubmit={(e) => saveFormData(e)}>
-      <div className="control">
-        <label htmlFor="firstName">First Name:</label>
+    <div className="bg-travelling-start h-screen bg-cover bg-center">
+    <div className="flex justify-center items-center h-screen backdrop-blur-sm">
+      <form className="flex flex-col gap-10 p-4 bg-gradient-to-r from-gray-300 to-gray-900 rounded-lg w-80 z-0 md:filter-none" onSubmit={(e) => saveFormData(e)}>
+        <div className="text-2xl font-bold text-center">Login</div>
+        <label className="text-black">First Name :</label>
         <input
           value={user.firstName}
           onChange={handleInputChange}
-          // value={firstName}
-          // onChange={(e) => setFirstName(e.target.value)}
           name="firstName"
           id="firstName"
-        />
-      </div>
+          type="text"
+          className="input -mt-6" />
 
-      <div className="control">
-        <label htmlFor="lastName">Last Name:</label>
+
+        <label className="text-black -mt-6">Last Name :</label>
         <input
-          // value={lastName}
-          // onChange={(e) => setLastName(e.target.value)}
+          type="text"
+          className="input -mt-6"
           value={user.lastName}
           onChange={handleInputChange}
           name="lastName"
-          id="lastName"
-        />
-      </div>
+          id="lastName" />
 
-      <div className="control">
-        <label htmlFor="email">Email:</label>
+
+        <label className="text-black -mt-6">Email : </label>
         <input
-          // value={email}
-          // onChange={(e) => setEmail(e.target.value)}
           value={user.email}
           onChange={handleInputChange}
           name="email"
           id="email"
-        />
-      </div>
+          type="text" className="input -mt-6" />
+        {errors.email && <p className="error">{errors.email}</p>}
+    
 
-      <div className="control">
-        <label htmlFor="password">Password:</label>
+        <label className="text-black -mt-6">Password :</label>
         <input
-          // value={password}
-          // onChange={(e) => setPassword(e.target.value)}
           value={user.password}
           onChange={handleInputChange}
           name="password"
           id="password"
-        />
-      </div>
+          type="password" className="input -mt-6" />
+        {errors.password && <p className="error">{errors.password}</p>}
 
-      <div className="buttons">
-        <button type="submit">Submit</button>
+        <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">Log-in</button>
+        <div className="text-black text-center">Don't have an account? <span className="font-bold hover:underline">Sign-Up</span></div>
+      </form>
+    </div>
+    </div>
 
-        <button type="button">Cancel</button>
-      </div>
-    </form>
   );
 };
 
