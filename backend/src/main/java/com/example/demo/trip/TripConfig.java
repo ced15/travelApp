@@ -31,8 +31,8 @@ public class TripConfig implements CommandLineRunner, Ordered {
 
     @Override
     public void run(String... args) throws Exception {
-        Location location1 = locationRepository.findLocationByLocationName("Location 1").orElse(null);
-        Location location2 = locationRepository.findLocationByLocationName("Location 2").orElse(null);
+        Location location1 = locationRepository.findLocationByLocationName("La calul alb").orElse(null);
+        Location location2 = locationRepository.findLocationByLocationName("Ochiul Beiului lake").orElse(null);
          Memento memento1 = mementoRepository.findMementoById(1L).orElse(null);
         Memento memento2 = mementoRepository.findMementoById(2L).orElse(null);
 
