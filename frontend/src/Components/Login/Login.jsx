@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-const UserForm = () => {
+const Login = () => {
   const [allUser, setAllUser] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
@@ -143,4 +143,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default Login;
