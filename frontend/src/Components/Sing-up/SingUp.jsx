@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-const SingUp_Form = () => {
+const SingUp = () => {
   const [allUser, setAllUser] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
@@ -152,4 +152,4 @@ const SingUp_Form = () => {
   );
 };
 
-export default SingUp_Form;
+export default SingUp;
