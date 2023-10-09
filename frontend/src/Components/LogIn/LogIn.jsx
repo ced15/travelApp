@@ -116,7 +116,7 @@ const LogIn = () => {
           </button>
           <div className="text-black text-center">
             Don't have an account?{" "}
-            <span className="font-bold hover:underline">Sign-Up</span>
+            <span className="font-bold hover:underline cursor-pointer">Sign-Up</span>
           </div>
         </form>
       </div>
