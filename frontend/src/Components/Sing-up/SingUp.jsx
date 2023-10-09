@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+// import "./SignIn.css";
 import React from "react";
 
 const SingUp = () => {
