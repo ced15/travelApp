@@ -4,13 +4,13 @@ import App from './App';
 // import '../src/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import Login from "./Components/LogIn/LogIn";
+import LogIn from "./Components/LogIn/LogIn";
 import SignIn from './Components/SignIn/SignIn';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <LogIn />,
     // errorElement: <ErrorPage />,
     children: [
       {
