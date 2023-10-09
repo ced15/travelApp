@@ -17,14 +17,14 @@ public class UserController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createUser")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
         User newRegisterUser = userService.addUsers(user);
@@ -32,12 +32,14 @@ public class UserController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{userId}")
     public void updateUser(
             @PathVariable("userId") Long userId,
