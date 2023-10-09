@@ -22,7 +22,6 @@ public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -17,14 +17,14 @@ public class UserController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @PostMapping(path = "/createUser")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
         User newRegisterUser = userService.addUsers(user);
@@ -32,20 +32,29 @@ public class UserController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "http://localhost:5173/*")
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "http://localhost:5173/*")
     @PutMapping(path = "{userId}")
     public void updateUser(
             @PathVariable("userId") Long userId,
-            @RequestBody (required = false) User userUpdate) {
+            @RequestBody(required = false) User userUpdate) {
         String email = userUpdate.getEmail();
         String password = userUpdate.getPassword();
-        userService.updateUserDetails(userId, email , password);
+        userService.updateUserDetails(userId, email, password);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "/login/{email}/{password}")
+    public ResponseEntity<User> login(
+            @PathVariable("email") String email,
+            @PathVariable("password") String password) {
+        System.out.println(email+" "+password);
+        return ResponseEntity.ok(userService.getUserLogin(email, password));
     }
 }

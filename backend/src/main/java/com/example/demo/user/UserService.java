@@ -7,16 +7,19 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
+
 
     @Autowired
     public UserService(UserRepository userRepository, TripRepository tripRepository) {
@@ -75,5 +78,17 @@ public class UserService {
             user.setPassword(password);
         }
     }
+
+    public User getUserLogin (String email, String password){
+        User user = userRepository.findUserByEmail(email).orElse(null);
+        if(user != null){
+            if(user.getPassword().equals(password)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+
 
 }

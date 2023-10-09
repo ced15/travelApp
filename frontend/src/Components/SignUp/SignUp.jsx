@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import "./SignIn.css";
+import { Link } from "react-router-dom";
+import "./SignUp.css";
 import React from "react";
 
-const SignIn = () => {
+const SignUp = () => {
   const [allUser, setAllUser] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
@@ -141,11 +142,13 @@ const SignIn = () => {
           {errors.password && <p className="error">{errors.password}</p>}
 
           <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">
-            Log-in
+            Sign Up
           </button>
           <div className="text-black text-center">
-            Don't have an account?{" "}
-            <span className="font-bold hover:underline cursor-pointer">Sign-Up</span>
+            Do you have an account?{" "}
+            <span className="font-bold hover:underline cursor-pointer">
+              <Link to="/logIn">Log-In</Link>
+            </span>
           </div>
         </form>
       </div>
@@ -153,4 +156,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

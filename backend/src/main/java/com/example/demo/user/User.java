@@ -3,27 +3,30 @@ package com.example.demo.user;
 import com.example.demo.trip.Trip;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "\"user\"")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable=false)
     private String firstName;
+    @Column(nullable=false)
     private String lastName;
+    @Column(nullable=false, unique=true)
     private String email;
+    @Column(nullable=false)
     private String password;
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Trip> trips;
 
