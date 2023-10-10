@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import LogIn from "./Components/LogIn/LogIn";
 import SignUp from './Components/SignUp/SignUp';
 import "./index.css";
+import Loading from './Components/Loading/Loading';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,6 +13,8 @@ root.render(
     <Routes>
       {/* <Route path="/" element={<LogIn />} /> */}
       <Route path="/logIn" element={<LogIn />} />
+      <Route path="/loading" element={<Loading />} />
+
       <Route path="/signUp" element={<SignUp />} />
     </Routes>
   </BrowserRouter>
