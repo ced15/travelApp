@@ -9,10 +9,11 @@ import "./index.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/signUp" element={<SignUp />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      {/* <Route path="/" element={<LogIn />} /> */}
+      <Route path="/logIn" element={<LogIn />} />
+      <Route path="/signUp" element={<SignUp />} />
+    </Routes>
+  </BrowserRouter>
 );
 reportWebVitals();

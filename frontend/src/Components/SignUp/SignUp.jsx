@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./SignUp.css";
 import React from "react";
+import Loading from "../Loading/Loading";
 
 const SignUp = () => {
   const [allUser, setAllUser] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
     firstName: "Denisa",
@@ -55,6 +58,7 @@ const SignUp = () => {
     fetch(`http://localhost:8080/account/getAllUsers`)
       .then((res) => res.json())
       .then((allUser) => {
+        setLoading(false);
         setAllUser(allUser);
         console.log(allUser);
       });
@@ -90,65 +94,74 @@ const SignUp = () => {
       });
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <div className="bg-travelling-start h-screen bg-cover bg-center">
-      <div className="flex justify-center items-center h-screen backdrop-blur-sm">
-        <form
-          className="flex flex-col gap-10 p-4 bg-gradient-to-r from-gray-300 to-gray-900 rounded-lg w-80 z-0 md:filter-none"
-          onSubmit={(e) => saveFormData(e)}
-        >
-          <div className="text-2xl font-bold text-center">Login</div>
-          <label className="text-black">First Name :</label>
-          <input
-            value={user.firstName}
-            onChange={handleInputChange}
-            name="firstName"
-            id="firstName"
-            type="text"
-            className="input -mt-6"
-          />
+    <div class="h-screen font-sans login bg-cover">
+      <div class="container mx-auto h-full flex flex-1 justify-center items-center">
+        <div class="w-full max-w-lg">
+          <div class="leading-loose">
+            <form
+              className="absolute flex flex-col gap-6 p-4 bg-gradient-to-r rounded-3xl setWidth z-0 md:filter-none md:pl-10 right-4 italic bg-gray-500 bg-opacity-40"
+              onSubmit={(e) => saveFormData(e)}
+            >
+              <div className="text-2xl font-bold text-center pr-8 text-white pb-6">
+                Sign🦝Up
+              </div>
 
-          <label className="text-black -mt-6">Last Name :</label>
-          <input
-            type="text"
-            className="input -mt-6"
-            value={user.lastName}
-            onChange={handleInputChange}
-            name="lastName"
-            id="lastName"
-          />
+              <label className="text-white">First Name :</label>
+              <input
+                value={user.firstName}
+                onChange={handleInputChange}
+                name="firstName"
+                id="firstName"
+                type="text"
+                className="input w-full rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90 tracking-widest"
+              />
+              
+              <label className="text-white">Last Name :</label>
+              <input
+                type="text"
+                className="input w-full rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90 tracking-widest"
+                value={user.lastName}
+                onChange={handleInputChange}
+                name="lastName"
+                id="lastName"
+              />
 
-          <label className="text-black -mt-6">Email : </label>
-          <input
-            value={user.email}
-            onChange={handleInputChange}
-            name="email"
-            id="email"
-            type="text"
-            className="input -mt-6"
-          />
-          {errors.email && <p className="error">{errors.email}</p>}
+              <label className="text-white">E-mail :</label>
+              <input
+                value={user.email}
+                onChange={handleInputChange}
+                name="email"
+                id="email"
+                type="text"
+                className="input w-full rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90 tracking-widest"
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
 
-          <label className="text-black -mt-6">Password :</label>
-          <input
-            value={user.password}
-            onChange={handleInputChange}
-            name="password"
-            id="password"
-            type="password"
-            className="input -mt-6"
-          />
-          {errors.password && <p className="error">{errors.password}</p>}
-          <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">
-            Sign-Up
-          </button>
-          <div className="text-black text-center">
-            Do you have an account?{" "}
-            <span className="font-bold hover:underline cursor-pointer">
-              <Link to="/logIn">Log-In</Link>
-            </span>
+              <label className="text-white">Password :</label>
+              <input
+                value={user.password}
+                onChange={handleInputChange}
+                name="password"
+                id="password"
+                type="password"
+                className="input w-full rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90"
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
+              {/* <div className="text-white">Forgot Password?</div> */}
+              <button className="mb-2 border-2 rounded-xl py-1 px-4 text-lg font-bold text-white w-full border-white hover:bg-white hover:text-black hover:bg-opacity-40">
+                Sign-Up
+              </button>
+              <div className="text-center text-white hover:underline cursor-pointer">
+                <Link to="/logIn">Do you have an account?</Link>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
