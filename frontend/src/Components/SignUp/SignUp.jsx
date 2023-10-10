@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./SignUp.css";
 import React from "react";
 
@@ -140,9 +139,8 @@ const SignUp = () => {
             className="input -mt-6"
           />
           {errors.password && <p className="error">{errors.password}</p>}
-
           <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">
-            Sign Up
+            Sign-Up
           </button>
           <div className="text-black text-center">
             Do you have an account?{" "}
