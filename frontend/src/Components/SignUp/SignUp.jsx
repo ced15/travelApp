@@ -5,8 +5,8 @@ import React from "react";
 import Loading from "../Loading/Loading";
 
 const SignUp = () => {
-  const [allUser, setAllUser] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [allUser, setAllUser] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
     firstName: "Denisa",
@@ -54,18 +54,19 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/account/getAllUsers`)
-      .then((res) => res.json())
-      .then((allUser) => {
-        setLoading(false);
-        setAllUser(allUser);
-        console.log(allUser);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:8080/account/getAllUsers`)
+  //     .then((res) => res.json())
+  //     .then((allUser) => {
+  //       setLoading(false);
+  //       setAllUser(allUser);
+  //       console.log(allUser);
+  //     });
+  // }, []);
 
   const saveFormData = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (errors.email || errors.password) {
       alert("Please fix the validation errors before submitting.");
       return;
@@ -80,6 +81,7 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         console.log(data);
         setUser({
           firstName: "",

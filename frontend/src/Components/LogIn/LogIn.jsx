@@ -5,7 +5,7 @@ import Loading from "../Loading/Loading"
 import React from "react";
 
 const LogIn = () => {
-    // const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
     password: "123456",
@@ -20,25 +20,26 @@ const LogIn = () => {
   };
   const onLogin = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     fetch(`http://localhost:8080/account/login/${user.email}/${user.password}`)
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        // setLink("/signUp")
+        setLoading(false);
       });
   };
 
-    // if (loading) {
-    //   return <Loading />;
-    // }
+    if (loading) {
+      return <Loading />;
+    }
 
   return (
     <div className="flex relative h-screen smallestPhone:justify-center tablet:justify-end items-center">
       <img src='images/racconnBackground.jpg' fill className="w-full h-screen brightness-75" />
       <form
         className="absolute flex flex-col gap-10 p-4 rounded-3xl pl-5 tablet:right-20 tablet:w-80 phone:w-72 w-64 italic bg-gray-500 bg-opacity-40"
-        onSubmit={(e) => saveFormData(e)}
+        onSubmit={(e) => onLogin(e)}
       >
         <div className="text-2xl font-bold text-center pr-8 text-white pb-6 pl-9">
           L🦝g In
