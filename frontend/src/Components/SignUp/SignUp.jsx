@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./SignIn.css";
+import "./SignUp.css";
 import React from "react";
 
 const SignIn = () => {
@@ -139,14 +139,9 @@ const SignIn = () => {
             className="input -mt-6"
           />
           {errors.password && <p className="error">{errors.password}</p>}
-
           <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">
-            Log-in
+            Sign-Up
           </button>
-          <div className="text-black text-center">
-            Don't have an account?{" "}
-            <span className="font-bold hover:underline cursor-pointer">Sign-Up</span>
-          </div>
         </form>
       </div>
     </div>

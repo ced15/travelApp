@@ -1,31 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App';
-// import '../src/index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import LogIn from "./Components/LogIn/LogIn";
-import SignIn from './Components/SignIn/SignIn';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LogIn />,
-    // errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/singin",
-        element: <SignIn />,
-      },
-    ],
-  },
-]);
+import SignUp from './Components/SignUp/SignUp';
+import "./index.css"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route path="/signUp" element={<SignUp />} />
+      </Routes>
+    </BrowserRouter>
 );
 reportWebVitals();

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./LogIn.css"
 import React from "react";
+import { Link } from "react-router-dom";
 
 const LogIn = () => {
   const [allUser, setAllUser] = useState([]);
@@ -62,64 +63,45 @@ const LogIn = () => {
   };
 
   return (
-    <div className="bg-travelling-start h-screen bg-cover bg-center">
-      <div className="flex justify-center items-center h-screen backdrop-blur-sm">
+      <div className="flex relative h-screen justify-end items-center">
+        <div className="h-screen login w-full brightness-75"></div>
         <form
-          className="flex flex-col gap-10 p-4 bg-gradient-to-r from-gray-300 to-gray-900 rounded-lg w-80 z-0 md:filter-none"
+          className="absolute flex flex-col gap-10 p-4 bg-gradient-to-r rounded-3xl w-96 z-0 md:filter-none pl-10 right-20 italic bg-gray-500 bg-opacity-40"
           onSubmit={(e) => saveFormData(e)}
         >
-          <div className="text-2xl font-bold text-center">Login</div>
-          <label className="text-black">First Name :</label>
-          <input
-            value={user.firstName}
-            onChange={handleInputChange}
-            name="firstName"
-            id="firstName"
-            type="text"
-            className="input -mt-6"
-          />
+          <div className="text-2xl font-bold text-center pr-8 text-white pb-6" >L🦝gin</div>
 
-          <label className="text-black -mt-6">Last Name :</label>
-          <input
-            type="text"
-            className="input -mt-6"
-            value={user.lastName}
-            onChange={handleInputChange}
-            name="lastName"
-            id="lastName"
-          />
-
-          <label className="text-black -mt-6">Email : </label>
+          <label className="text-white -mt-6">E-mail :</label>
           <input
             value={user.email}
             onChange={handleInputChange}
             name="email"
             id="email"
             type="text"
-            className="input -mt-6"
+            className="input -mt-6 w-72 rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90"
           />
           {errors.email && <p className="error">{errors.email}</p>}
 
-          <label className="text-black -mt-6">Password :</label>
+          <label className="text-white -mt-6">Password :</label>
           <input
             value={user.password}
             onChange={handleInputChange}
             name="password"
             id="password"
             type="password"
-            className="input -mt-6"
+            className="input -mt-6 w-72 rounded-2xl pl-2 h-8 border-2 bg-white bg-opacity-90"
           />
           {errors.password && <p className="error">{errors.password}</p>}
 
-          <button className="mt-2 mb-2 border-2 rounded-lg py-1 px-4 text-lg font-bold text-black-500">
+          <button className="mt-2 mb-2 border-2 rounded-xl py-1 px-4 text-lg font-bold text-white w-72  border-white hover:bg-white hover:text-black hover:bg-opacity-40">
             Log-in
           </button>
-          <div className="text-black text-center">
-            Don't have an account?{" "}
-            <span className="font-bold hover:underline cursor-pointer">Sign-Up</span>
+          <div className="text-white text-left w-72 hover:underline cursor-pointer">
+            <Link to="signUp">
+              Don't have an account?{" "}
+            </Link>
           </div>
         </form>
-      </div>
     </div>
   );
 };
