@@ -67,7 +67,7 @@ const LogIn = () => {
           Log-in
         </button>
         <div className=" -mt-8 text-center text-white tablet:w-72 phone:w-64 w-56 hover:underline cursor-pointer">
-          <Link to="signUp">Don't have an account? </Link>
+          <Link to="/signUp">Don't have an account? </Link>
         </div>
       </form>
     </div>
