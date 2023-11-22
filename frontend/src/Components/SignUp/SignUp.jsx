@@ -157,7 +157,7 @@ const SignUp = () => {
         />
         {errors.password && <p className="error">{errors.password}</p>}
         <button className="mb-2 border-2 rounded-xl py-1 px-4 text-lg font-bold text-white w-full border-white hover:bg-white hover:text-black hover:bg-opacity-40">
-          Sign-Up
+          <Link to="/"> Sign-Up</Link>
         </button>
         <div className="text-center text-white hover:underline cursor-pointer">
           <Link to="/logIn">Do you have an account?</Link>

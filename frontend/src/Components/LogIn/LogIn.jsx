@@ -6,7 +6,7 @@ import React from "react";
 
 const LogIn = () => {
     const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({
+    const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
     password: "123456",
   });
