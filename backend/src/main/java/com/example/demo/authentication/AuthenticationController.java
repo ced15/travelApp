@@ -1,12 +1,12 @@
-package com.example.demo.controller;
+package com.example.demo.security;
 
-import com.example.demo.service.AuthenticationService;
+import com.example.demo.controller.RegisterRequest;
+import com.example.demo.security.AuthenticationRequest;
+import com.example.demo.security.AuthenticationResponse;
+import com.example.demo.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -15,6 +15,7 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
             @RequestBody RegisterRequest request
@@ -22,6 +23,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register (
             @RequestBody AuthenticationRequest request
