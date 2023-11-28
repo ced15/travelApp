@@ -4,6 +4,7 @@ import com.example.demo.components.Location;
 import com.example.demo.components.Memento;
 import com.example.demo.components.Trip;
 import com.example.demo.service.TripService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/trips")
+@RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
-
-    @Autowired
-    public TripController(TripService tripService) {
-        this.tripService = tripService;
-    }
     //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllTrips")
-    public List<Trip> getGetTrips(){
-        return tripService.getTrips();
+    public List<Trip> getGetTrips(){return tripService.getTrips();
     }
 
     //tested

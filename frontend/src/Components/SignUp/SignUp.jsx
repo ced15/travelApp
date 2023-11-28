@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import React from "react";
 import Loading from "../Loading/Loading";
 
 const SignUp = () => {
-  // const [allUser, setAllUser] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [user, setUser] = useState({
@@ -54,16 +54,6 @@ const SignUp = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:8080/account/getAllUsers`)
-  //     .then((res) => res.json())
-  //     .then((allUser) => {
-  //       setLoading(false);
-  //       setAllUser(allUser);
-  //       console.log(allUser);
-  //     });
-  // }, []);
-
   const saveFormData = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -72,7 +62,7 @@ const SignUp = () => {
       return;
     }
 
-    fetch(`http://localhost:8080/account/createUser`, {
+    fetch(`http://localhost:8080/api/v1/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,10 +79,11 @@ const SignUp = () => {
           email: "",
           password: "",
         });
-        alert("Your registration was successfully submitted!");
+        console.log("Your registration was successfully submitted!");
+        navigate("/");
       })
       .catch((error) => {
-        alert(`Registration failed! ${error.message}`);
+        console.log(`Registration failed! ${error.message}`);
       });
   };
 
@@ -157,7 +148,7 @@ const SignUp = () => {
         />
         {errors.password && <p className="error">{errors.password}</p>}
         <button className="mb-2 border-2 rounded-xl py-1 px-4 text-lg font-bold text-white w-full border-white hover:bg-white hover:text-black hover:bg-opacity-40">
-          <Link to="/"> Sign-Up</Link>
+           Sign-Up
         </button>
         <div className="text-center text-white hover:underline cursor-pointer">
           <Link to="/logIn">Do you have an account?</Link>

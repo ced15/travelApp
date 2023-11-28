@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.components.Trip;
 import com.example.demo.components.User;
 import com.example.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/account")
 public class UserController {
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     //tested
     @CrossOrigin(origins = "*")
@@ -50,13 +48,13 @@ public class UserController {
         String password = userUpdate.getPassword();
         userService.updateUserDetails(userId, email, password);
     }
-
-    @CrossOrigin(origins = "*")
-    @GetMapping(path = "/login/{email}/{password}")
-    public ResponseEntity<User> login(
-            @PathVariable("email") String email,
-            @PathVariable("password") String password) {
-        System.out.println(email+" "+password);
-        return ResponseEntity.ok(userService.getUserLogin(email, password));
+    @PutMapping(path = "/addTrip/{userId}/{tripId}")
+    public ResponseEntity<User> addTripToUser( @PathVariable("userId") Long userId,
+                                               @PathVariable("tripId") Long tripId
+    ){
+        User newRegisterUser = userService.addTripToUser(userId, tripId);
+        System.out.println(newRegisterUser);
+        return ResponseEntity.ok(newRegisterUser);
     }
+
 }

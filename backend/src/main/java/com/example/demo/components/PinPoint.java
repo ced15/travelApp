@@ -2,15 +2,21 @@ package com.example.demo.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "\"pin_point\"")
-@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "pin_point")
 public class PinPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,18 +27,8 @@ public class PinPoint {
     private String notes;
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Photo> photos;
+    private Set<Photo> photos = new LinkedHashSet<>();
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
-    private List<Video> videos;
-
-    public PinPoint(Long id,
-                    Location location,
-                    String notes, List<Photo> photos, List<Video> videos) {
-        this.id = id;
-        this.location = location;
-        this.notes = notes;
-        this.photos = photos;
-        this.videos = videos;
-    }
+    private Set<Video> videos = new LinkedHashSet<>();
 }

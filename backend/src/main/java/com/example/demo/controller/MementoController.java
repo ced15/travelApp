@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.components.Memento;
 import com.example.demo.service.MementoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/memento")
 public class MementoController {
     private final MementoService mementoService;
 
-    @Autowired
-    public MementoController(MementoService mementoService) {
-        this.mementoService = mementoService;
-    }
     //tested
     @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(path = "/getAllMementos")

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./LogIn.css";
 import Loading from "../Loading/Loading"
 import React from "react";
 
 const LogIn = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
@@ -21,13 +22,25 @@ const LogIn = () => {
   const onLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-
-    fetch(`http://localhost:8080/account/login/${user.email}/${user.password}`)
+    
+    fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then((data) => {
         setLoading(false);
+        console.log(data);
+        console.log("You logged in successfully");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(`Failed to Log In! ${error.message}`);
       });
+    
   };
 
     if (loading) {

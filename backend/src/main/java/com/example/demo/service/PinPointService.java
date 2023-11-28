@@ -9,29 +9,20 @@ import com.example.demo.components.Video;
 import com.example.demo.repository.VideoRepository;
 import com.example.demo.repository.PinPointRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PinPointService {
 
     private final LocationRepository locationRepository;
     private final PinPointRepository pinPointRepository;
     private final PhotoRepository photoRepository;
     private final VideoRepository videoRepository;
-
-    @Autowired
-    public PinPointService(LocationRepository locationRepository,
-                           PinPointRepository pinPointRepository,
-                           PhotoRepository photoRepository,
-                           VideoRepository videoRepository) {
-        this.locationRepository = locationRepository;
-        this.pinPointRepository = pinPointRepository;
-        this.photoRepository = photoRepository;
-        this.videoRepository = videoRepository;
-    }
 
     //tested
     public List<PinPoint> getPinPoints() {

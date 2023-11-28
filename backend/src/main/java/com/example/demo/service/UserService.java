@@ -6,6 +6,7 @@ import com.example.demo.components.Trip;
 import com.example.demo.repository.TripRepository;
 import com.example.demo.components.User;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
-
-
-    @Autowired
-    public UserService(UserRepository userRepository, TripRepository tripRepository) {
-        this.userRepository = userRepository;
-        this.tripRepository = tripRepository;
-    }
 
     //tested
     public List<User> getUsers() {
@@ -78,17 +73,20 @@ public class UserService {
             user.setPassword(password);
         }
     }
-
-    public User getUserLogin (String email, String password){
-        User user = userRepository.findUserByEmail(email).orElse(null);
-        if(user != null){
-            if(user.getPassword().equals(password)){
-                return user;
-            }
-        }
-        return null;
+    @Transactional
+    public User addTripToUser(Long userId, Long tripId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("" +
+                        "user with id " + userId + " does not exist"));
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new IllegalStateException("" +
+                        "trip with id " + tripId + " does not exist"));
+        user.getTrips().add(trip);
+        userRepository.save(user);
+        trip.setUser(user);
+        tripRepository.save(trip);
+        return user;
     }
-
 
 
 }

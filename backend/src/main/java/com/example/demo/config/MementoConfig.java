@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.components.Memento;
 import com.example.demo.repository.MementoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +11,11 @@ import org.springframework.core.Ordered;
 import java.time.LocalDate;
 
 @Configuration
+@RequiredArgsConstructor
 public class MementoConfig implements CommandLineRunner, Ordered {
 
     private final MementoRepository mementoRepository;
 
-    @Autowired
-    public MementoConfig(MementoRepository mementoRepository) {
-        this.mementoRepository = mementoRepository;
-    }
 
     @Override
     public void run(String... args) throws Exception {

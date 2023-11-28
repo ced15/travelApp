@@ -7,27 +7,24 @@ import com.example.demo.repository.MementoRepository;
 import com.example.demo.repository.TripRepository;
 import com.example.demo.components.Trip;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TripService {
 
     private final TripRepository tripRepository;
     private final LocationRepository locationRepository;
     private final MementoRepository mementoRepository;
 
-    @Autowired
-    public TripService(TripRepository tripRepository, LocationRepository locationRepository, MementoRepository mementoRepository) {
-        this.tripRepository = tripRepository;
-        this.locationRepository = locationRepository;
-        this.mementoRepository = mementoRepository;
-    }
 
     //tested
     public List<Trip> getTrips() {

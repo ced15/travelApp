@@ -4,6 +4,7 @@ import com.example.demo.components.PinPoint;
 import com.example.demo.service.PinPointService;
 import com.example.demo.components.Photo;
 import com.example.demo.components.Video;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/PinPoint")
+@RequiredArgsConstructor
 public class PinPointController {
     private final PinPointService pinPointService;
-
-    @Autowired
-    public PinPointController(PinPointService pinPointService) {
-        this.pinPointService = pinPointService;
-    }
 
     //tested
     @CrossOrigin(origins = "http://localhost:3001")

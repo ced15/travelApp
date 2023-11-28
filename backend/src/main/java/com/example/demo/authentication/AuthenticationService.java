@@ -1,12 +1,10 @@
-package com.example.demo.security;
+package com.example.demo.authentication;
 
 import com.example.demo.components.Role;
 import com.example.demo.components.User;
-import com.example.demo.security.AuthenticationRequest;
-import com.example.demo.security.AuthenticationResponse;
 import com.example.demo.controller.RegisterRequest;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtService;
+import com.example.demo.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

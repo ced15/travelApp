@@ -2,17 +2,23 @@ package com.example.demo.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "memento")
-@Data
-@NoArgsConstructor
 public class Memento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +28,7 @@ public class Memento {
     private LocalDate alarmDate;
     @JsonIgnore
     @ManyToMany(mappedBy = "mementos", fetch = FetchType.EAGER)
-    List<Trip> trips = new ArrayList<>();
+    Set<Trip> trips = new HashSet<>();
 
     public Memento(String mementoName, String mementoMessage, LocalDate alarmDate) {
         this.mementoName = mementoName;

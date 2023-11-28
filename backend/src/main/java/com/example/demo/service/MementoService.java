@@ -5,6 +5,7 @@ import com.example.demo.repository.MementoRepository;
 import com.example.demo.components.Trip;
 import com.example.demo.repository.TripRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MementoService {
     private final MementoRepository mementoRepository;
     private final TripRepository tripRepository;
 
-    @Autowired
-    public MementoService(MementoRepository mementoRepository, TripRepository tripRepository) {
-        this.mementoRepository = mementoRepository;
-        this.tripRepository = tripRepository;
-    }
 
     //tested
     public List<Memento> getMementos() {

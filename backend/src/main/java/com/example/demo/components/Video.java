@@ -2,13 +2,17 @@ package com.example.demo.components;
 
 import com.example.demo.components.PinPoint;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "\"Video\"")
-@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "video")
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +20,7 @@ public class Video {
     private String url;
     private String description;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pinPoint.id")
+    @JoinColumn(name = "pinPoint_id")
     private PinPoint pinPoint;
 
     public Video(Long id, String url, String description) {

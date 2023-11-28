@@ -5,6 +5,7 @@ import com.example.demo.repository.LocationRepository;
 import com.example.demo.components.Trip;
 import com.example.demo.repository.TripRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LocationService {
     private final LocationRepository locationRepository;
     private final TripRepository tripRepository;
 
-    @Autowired
-    public LocationService(LocationRepository locationRepository, TripRepository tripRepository) {
-        this.locationRepository = locationRepository;
-        this.tripRepository = tripRepository;
-    }
     //tested
     public List<Location> getLocations() {
         return locationRepository.findAll();

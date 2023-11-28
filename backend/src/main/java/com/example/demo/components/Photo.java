@@ -1,14 +1,18 @@
 package com.example.demo.components;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Entity
-@Table(name = "\"Photo\"")
-@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name = "photo")
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +20,7 @@ public class Photo {
     private String url;
     private String description;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pinPoint.id")
+    @JoinColumn(name = "pinPoint_id")
     private PinPoint pinPoint;
 
     public Photo(Long id, String url, String description) {

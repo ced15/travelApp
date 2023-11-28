@@ -1,15 +1,16 @@
 package com.example.demo.config;
 
 import com.example.demo.components.Role;
+import com.example.demo.components.Trip;
 import com.example.demo.components.User;
 import com.example.demo.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashSet;
 
 @Getter
 @Configuration
@@ -18,31 +19,34 @@ public class UserConfig implements CommandLineRunner, Ordered {
 
     private final UserRepository userRepository;
     private final ApplicationConfig passwordEncoder;
-    private User Paul;
-    private User Denisa;
-    private User George;
 
     @Override
     public void run(String... args) throws Exception {
 
-        Paul = new User(
-                "Paul",
-                "Costea",
-                "costeapaul@yahoo.com",
-                "12345"
-        );
-        Denisa = new User(
-                "Denisa",
-                "Cuta",
-                "denisa1506@yahoo.com",
-                "123456"
-        );
-        George = new User(
-                "George",
-                "Mihai",
-                "georgemihai@yahoo.com",
-                "1234567"
-        );
+        User Paul = User.builder()
+                .firstName("Paul")
+                .lastName("Costea")
+                .email("costeapaul@yahoo.com")
+                .password(passwordEncoder.passwordEncoder().encode("12345"))
+                .role(Role.USER)
+                .build();
+
+        User Denisa = User.builder()
+                .firstName("Denisa")
+                .lastName("Cuta")
+                .email("denisa1506@yahoo.com")
+                .password(passwordEncoder.passwordEncoder().encode("123456"))
+                .role(Role.USER)
+                .build();
+
+        User George = User.builder()
+                .firstName("George")
+                .lastName("Mihai")
+                .email("georgemihai@yahoo.com")
+                .password(passwordEncoder.passwordEncoder().encode("1234567"))
+                .role(Role.USER)
+                .build();
+
         userRepository.save(Paul);
         userRepository.save(Denisa);
         userRepository.save(George);

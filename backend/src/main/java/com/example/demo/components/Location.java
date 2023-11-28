@@ -9,10 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-@Setter
-@Getter
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "location")
 public class Location {
@@ -35,7 +35,7 @@ public class Location {
     private Set<PinPoint> pinPoints = new HashSet<>();
 
     @ManyToMany(mappedBy = "locationList", fetch = FetchType.EAGER)
-    private List<Trip> trips = new ArrayList<>();
+    private Set<Trip> trips = new HashSet<>();
 
     public Location(String type, String locationName, String locationAddress, boolean visited, String notes) {
         this.type = type;

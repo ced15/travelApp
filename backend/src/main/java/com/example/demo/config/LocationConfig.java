@@ -4,6 +4,7 @@ import com.example.demo.components.Location;
 import com.example.demo.repository.LocationRepository;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +12,10 @@ import org.springframework.core.Ordered;
 
 @Configuration
 @Getter
+@RequiredArgsConstructor
 public class LocationConfig implements CommandLineRunner, Ordered {
 
-    LocationRepository locationRepository;
-
-    @Autowired
-    public LocationConfig(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
+    private final LocationRepository locationRepository;
 
     @Override
     @Transactional
