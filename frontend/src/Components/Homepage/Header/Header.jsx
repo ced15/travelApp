@@ -1,16 +1,18 @@
+import { Link, useNavigate } from "react-router-dom";
+
 const Header = () => {
 
   return (
     <header>
-      <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+      <nav class="bg-white border-gray-200 px-4 py-2.5 dark:bg-gray-800">
+        <div class="flex flex-wrap justify-between mx-auto">
           <a href="https://flowbite.com" class="flex items-center">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              class="mr-3 h-6 sm:h-9"
+              src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
+              class="mr-3 sm:h-9 absolute xl:h-10 xl:w-16"
               alt="Flowbite Logo"
             />
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white pl-10">
               Travelling Raccoons
             </span>
           </a>
@@ -65,14 +67,22 @@ const Header = () => {
             class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
             id="mobile-menu-2"
           >
-            <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-              <li>
+            <ul class="flex flex-col mt-4 font-mediuml lg:flex-row lg:space-x-8 xl:space-x-20 lg:mt-0">
+              <li class="">
                 <a
                   href="#"
-                  class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
+                  class="flex py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0 dark:text-white"
                   aria-current="page"
                 >
-                  Home
+                  <Link to="/">
+                  <span class="font-bold text-2xl">H</span>
+                  <img
+                    src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
+                    class="h-6 sm:h-9 inline xl:h-8 xl:pb-2"
+                    alt="Flowbite Logo"
+                  />
+                  <span class="font-bold text-2xl">ME</span>
+                  </Link>
                 </a>
               </li>
               <li>
@@ -80,46 +90,58 @@ const Header = () => {
                   href="#"
                   class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Company
+                  <img
+                    src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
+                    class="mr-3 sm:h-9 xl:h-10 xl:w-20"
+                    alt="Raccoon"
+                  />
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block text-2xl py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Marketplace
+                  <Link to="/myTrips">
+                    My Trips
+                  </Link>
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Features
+                  <Link to="/mementos">
+                  Mementos
+                  </Link>
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Team
+                  <Link to="/wishlist">
+                  Wishlist
+                  </Link>
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  Contact
+                  <Link to="/discover">
+                  Discover
+                  </Link>
                 </a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      <div class="border-t border-gray-200 my-2"></div>
+      <div class="border-t border-gray-200"></div>
     </header>
   );
 };
