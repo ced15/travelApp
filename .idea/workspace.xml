@@ -37,6 +37,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2VHrtHTdHa1l3lOMcajtnOtFlgB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,7 +55,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Denisa/Desktop/Proiect final/el-proyecte-grande-sprint-1-java-ced15/backend",
+    "git-widget-placeholder": "development",
+    "last_opened_file_path": "C:/Programare/Travelling Raccoons/el-proyecte-grande-sprint-1-java-ced15/backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -100,6 +104,8 @@
       <workItem from="1695290998183" duration="4405000" />
       <workItem from="1695459419384" duration="206000" />
       <workItem from="1695629029354" duration="17000" />
+      <workItem from="1701686325581" duration="142000" />
+      <workItem from="1701768358888" duration="61000" />
     </task>
     <task id="LOCAL-00001" summary="start">
       <option name="closed" value="true" />
