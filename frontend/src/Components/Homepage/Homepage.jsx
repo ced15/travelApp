@@ -1,7 +1,6 @@
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import "./Homepage.css";
 import Header from "./Header/Header";
-import Header from "./Header/Header";
 
 const Homepage = () => {
    const mapStyles = {
@@ -16,7 +15,6 @@ const Homepage = () => {
 
   return (
     <div>
-      <Header/>
       <Header/>
     <LoadScript
       googleMapsApiKey="AIzaSyD_5tG3mD_cqZUW2uWPFoC1r8XZT2d8WxE"
