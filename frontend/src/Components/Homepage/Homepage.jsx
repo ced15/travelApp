@@ -3,12 +3,13 @@ import "./Homepage.css";
 import Header from "./Header/Header";
 import React, { useRef, useEffect } from 'react';
 import Loading from '../Loading/Loading';
+import Map from '../Map/Map';
 
 const Homepage = () => {
 
-  const env = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const  { isLoaded } = useLoadScript({
-    googleMapsApiKey: env,
+    googleMapsApiKey: googleMapsApiKey,
     libraries: ["places"]
   });
 
@@ -44,9 +45,7 @@ const Homepage = () => {
   return (
     <div>
       <Header/>
-        <div> Map 
-
-        </div>
+      <Map/>
     </div>
   )
 };
