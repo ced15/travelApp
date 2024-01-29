@@ -27,10 +27,7 @@ const Map = () => {
     }), []);
     const onLoad = useCallback((map) => (mapRef.current = map), []);
     const image = {
-        url: "https://cdn.discordapp.com/attachments/1080482388221640805/1194934425658597417/image_2024-01-11_112147747-removebg-preview.png?ex=65b22867&is=659fb367&hm=e098d083cc5715339864a6f1ec3bb314d5d7aa6e76de1d074bafa1c93eb29b80&",
-        size: new google.maps.Size(20, 32),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32),    
+        url: "https://www.simpleimageresizer.com/_uploads/photos/79f7a882/pin_raccoon_2_15.png",  
       };
     
       console.log(image);

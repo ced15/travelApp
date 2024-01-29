@@ -1,6 +1,7 @@
 import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
+    getDetails,
   } from "use-places-autocomplete";
   import {
     Combobox,
@@ -11,6 +12,7 @@ import usePlacesAutocomplete, {
   } from "@reach/combobox";
   import "@reach/combobox/styles.css";
   import "./Map.css"
+  import { Link } from "react-router-dom";
 
   export default function Places({ setLocation }) {
     const {
@@ -27,7 +29,9 @@ import usePlacesAutocomplete, {
   
       const results = await getGeocode({ address: val });
       const { lat, lng } = await getLatLng(results[0]);
-      setLocation({ lat, lng });
+      const details = await getDetails({ placeId: results[0].place_id });
+      const locationName = details?.name || "Unknown Location";
+      setLocation({ lat, lng, name: locationName });
     };
 
     console.log({status, data});
@@ -41,7 +45,10 @@ import usePlacesAutocomplete, {
           className="w-full p-2 text-black"
           placeholder="Search"
         />
-        <ComboboxPopover>
+        <button className="cursor-pointer">
+           Create Trip 
+        </button>
+          <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
               data.map(({ place_id, description }) => (
