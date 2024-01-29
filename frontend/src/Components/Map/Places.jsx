@@ -75,10 +75,11 @@ const handleValueChange = (newValue) => {
           placeholder="Search"
         />
         <button
-          className="flex flex-row items-center rounded-xl bg-gray-100 px-4 py-3 text-base font-medium text-navy-700 transition duration-200 hover:bg-gray-200 active:bg-gray-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:active:bg-white/30"
-          onClick={isFormVisible ? handleAddLocation : handleCreateTrip}
+          className="flex flex-row items-center rounded-xl bg-black-100 px-4 py-3 text-base font-medium text-navy-700 transition duration-200 hover:bg-gray-200 active:bg-gray-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:active:bg-white/30"
+          onClick={isFormVisible ? handleAddLocation : handleCreateTrip}        
         >
           {isFormVisible ? "Add Location" : "Create Trip"}
+          
           {/* <MdChevronRight className="text-lg" /> */}
         </button>
         <ComboboxPopover>
@@ -102,11 +103,23 @@ const handleValueChange = (newValue) => {
                 onChange={(e) => setTripName(e.target.value)}
               />
             </label>
-            <ul>
+            <br></br>
+            <br></br>
+            <label>
+              Locations:
+              <input
+                type="text"
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+              />
+              <ul>
               {locations.map((location, index) => (
                 <li key={index}>{location.name}</li>
               ))}
-            </ul>
+              </ul>
+            </label>
+            <br></br>      
+            
             <label>
               Add Memento:
               <input
@@ -115,6 +128,7 @@ const handleValueChange = (newValue) => {
                 onChange={(e) => setMemento(e.target.value)}
               />
             </label>
+            <br></br>
             <br></br>
             <label>
               Select Departure and Arrival date
