@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.components.Trip;
+import com.example.demo.authentication.ChangePasswordRequest;
 import com.example.demo.components.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,6 +15,15 @@ import java.util.List;
 @RequestMapping(path = "/account")
 public class UserController {
     private final UserService userService;
+
+    @PatchMapping
+    public ResponseEntity<?> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            Principal connectedUser
+    ) {
+        userService.changePassword(request, connectedUser);
+        return ResponseEntity.ok().build();
+    }
 
     //tested
     @CrossOrigin(origins = "*")
