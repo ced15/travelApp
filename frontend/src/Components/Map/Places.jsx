@@ -18,10 +18,7 @@ import { useState } from "react";
 
 export default function Places({ setLocation }) {
   const [user, setUser] = useState("");
-  const [date, setDate] = useState({
-  startDate: new Date(),
-  endDate: new Date().setMonth(11),
-}); 
+  
   const [locationsForDatabase, setLocationsForDatabase] = useState([]);
 
   const {
@@ -46,16 +43,6 @@ export default function Places({ setLocation }) {
     // ]);
   };
 
-  
-
-
-  const handleAddMemento = () => {
-    setMemento("");
-  };
-const handleValueChange = (newValue) => {
-  console.log("newValue:", newValue);
-  setValue(newValue);
-}; 
   return (
     <div>
       <Combobox onSelect={handleSelect}>

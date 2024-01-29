@@ -9,6 +9,7 @@ import {
 import "./Map.css"
 import Places from "./Places";
 import Datepicker from "react-tailwindcss-datepicker"; 
+import { atom } from "jotai"
 
 // import Distance from "./distance";
 
@@ -24,6 +25,7 @@ const Map = () => {
     const [locations, setLocations] = useState([]);
     const [tripName, setTripName] = useState("");
     const [location, setLocation] = useState();
+    const [trips, setTrips] = useAtom(state.trips);
     const mapRef = useRef();
     const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
     const options = useMemo(() => ({
@@ -42,7 +44,23 @@ const Map = () => {
         setIsFormVisible(true);
       };
 
-    const handleAddLocation = () => {};
+    const handleAddLocation = () => {
+        location != null && setLocations((prevLocations) => [...prevLocations, location]);
+    };
+
+    const handleAddMemento = () => {
+        setMemento("");
+      };
+
+    const [date, setDate] = useState({
+        startDate: new Date(),
+        endDate: new Date().setMonth(11),
+      }); 
+
+    const handleValueChange = (newValue) => {
+        console.log("newValue:", newValue);
+        setDate(newValue);
+      }; 
 
     return (
         <div className="flex h-screen">
@@ -61,10 +79,9 @@ const Map = () => {
                 {isFormVisible ? "Add Location" : "Create Trip"}
           
                 {/* <MdChevronRight className="text-lg" /> */}
-                </button>             
-            </div>
+                </button>  
 
-            {isFormVisible && (
+                {isFormVisible && (
         <div>
           <form>
             <label>
@@ -81,7 +98,7 @@ const Map = () => {
               Locations:
               <input
                 type="text"
-                value={tripName}
+                value={location && location.name}
                 onChange={(e) => setTripName(e.target.value)}
               />
               <ul>
@@ -104,12 +121,16 @@ const Map = () => {
             <br></br>
             <label>
               Select Departure and Arrival date
-              <Datepicker value={value} onChange={handleValueChange} />
+              <Datepicker value={date} onChange={handleValueChange} />
             </label>
           </form>
           <button onClick={handleAddMemento}>Save trip</button>
         </div>
-      )}           
+      )}
+
+            </div>
+
+                       
             
             <div className="h-screen w-full">
                 <GoogleMap 
