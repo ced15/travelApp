@@ -1,4 +1,4 @@
-package com.example.demo.components;
+package com.example.demo.authentication;
 
 import lombok.Builder;
 import lombok.Getter;
