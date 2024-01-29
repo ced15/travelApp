@@ -9,10 +9,9 @@ const Header = () => {
           <a href="https://flowbite.com" class="flex items-center">
             <img
               src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
-              class="mr-3 sm:h-9 absolute xl:h-10 xl:w-16"
-              alt="Flowbite Logo"
+              class="mr-3 h-8 sm:h-9 absolute xl:h-10 xl:w-16"
             />
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white pl-10">
+            <span class="pb-2 text-xl font-semibold whitespace-nowrap dark:text-white pl-16">
               Travelling Raccoons
             </span>
           </a>
@@ -25,7 +24,7 @@ const Header = () => {
             </a>
             <a
               href="/signUp"
-              class="text-white cursor-pointer bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+              class="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
             >
               Get started
             </a>
