@@ -8,6 +8,8 @@ import {
 } from "@react-google-maps/api";
 import "./Map.css"
 import Places from "./Places";
+import Datepicker from "react-tailwindcss-datepicker"; 
+
 // import Distance from "./distance";
 
 // const LatLngLiteral = google.maps.LatLngLiteral;
@@ -17,6 +19,10 @@ import Places from "./Places";
 
 
 const Map = () => {
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [memento, setMemento] = useState("");
+    const [locations, setLocations] = useState([]);
+    const [tripName, setTripName] = useState("");
     const [location, setLocation] = useState();
     const mapRef = useRef();
     const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
@@ -32,7 +38,11 @@ const Map = () => {
     
       console.log(image);
       
-    
+      const handleCreateTrip = () => {
+        setIsFormVisible(true);
+      };
+
+    const handleAddLocation = () => {};
 
     return (
         <div className="flex h-screen">
@@ -44,7 +54,63 @@ const Map = () => {
                         mapRef.current?.panTo(position);
                     }}   
                 />
+                <button
+                className="flex flex-row items-center rounded-xl bg-black-100 px-4 py-3 text-base font-medium text-navy-700 transition duration-200 hover:bg-gray-200 active:bg-gray-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:active:bg-white/30"
+                onClick={isFormVisible ? handleAddLocation : handleCreateTrip}        
+            >
+                {isFormVisible ? "Add Location" : "Create Trip"}
+          
+                {/* <MdChevronRight className="text-lg" /> */}
+                </button>             
             </div>
+
+            {isFormVisible && (
+        <div>
+          <form>
+            <label>
+              Trip Name:
+              <input
+                type="text"
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+              />
+            </label>
+            <br></br>
+            <br></br>
+            <label>
+              Locations:
+              <input
+                type="text"
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+              />
+              <ul>
+              {locations.map((location, index) => (
+                <li key={index}>{location.name}</li>
+              ))}
+              </ul>
+            </label>
+            <br></br>      
+            
+            <label>
+              Add Memento:
+              <input
+                type="text"
+                value={memento}
+                onChange={(e) => setMemento(e.target.value)}
+              />
+            </label>
+            <br></br>
+            <br></br>
+            <label>
+              Select Departure and Arrival date
+              <Datepicker value={value} onChange={handleValueChange} />
+            </label>
+          </form>
+          <button onClick={handleAddMemento}>Save trip</button>
+        </div>
+      )}           
+            
             <div className="h-screen w-full">
                 <GoogleMap 
                     zoom={15} 
