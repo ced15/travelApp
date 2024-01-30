@@ -26,14 +26,14 @@ public class UserController {
     }
 
     //tested
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
     //tested
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createUser")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
         User newRegisterUser = userService.addUsers(user);

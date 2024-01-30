@@ -18,13 +18,13 @@ import java.util.List;
 public class TripController {
     private final TripService tripService;
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllTrips")
     public List<Trip> getGetTrips(){return tripService.getTrips();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createTrip")
     public ResponseEntity<Trip> registerNewTrip(@RequestBody Trip trip){
         Trip newTrip = tripService.addTrip(trip);
@@ -32,6 +32,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updateLocation/{tripId}")
     public void addLocationToTrip(
             @PathVariable("tripId") Long tripId,
@@ -40,6 +41,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updateMemento/{tripId}")
     public void addMementoToTrip(
             @PathVariable("tripId") Long tripId,
@@ -48,6 +50,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteTrip/{tripId}")
     public ResponseEntity<String> deleteTrip(@PathVariable("tripId") Long tripId) {
         tripService.deleteTripById(tripId);
@@ -55,6 +58,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteLocationFromTrip/{tripId}/{locationId}")
     public ResponseEntity<String> deleteLocationFromTrip(
             @PathVariable("tripId") Long tripId,
@@ -64,6 +68,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteMementoFromTrip/{tripId}/{mementoId}")
     public ResponseEntity<String> deleteMementoFromTrip(
             @PathVariable("tripId") Long tripId,
@@ -73,6 +78,7 @@ public class TripController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{tripId}")
     public void updateDateForTrip(
             @PathVariable("tripId") Long tripId,
