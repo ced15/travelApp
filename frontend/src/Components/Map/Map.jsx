@@ -1,16 +1,17 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import Loading from "../Loading/Loading";
 import {
-    GoogleMap,
-    Marker,
-    DirectionsRenderer,
-    Circle,
-    MarkerClusterer,
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+  Circle,
+  MarkerClusterer,
 } from "@react-google-maps/api";
 import "./Map.css";
 import Places from "./Places";
-import Datepicker from "react-tailwindcss-datepicker";
-import { useAtom } from "jotai"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 
 // import Distance from "./distance";
@@ -18,8 +19,6 @@ import state from "../Atom/Atom";
 // const LatLngLiteral = google.maps.LatLngLiteral;
 // const DirectionsResult = google.maps.DirectionsResult;
 // const MapOptions = google.maps.MapOptions;
-
-
 
 const Map = () => {
   const [loading, setLoading] = useState(false);
@@ -30,8 +29,8 @@ const Map = () => {
   const [location, setLocation] = useState();
   const [trip, setTrip] = useState({
     locationList: [],
-    departureDate: "",
-    arrivalHomeDate: "",
+    departureDate: null,
+    arrivalHomeDate: null,
     event: "",
     mementos: [],
   });
@@ -68,18 +67,28 @@ const Map = () => {
     endDate: new Date().setMonth(11),
   });
 
-  const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
-    setDate(newValue);
-  };
+ 
 
-  const handleInputChange = (e) => {
-    const { trip, value } = e.target;
+  const handleInputChange = (fieldName, value) => {
     setTrip((prevTrip) => ({
       ...prevTrip,
-      [trip]: value,
+      [fieldName]: value,
     }));
   };
+  
+  const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
+  const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
+
+  const handleDepartureDateChange = (date) => {
+    setTrip({ ...trip, departureDate: date });
+    setDepartureCalendarOpen(false); // Închide calendarul după ce s-a selectat data
+  };
+
+  const handleArrivalDateChange = (date) => {
+    setTrip({ ...trip, arrivalHomeDate: date });
+    setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
+  };
+
 
   const onSaveTrip = (e) => {
     e.preventDefault();
@@ -130,8 +139,8 @@ const Map = () => {
                 <input
                   type="text"
                   value={trip.event}
-                  onChange={handleInputChange}
-                  // onChange={(e) => setTrip.event(e.target.value)}
+                  // onChange={handleInputChange}
+                  onChange={(e) => handleInputChange("event", e.target.value)}
                 />
               </label>
               <br></br>
@@ -145,7 +154,10 @@ const Map = () => {
                     trip.locationList
                   }
                   // onChange={(e) => setTrip.locationList(e.target.value)}
-                  onChange={handleInputChange}
+                  // onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange("locationList", e.target.value)
+                  }
                 />
                 <ul>
                   {locations.map((location, index) => (
@@ -160,15 +172,38 @@ const Map = () => {
                 <input
                   type="text"
                   value={trip.mementos}
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    handleInputChange("Mementos", e.target.value)
+                  }
+                  // onChange={handleInputChange}
                   // onChange={(e) => setTrip.mementos(e.target.value)}
                 />
               </label>
               <br></br>
               <br></br>
+
               <label>
-                Select Departure and Arrival date
-                <Datepicker value={date} onChange={trip.departureDate} />
+                Select Departure Date:
+                <DatePicker
+                  selected={trip.departureDate}
+                  value={trip.departureDate}
+                  onSelect={handleDepartureDateChange}
+                  shouldCloseOnSelect={true}
+                  open={isDepartureCalendarOpen}
+                  onFocus={() => setDepartureCalendarOpen(true)}
+                />
+              </label>
+              <br />
+              <label>
+                Select Arrival Date:
+                <DatePicker
+                  selected={trip.arrivalHomeDate}
+                  value={trip.arrivalHomeDate}
+                  onSelect={handleArrivalDateChange}
+                  shouldCloseOnSelect={true}
+                  open={isArrivalCalendarOpen}
+                  onFocus={() => setArrivalCalendarOpen(true)}
+                />
               </label>
             </form>
             <button onClick={onSaveTrip}>Save trip</button>
