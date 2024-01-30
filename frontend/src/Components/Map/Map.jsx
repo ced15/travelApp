@@ -160,7 +160,7 @@ const Map = () => {
               <br></br>
               <label>
                 Select Departure and Arrival date
-                <Datepicker value={date} onChange={setTrip.departureDate} />
+                <Datepicker value={date} onChange={trip.departureDate} />
               </label>
             </form>
             <button onClick={onSaveTrip}>Save trip</button>
