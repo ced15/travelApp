@@ -1,17 +1,25 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import Loading from "../Loading/Loading";
 import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer,
+    GoogleMap,
+    Marker,
+    DirectionsRenderer,
+    Circle,
+    MarkerClusterer,
 } from "@react-google-maps/api";
 import "./Map.css";
 import Places from "./Places";
 import Datepicker from "react-tailwindcss-datepicker";
-import { useAtom } from "jotai";
+import { useAtom } from "jotai"
 import state from "../Atom/Atom";
+
+// import Distance from "./distance";
+
+// const LatLngLiteral = google.maps.LatLngLiteral;
+// const DirectionsResult = google.maps.DirectionsResult;
+// const MapOptions = google.maps.MapOptions;
+
+
 
 const Map = () => {
   const [loading, setLoading] = useState(false);

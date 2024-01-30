@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./LogIn.css";
 import Loading from "../Loading/Loading"
 import React from "react";
+import { useAtom } from "jotai";
+import state from "../Atom/Atom";
 
 const LogIn = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [token, setToken] = useAtom(state.token);
     const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
     password: "123456",
@@ -40,11 +43,13 @@ const LogIn = () => {
         console.log("You logged in successfully");
         navigate("/");
       })
+      .then(console.log(authToken))
       .catch((error) => {
         console.log(`Failed to Log In! ${error.message}`);
       });
-    
-  };
+
+  }; 
+
 
     if (loading) {
       return <Loading />;
