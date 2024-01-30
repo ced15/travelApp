@@ -36,6 +36,7 @@ public class SecurityConfig {
             "/PinPoint/**",
             "/memento/**",
             "/locations/**",
+            "/trips/createTrip/",
             "/api/v1/auth/**",
             "/swagger-resources",
             "/swagger-resources/**",

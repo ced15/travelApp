@@ -56,6 +56,9 @@ const Map = () => {
   const handleAddLocation = () => {
     location != null &&
       setLocations((prevLocations) => [...prevLocations, location]);
+    handleInputChange("locationList", [...trip.locationList, location.name]);
+    console.log(locations);
+    console.log(trip.locationList);
   };
 
   const handleAddMemento = () => {
@@ -67,15 +70,14 @@ const Map = () => {
     endDate: new Date().setMonth(11),
   });
 
- 
-
   const handleInputChange = (fieldName, value) => {
     setTrip((prevTrip) => ({
       ...prevTrip,
       [fieldName]: value,
     }));
+    console.log(trip)
   };
-  
+
   const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
   const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
 
@@ -88,7 +90,6 @@ const Map = () => {
     setTrip({ ...trip, arrivalHomeDate: date });
     setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
   };
-
 
   const onSaveTrip = (e) => {
     e.preventDefault();
@@ -105,20 +106,20 @@ const Map = () => {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
+        console.log(localStorage.getItem("token"))
         console.log(data);
+        console.log(trip)
         console.log("You created your trip successfully");
         navigate("/");
       })
       .catch((error) => {
         console.log(`Failed to create trip! ${error.message}`);
-        console.log(data);
       });
   };
 
-    if (loading) {
-      return <Loading />;
-    }
-
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex h-screen">
@@ -144,7 +145,8 @@ const Map = () => {
                 Trip Name:
                 <br></br>
                 <div className="pb-1"></div>
-                <input className="w-full text-black"
+                <input
+                  className="w-full text-black"
                   type="text"
                   value={trip.event}
                   // onChange={handleInputChange}
@@ -155,18 +157,6 @@ const Map = () => {
               <br></br>
               <label className="font-semibold italic ">
                 Locations:
-                <input
-                  type="text"
-                  value={
-                    // location && location.name
-                    trip.locationList
-                  }
-                  // onChange={(e) => setTrip.locationList(e.target.value)}
-                  // onChange={handleInputChange}
-                  onChange={(e) =>
-                    handleInputChange("locationList", e.target.value)
-                  }
-                />
                 <ul>
                   {locations.map((location, index) => (
                     <li key={index}>{location.name}</li>
@@ -174,18 +164,15 @@ const Map = () => {
                 </ul>
               </label>
               <br></br>
-<label className="font-semibold italic">
+              <label className="font-semibold italic">
                 Add Memento:
                 <br></br>
                 <div className="pb-1"></div>
-                <textarea className="w-full text-black h-24 pl-0.5"
+                <textarea
+                  className="w-full text-black h-24 pl-0.5"
                   type="text"
-                  value={trip.mementos}
-                  onChange={(e) =>
-                    handleInputChange("Mementos", e.target.value)
-                  }
-                  // onChange={handleInputChange}
-                  // onChange={(e) => setTrip.mementos(e.target.value)}
+                  value={memento}
+                  onChange={(e) => setMemento(e.target.value)}
                 />
               </label>
               <br></br>
@@ -193,29 +180,40 @@ const Map = () => {
 
               <label>
                 Select Departure Date:
+                <div className="pb-1"></div>
                 <DatePicker
+                  className=" text-black"
                   selected={trip.departureDate}
                   value={trip.departureDate}
                   onSelect={handleDepartureDateChange}
+                  onChange={handleDepartureDateChange}
                   shouldCloseOnSelect={true}
                   open={isDepartureCalendarOpen}
                   onFocus={() => setDepartureCalendarOpen(true)}
                 />
               </label>
               <br />
-              <label>
+              <label >
                 Select Arrival Date:
+                <div className="pb-1"></div>
                 <DatePicker
+                  className="text-black"
                   selected={trip.arrivalHomeDate}
                   value={trip.arrivalHomeDate}
                   onSelect={handleArrivalDateChange}
+                  onChange={handleArrivalDateChange}
                   shouldCloseOnSelect={true}
                   open={isArrivalCalendarOpen}
                   onFocus={() => setArrivalCalendarOpen(true)}
                 />
               </label>
             </form>
-            <button className="pt-2 font-semibold italic text-lg place-content-center">Save trip</button>
+            <button
+              className="pt-2 font-semibold italic text-lg place-content-center"
+              onClick={onSaveTrip}
+            >
+              Save trip
+            </button>
           </div>
         )}
       </div>
@@ -226,8 +224,9 @@ const Map = () => {
           center={center}
           mapContainerClassName="h-screen w-full"
           options={options}
-          onLoad={onLoad}>
-          {location && <Marker key='0' icon={image.url} position={location} />}
+          onLoad={onLoad}
+        >
+          {location && <Marker key="0" icon={image.url} position={location} />}
         </GoogleMap>
       </div>
     </div>
