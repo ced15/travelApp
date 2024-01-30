@@ -1,6 +1,7 @@
 import { atom } from "jotai"
 const state = {
-    trips: atom(""),
+    trips: atom([]),
+    token: atom(""),
 }
 
 export default state
