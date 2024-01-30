@@ -111,8 +111,14 @@ const Map = () => {
       })
       .catch((error) => {
         console.log(`Failed to create trip! ${error.message}`);
+        console.log(data);
       });
   };
+
+    if (loading) {
+      return <Loading />;
+    }
+
 
   return (
     <div className="flex h-screen">
