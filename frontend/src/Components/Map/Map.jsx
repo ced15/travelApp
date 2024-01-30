@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef } from "react";
+import Loading from "../Loading/Loading";
 import {
     GoogleMap,
     Marker,
@@ -6,50 +7,42 @@ import {
     Circle,
     MarkerClusterer,
 } from "@react-google-maps/api";
-import "./Map.css"
+import "./Map.css";
 import Places from "./Places";
 import Datepicker from "react-tailwindcss-datepicker";
-import { useAtom } from "jotai"
-import state from "../Atom/Atom";
-
-// import Distance from "./distance";
-
-// const LatLngLiteral = google.maps.LatLngLiteral;
-// const DirectionsResult = google.maps.DirectionsResult;
-// const MapOptions = google.maps.MapOptions;
-
-
 
 const Map = () => {
-    const [isFormVisible, setIsFormVisible] = useState(false);
-    const [memento, setMemento] = useState("");
-    const [locations, setLocations] = useState([]);
-    const [tripName, setTripName] = useState("");
-    const [location, setLocation] = useState();
-    const [trips, setTrips] = useAtom(state.trips);
-    const mapRef = useRef();
-    const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
-    const options = useMemo(() => ({
-        mapId: "3e861c750b535752",
-        disableDefaultUI: true,
-        clickableIcons: true,
-    }), []);
-    const onLoad = useCallback((map) => (mapRef.current = map), []);
-    const image = {
-        url: "https://www.simpleimageresizer.com/_uploads/photos/79f7a882/pin_raccoon_2_15.png",
-    };
+  const [loading, setLoading] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [memento, setMemento] = useState("");
+  const [locations, setLocations] = useState([]);
+  const [tripName, setTripName] = useState("");
+  const [location, setLocation] = useState();
+  const [trip, setTrip] = useState({
+    locationList: [],
+    departureDate: "",
+    arrivalHomeDate: "",
+    event: "",
+    mementos: [],
+  });
+  const mapRef = useRef();
+  const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
+  const options = useMemo(
+    () => ({
+      mapId: "3e861c750b535752",
+      disableDefaultUI: true,
+      clickableIcons: true,
+    }),
+    []
+  );
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const image = {
+    url: "https://www.simpleimageresizer.com/_uploads/photos/79f7a882/pin_raccoon_2_15.png",
+  };
 
-    console.log(image);
-
-    const handleCreateTrip = () => {
-        setIsFormVisible(true);
-    };
-
-
-
-    const handleAddLocation = () => {
-        location != null && setLocations((prevLocations) => [...prevLocations, location]);
-    };
+  const handleCreateTrip = () => {
+    setIsFormVisible(true);
+  };
 
     const handleAddMemento = () => {
         setMemento("");

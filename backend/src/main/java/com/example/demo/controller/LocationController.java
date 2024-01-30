@@ -16,14 +16,14 @@ public class LocationController {
     private final LocationService locationService;
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllLocations")
     public List<Location> getLocations() {
         return locationService.getLocations();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createLocation")
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         Location newLocation = locationService.addLocation(location);
@@ -31,6 +31,7 @@ public class LocationController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "{locationId}")
     public ResponseEntity<String> deleteLocation(@PathVariable("locationId") Long locationId) {
         locationService.deleteLocation(locationId);
@@ -38,6 +39,7 @@ public class LocationController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{locationId}")
     public ResponseEntity<String> updateLocation(
             @PathVariable("locationId") Long locationId,

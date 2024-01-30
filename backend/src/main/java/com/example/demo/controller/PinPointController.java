@@ -18,14 +18,14 @@ public class PinPointController {
     private final PinPointService pinPointService;
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllPinPoints")
     public List<PinPoint> getPinPoints() {
         return pinPointService.getPinPoints();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:3001")
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createPinPoint")
     public ResponseEntity<PinPoint> addPinPoint(@RequestBody PinPoint pinPoint) {
         PinPoint newPinPoint = pinPointService.addPinPoint(pinPoint);
@@ -33,12 +33,14 @@ public class PinPointController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "{pinPointId}")
     public ResponseEntity<String> deletePinPoint(@PathVariable("pinPointId") Long pinPointId) {
         pinPointService.deletePinPointById(pinPointId);
         return ResponseEntity.ok("Pin point deleted");
     }
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deletePhotoFromPinPoint/{pinPointId}/{photoId}")
     public ResponseEntity<String> deletePhotoFromPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
@@ -47,6 +49,7 @@ public class PinPointController {
         return ResponseEntity.ok("Photo deleted from Pin Point");
     }
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteVideoFromPinPoint/{pinPointId}/{videoId}")
     public ResponseEntity<String> deleteVideoFromPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
@@ -56,6 +59,7 @@ public class PinPointController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updatePhotos/{pinPointId}")
     public ResponseEntity<String> addPhotoToPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
@@ -65,6 +69,7 @@ public class PinPointController {
     }
 
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updateVideos/{pinPointId}")
     public ResponseEntity<String> addVideoToPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
@@ -73,6 +78,7 @@ public class PinPointController {
         return ResponseEntity.ok("Video added successfully");
     }
     //tested
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{pinPointId}")
     public ResponseEntity<String> updateNotesForPinPoint(
             @PathVariable("pinPointId") Long pinPointId,
