@@ -62,9 +62,8 @@ const Map = () => {
     setMemento("");
   };
 
-  const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date().setMonth(11),
+  const [departureDate, setDepartureDate] = useState({
+    Date: new Date(),
   });
 
  
@@ -131,18 +130,22 @@ const Map = () => {
           }}
         />
         <button
-          className="flex flex-row items-center rounded-xl bg-black-100 px-4 py-3 text-base font-medium text-navy-700 transition duration-200 hover:bg-gray-200 active:bg-gray-300 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:active:bg-white/30"
+          className="flex flex-row items-center rounded-xl bg-black-100 py-3 text-base font-medium text-navy-700"
           onClick={isFormVisible ? handleAddLocation : handleCreateTrip}
         >
           {isFormVisible ? "Add Location" : "Create Trip"}
+
+          {/* <MdChevronRight className="text-lg" /> */}
         </button>
 
         {isFormVisible && (
           <div>
             <form>
-              <label>
+              <label className="font-semibold italic">
                 Trip Name:
-                <input
+                <br></br>
+                <div className="pb-1"></div>
+                <input className="w-full text-black"
                   type="text"
                   value={trip.event}
                   // onChange={handleInputChange}
@@ -151,7 +154,7 @@ const Map = () => {
               </label>
               <br></br>
               <br></br>
-              <label>
+              <label className="font-semibold italic ">
                 Locations:
                 <input
                   type="text"
@@ -172,10 +175,11 @@ const Map = () => {
                 </ul>
               </label>
               <br></br>
-
-              <label>
+              <label className="font-semibold italic">
                 Add Memento:
-                <input
+                <br></br>
+                <div className="pb-1"></div>
+                <textarea className="w-full text-black h-24 pl-0.5"
                   type="text"
                   value={trip.mementos}
                   onChange={(e) =>
@@ -187,35 +191,17 @@ const Map = () => {
               </label>
               <br></br>
               <br></br>
-
               <label>
-                Select Departure Date:
-                <DatePicker
-                  selected={trip.departureDate}
-                  value={trip.departureDate}
-                  onSelect={handleDepartureDateChange}
-                  shouldCloseOnSelect={true}
-                  open={isDepartureCalendarOpen}
-                  onFocus={() => setDepartureCalendarOpen(true)}
-                />
-              </label>
-              <br />
-              <label>
-                Select Arrival Date:
-                <DatePicker
-                  selected={trip.arrivalHomeDate}
-                  value={trip.arrivalHomeDate}
-                  onSelect={handleArrivalDateChange}
-                  shouldCloseOnSelect={true}
-                  open={isArrivalCalendarOpen}
-                  onFocus={() => setArrivalCalendarOpen(true)}
-                />
+                Select Departure and Arrival date
+                <Datepicker value={date} onChange={setTrip.departureDate} />
               </label>
             </form>
-            <button onClick={onSaveTrip}>Save trip</button>
+            <button className="pt-2 font-semibold italic text-lg place-content-center">Save trip</button>
           </div>
         )}
       </div>
+
+
 
       <div className="h-screen w-full">
         <GoogleMap
@@ -223,12 +209,11 @@ const Map = () => {
           center={center}
           mapContainerClassName="h-screen w-full"
           options={options}
-          onLoad={onLoad}
-        >
-          {location && <Marker key="0" icon={image.url} position={location} />}
+          onLoad={onLoad}>
+          {location && <Marker key='0' icon={image.url} position={location} />}
         </GoogleMap>
       </div>
     </div>
-  );
-};
+  )
+}
 export default Map;
