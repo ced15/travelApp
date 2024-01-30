@@ -19,6 +19,7 @@ const LogIn = () => {
       [name]: value,
     }));
   };
+  
   const onLogin = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,6 +35,8 @@ const LogIn = () => {
       .then((data) => {
         setLoading(false);
         console.log(data);
+        localStorage.setItem("token", data.access_token);
+        console.log(localStorage.getItem("token"));
         console.log("You logged in successfully");
         navigate("/");
       })
