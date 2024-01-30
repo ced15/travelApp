@@ -87,7 +87,11 @@ const Map = () => {
   };
 
   const handleArrivalDateChange = (date) => {
-    setTrip({ ...trip, arrivalHomeDate: date });
+     if (date >= trip.departureDate) {
+       setTrip({ ...trip, arrivalHomeDate: date });
+     } else {
+       console.error("Data de sosire trebuie să fie după data de plecare.");
+     }
     setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
   };
 
@@ -102,13 +106,13 @@ const Map = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(trip),
+
     })
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
         console.log(localStorage.getItem("token"))
         console.log(data);
-        console.log(trip)
         console.log("You created your trip successfully");
         navigate("/");
       })
@@ -190,10 +194,11 @@ const Map = () => {
                   shouldCloseOnSelect={true}
                   open={isDepartureCalendarOpen}
                   onFocus={() => setDepartureCalendarOpen(true)}
+                  minDate={new Date()}
                 />
               </label>
               <br />
-              <label >
+              <label>
                 Select Arrival Date:
                 <div className="pb-1"></div>
                 <DatePicker

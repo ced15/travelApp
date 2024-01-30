@@ -42,7 +42,6 @@ const LogIn = () => {
         console.log("You logged in successfully");
         navigate("/");
       })
-      .then(console.log(authToken))
       .catch((error) => {
         console.log(`Failed to Log In! ${error.message}`);
       });

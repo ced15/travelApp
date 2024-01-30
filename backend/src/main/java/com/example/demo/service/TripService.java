@@ -43,9 +43,6 @@ public class TripService {
             if (departureDate.isBefore(LocalDate.now())) {
                 throw new IllegalArgumentException("Departure date must be in the future");
             }
-            if (departureDate.isBefore(arrivalHomeDate)) {
-                throw new IllegalArgumentException("Departure date must be after the arrival date");
-            }
             if (arrivalHomeDate.isBefore(departureDate)) {
                 throw new IllegalArgumentException("Arrival date must be after the departure date");
             }
