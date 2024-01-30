@@ -62,8 +62,9 @@ const Map = () => {
     setMemento("");
   };
 
-  const [departureDate, setDepartureDate] = useState({
-    Date: new Date(),
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date().setMonth(11),
   });
 
  
@@ -134,8 +135,6 @@ const Map = () => {
           onClick={isFormVisible ? handleAddLocation : handleCreateTrip}
         >
           {isFormVisible ? "Add Location" : "Create Trip"}
-
-          {/* <MdChevronRight className="text-lg" /> */}
         </button>
 
         {isFormVisible && (
@@ -175,7 +174,7 @@ const Map = () => {
                 </ul>
               </label>
               <br></br>
-              <label className="font-semibold italic">
+<label className="font-semibold italic">
                 Add Memento:
                 <br></br>
                 <div className="pb-1"></div>
@@ -191,17 +190,35 @@ const Map = () => {
               </label>
               <br></br>
               <br></br>
+
               <label>
-                Select Departure and Arrival date
-                <Datepicker value={date} onChange={setTrip.departureDate} />
+                Select Departure Date:
+                <DatePicker
+                  selected={trip.departureDate}
+                  value={trip.departureDate}
+                  onSelect={handleDepartureDateChange}
+                  shouldCloseOnSelect={true}
+                  open={isDepartureCalendarOpen}
+                  onFocus={() => setDepartureCalendarOpen(true)}
+                />
+              </label>
+              <br />
+              <label>
+                Select Arrival Date:
+                <DatePicker
+                  selected={trip.arrivalHomeDate}
+                  value={trip.arrivalHomeDate}
+                  onSelect={handleArrivalDateChange}
+                  shouldCloseOnSelect={true}
+                  open={isArrivalCalendarOpen}
+                  onFocus={() => setArrivalCalendarOpen(true)}
+                />
               </label>
             </form>
             <button className="pt-2 font-semibold italic text-lg place-content-center">Save trip</button>
           </div>
         )}
       </div>
-
-
 
       <div className="h-screen w-full">
         <GoogleMap
@@ -214,6 +231,6 @@ const Map = () => {
         </GoogleMap>
       </div>
     </div>
-  )
-}
+  );
+};
 export default Map;
