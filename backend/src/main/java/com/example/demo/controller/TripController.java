@@ -25,9 +25,9 @@ public class TripController {
 
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
-    @PostMapping(path = "/createTrip")
-    public ResponseEntity<Trip> registerNewTrip(@RequestBody Trip trip){
-        Trip newTrip = tripService.addTrip(trip);
+    @PostMapping(path = "/createTrip/{user_id}")
+    public ResponseEntity<Trip> registerNewTrip(@PathVariable Long user_id, @RequestBody Trip trip){
+        Trip newTrip = tripService.addTrip(trip, user_id);
         return ResponseEntity.ok(newTrip);
     }
 

@@ -1,4 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import {
   GoogleMap,
@@ -20,20 +22,65 @@ import "./Map.css"
 // const LatLngLiteral = google.maps.LatLngLiteral;
 // const DirectionsResult = google.maps.DirectionsResult;
 // const MapOptions = google.maps.MapOptions;
+import supabase from "../../supabase";
 
 
 const Map = () => {
+    const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const { data, error } = await supabase
+            .from("token")
+            .select("user_id")
+            .filter("token", "eq", token)
+            .single();
+
+          if (error) {
+            throw error;
+          }
+
+          if (data && data.user_id) {
+            const userId = data.user_id;
+            const userData = await supabase
+              .from("_user")
+              .select("id, first_name, last_name, email")
+              .eq("id", userId)
+              .single();
+
+            if (userData.error) {
+              throw userData.error;
+            }
+            setUser(userData.data);
+            console.log(user);
+          } else {
+            console.error("No user found for the given token.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error.message);
+        }
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [memento, setMemento] = useState("");
   const [locations, setLocations] = useState([]);
-  const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState();
   const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
   const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
   const [trip, setTrip] = useState({
+    user: null,
     locationList: [],
     departureDate: null,
     arrivalHomeDate: null,
@@ -98,13 +145,13 @@ const Map = () => {
     endDate: new Date().setMonth(11),
   });
 
-  const handleInputChange = (fieldName, value) => {
-    setTrip((prevTrip) => ({
-      ...prevTrip,
-      [fieldName]: value,
-    }));
-    console.log(trip)
-  };
+const handleInputChange = (fieldName, value) => {
+  setTrip((prevTrip) => ({
+    ...prevTrip,
+    [fieldName]: value,
+  }));
+  console.log(trip);
+};
 
   const handleDepartureDateChange = (date) => {
     setTrip({ ...trip, departureDate: date });
@@ -112,8 +159,12 @@ const Map = () => {
   };
 
   const handleArrivalDateChange = (date) => {
-    setTrip({ ...trip, arrivalHomeDate: date });
-    setArrivalCalendarOpen(false);
+    if (date >= trip.departureDate) {
+      setTrip({ ...trip, arrivalHomeDate: date });
+    } else {
+      console.error("Data de sosire trebuie să fie după data de plecare.");
+    }
+    setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
   };
 
   const onSaveTrip = (e) => {
@@ -126,13 +177,21 @@ const Map = () => {
     } else {
       setErrorMessage(false);
       setLoading(true);
-      fetch(`http://localhost:8080/trips/createTrip`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(trip),
+    // trip.user = {id:user.id}
+    fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(trip),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        console.log(data);
+        console.log("You created your trip successfully");
+        navigate("/");
       })
         .then((res) => res.json())
         .then((data) => {
@@ -148,6 +207,7 @@ const Map = () => {
         });
     }
   };
+
 
   if (loading) {
     return <Loading />;
@@ -220,6 +280,7 @@ const Map = () => {
                   onSelect={handleDepartureDateChange}
                   open={isDepartureCalendarOpen}
                   onFocus={() => setDepartureCalendarOpen(true)}
+                  minDate={new Date()}
                 />
               </label>
               <br />

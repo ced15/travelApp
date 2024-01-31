@@ -42,7 +42,6 @@ const LogIn = () => {
         console.log("You logged in successfully");
         navigate("/");
       })
-      .then(console.log(authToken))
       .catch((error) => {
         console.log(`Failed to Log In! ${error.message}`);
       });
@@ -56,7 +55,7 @@ const LogIn = () => {
 
   return (
     <div className="flex relative h-screen smallestPhone:justify-center tablet:justify-end items-center">
-      <img src='images/racconnBackground.jpg' fill className="w-full h-screen brightness-75" />
+      <img src='images/racconnBackground.jpg'  className="w-full h-screen brightness-75" />
       <form
         className="absolute flex flex-col gap-10 p-4 rounded-3xl pl-5 tablet:right-20 tablet:w-80 phone:w-72 w-64 italic bg-gray-500 bg-opacity-40"
         onSubmit={(e) => onLogin(e)}
