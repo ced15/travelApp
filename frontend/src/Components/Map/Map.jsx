@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import {
@@ -13,8 +12,6 @@ import "./Map.css";
 import Places from "./Places";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAtom } from "jotai";
-import state from "../Atom/Atom";
 import "./Map.css"
 
 // import Distance from "./distance";
