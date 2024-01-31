@@ -112,7 +112,6 @@ const handleInputChange = (fieldName, value) => {
   setTrip((prevTrip) => ({
     ...prevTrip,
     [fieldName]: value,
-    user: user
   }));
   console.log(trip);
 };
@@ -137,9 +136,8 @@ const handleInputChange = (fieldName, value) => {
   const onSaveTrip = (e) => {
     e.preventDefault();
     setLoading(true);
-   
-
-    fetch(`http://localhost:8080/trips/createTrip`, {
+    // trip.user = {id:user.id}
+    fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

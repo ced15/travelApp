@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.components.Location;
+import com.example.demo.components.User;
 import com.example.demo.repository.LocationRepository;
 import com.example.demo.components.Memento;
 import com.example.demo.repository.MementoRepository;
@@ -32,23 +33,8 @@ public class TripService {
     }
 
     //tested
-    public Trip addTrip(Trip trip) {
-        Optional<Trip> tripOptional = tripRepository.findTripById(trip.getId());
-        if (tripOptional.isPresent()) {
-            throw new IllegalStateException("trip already exists");
-        }
-        LocalDate departureDate = trip.getDepartureDate();
-        LocalDate arrivalHomeDate = trip.getArrivalHomeDate();
-        if (departureDate != null && arrivalHomeDate != null) {
-            if (departureDate.isBefore(LocalDate.now())) {
-                throw new IllegalArgumentException("Departure date must be in the future");
-            }
-            if (arrivalHomeDate.isBefore(departureDate)) {
-                throw new IllegalArgumentException("Arrival date must be after the departure date");
-            }
-        } else {
-            throw new IllegalStateException("Dates cannot be null");
-        }
+    public Trip addTrip(Trip trip, Long user_id) {
+        trip.setUser(User.builder().id(user_id).build());
         tripRepository.save(trip);
         System.out.println(trip);
         return trip;
