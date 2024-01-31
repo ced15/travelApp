@@ -46,9 +46,6 @@ public class TripService {
             if (departureDate.isBefore(arrivalHomeDate)) {
                 throw new IllegalArgumentException("Departure date must be after the arrival date");
             }
-            if (arrivalHomeDate.isBefore(departureDate)) {
-                throw new IllegalArgumentException("Arrival date must be after the departure date");
-            }
         } else {
             throw new IllegalStateException("Dates cannot be null");
         }

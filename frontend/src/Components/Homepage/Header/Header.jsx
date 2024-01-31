@@ -6,7 +6,7 @@ const Header = () => {
     <header>
       <nav class="bg-white border-gray-200 px-4 py-2.5 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between mx-auto">
-          <a href="https://flowbite.com" class="flex items-center">
+          <a href="/" class="flex items-center">
             <img
               src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
               class="mr-3 h-8 sm:h-9 absolute xl:h-10 xl:w-16"

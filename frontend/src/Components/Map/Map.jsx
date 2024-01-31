@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import Loading from "../Loading/Loading";
 import {
   GoogleMap,
@@ -13,6 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
+import "./Map.css"
 
 // import Distance from "./distance";
 
@@ -20,19 +21,24 @@ import state from "../Atom/Atom";
 // const DirectionsResult = google.maps.DirectionsResult;
 // const MapOptions = google.maps.MapOptions;
 
+
 const Map = () => {
   const [loading, setLoading] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [memento, setMemento] = useState("");
   const [locations, setLocations] = useState([]);
   const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState();
+  const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
+  const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
   const [trip, setTrip] = useState({
     locationList: [],
     departureDate: null,
     arrivalHomeDate: null,
     event: "",
-    mementos: [],
+    mementoList: []
   });
   const mapRef = useRef();
   const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
@@ -46,11 +52,31 @@ const Map = () => {
   );
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const image = {
-    url: "https://www.simpleimageresizer.com/_uploads/photos/79f7a882/pin_raccoon_2_15.png",
+    url: "https://www.simpleimageresizer.com/_uploads/photos/270d802c/pin_raccoon_1_17.png",
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timeoutId = setTimeout(() => {
+        setErrorMessage(false);
+      }, 2500);
+
+      // return () => clearTimeout(timeoutId);
+    }
+  }, [errorMessage]);
 
   const handleCreateTrip = () => {
     setIsFormVisible(true);
+  };
+
+  const displayError = (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      setMemento("")
+      setIsActive(false);
+    }, 2500);
+    setMemento("Please enter a memento!");
+    setIsActive(true);
   };
 
   const handleAddLocation = () => {
@@ -61,7 +87,9 @@ const Map = () => {
     console.log(trip.locationList);
   };
 
-  const handleAddMemento = () => {
+  const handleAddMemento = (e) => {
+    e.preventDefault();
+    handleInputChange("mementoList", [...trip.mementoList, memento]);
     setMemento("");
   };
 
@@ -78,43 +106,47 @@ const Map = () => {
     console.log(trip)
   };
 
-  const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
-  const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
-
   const handleDepartureDateChange = (date) => {
     setTrip({ ...trip, departureDate: date });
-    setDepartureCalendarOpen(false); // Închide calendarul după ce s-a selectat data
+    setDepartureCalendarOpen(false);
   };
 
   const handleArrivalDateChange = (date) => {
     setTrip({ ...trip, arrivalHomeDate: date });
-    setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
+    setArrivalCalendarOpen(false);
   };
 
   const onSaveTrip = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    fetch(`http://localhost:8080/trips/createTrip`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(trip),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        console.log(localStorage.getItem("token"))
-        console.log(data);
-        console.log(trip)
-        console.log("You created your trip successfully");
-        navigate("/");
+    if (trip.name == "" || trip.mementoList.length == 0 ||
+      trip.locationList.length == 0 || trip.arrivalHomeDate == "" ||
+      trip.departureDate == "") {
+      setErrorMessage(true);
+    } else {
+      setErrorMessage(false);
+      setLoading(true);
+      fetch(`http://localhost:8080/trips/createTrip`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(trip),
       })
-      .catch((error) => {
-        console.log(`Failed to create trip! ${error.message}`);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          setLoading(false);
+          console.log(localStorage.getItem("token"))
+          console.log(data);
+          console.log(trip)
+          console.log("You created your trip successfully");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(`Failed to create trip! ${error.message}`);
+        });
+    }
   };
 
   if (loading) {
@@ -149,7 +181,6 @@ const Map = () => {
                   className="w-full text-black"
                   type="text"
                   value={trip.event}
-                  // onChange={handleInputChange}
                   onChange={(e) => handleInputChange("event", e.target.value)}
                 />
               </label>
@@ -165,15 +196,16 @@ const Map = () => {
               </label>
               <br></br>
               <label className="font-semibold italic">
-                Add Memento:
+                Memento:
                 <br></br>
                 <div className="pb-1"></div>
                 <textarea
-                  className="w-full text-black h-24 pl-0.5"
+                  className={`${isActive ? 'text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg' : 'w-full h-24 pl-0.5 text-black font-semibold italic'}`}
                   type="text"
                   value={memento}
                   onChange={(e) => setMemento(e.target.value)}
                 />
+                <button onClick={memento != "" ? handleAddMemento : displayError}> Add memento </button>
               </label>
               <br></br>
               <br></br>
@@ -182,38 +214,41 @@ const Map = () => {
                 Select Departure Date:
                 <div className="pb-1"></div>
                 <DatePicker
-                  className=" text-black"
+                  className="text-black pl-1 w-full"
                   selected={trip.departureDate}
                   value={trip.departureDate}
                   onSelect={handleDepartureDateChange}
-                  onChange={handleDepartureDateChange}
-                  shouldCloseOnSelect={true}
                   open={isDepartureCalendarOpen}
                   onFocus={() => setDepartureCalendarOpen(true)}
                 />
               </label>
               <br />
-              <label >
+              <label>
+                <div className="pb-1"></div>
                 Select Arrival Date:
                 <div className="pb-1"></div>
                 <DatePicker
-                  className="text-black"
+                  className="text-black pl-1 w-full"
                   selected={trip.arrivalHomeDate}
                   value={trip.arrivalHomeDate}
                   onSelect={handleArrivalDateChange}
-                  onChange={handleArrivalDateChange}
-                  shouldCloseOnSelect={true}
                   open={isArrivalCalendarOpen}
                   onFocus={() => setArrivalCalendarOpen(true)}
                 />
               </label>
-            </form>
-            <button
-              className="pt-2 font-semibold italic text-lg place-content-center"
+              <br></br>
+              {errorMessage && <div className="pt-2 text-red-500 font-semibold italic text-lg"> Please complete all the fields! </div>}
+              <div className="pt-12 text-center">           
+              <button
+              className="font-semibold italic text-2xl mx-auto text-center"
               onClick={onSaveTrip}
             >
               Save trip
             </button>
+              </div>
+            </form>
+            
+            
           </div>
         )}
       </div>
