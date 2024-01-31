@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./LogIn.css";
-import Loading from "../Loading/Loading"
+import Loading from "../Loading/Loading";
 import React from "react";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
+import supabase from "../../supabase";
 
 const LogIn = () => {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useAtom(state.token);
-    const [user, setUser] = useState({
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
+  const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
+
+  const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
     password: "123456",
   });
@@ -22,11 +25,11 @@ const LogIn = () => {
       [name]: value,
     }));
   };
-  
+
   const onLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
       method: "POST",
       headers: {
@@ -39,23 +42,67 @@ const LogIn = () => {
         setLoading(false);
         console.log(data);
         localStorage.setItem("token", data.access_token);
+
+        const fetchUserData = async () => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const { data, error } = await supabase
+                .from("token")
+                .select("user_id")
+                .filter("token", "eq", token)
+                .single();
+
+              if (error) {
+                throw error;
+              }
+
+              if (data && data.user_id) {
+                const userId = data.user_id;
+                const userData = await supabase
+                  .from("_user")
+                  .select("id, first_name, last_name, email")
+                  .eq("id", userId)
+                  .single();
+
+                if (userData.error) {
+                  throw userData.error;
+                }
+
+                setLoggedUser(userData.data);
+                console.log(userData.data);
+              } else {
+                console.error("No user found for the given token.");
+              }
+            } catch (error) {
+              console.error("Error fetching user data:", error.message);
+            }
+          }
+        };
+
+        // Call the fetchUserData function
+        fetchUserData();
+
         console.log("You logged in successfully");
+        setIsUserLogged(true);
         navigate("/");
       })
       .catch((error) => {
         console.log(`Failed to Log In! ${error.message}`);
       });
+  };
 
-  }; 
-
-
-    if (loading) {
-      return <Loading />;
-    }
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex relative h-screen smallestPhone:justify-center tablet:justify-end items-center">
-      <img src='images/racconnBackground.jpg'  className="w-full h-screen brightness-75" />
+      <img
+        src="images/racconnBackground.jpg"
+        className="w-full h-screen brightness-75"
+      />
       <form
         className="absolute flex flex-col gap-10 p-4 rounded-3xl pl-5 tablet:right-20 tablet:w-80 phone:w-72 w-64 italic bg-gray-500 bg-opacity-40"
         onSubmit={(e) => onLogin(e)}
@@ -92,5 +139,5 @@ const LogIn = () => {
       </form>
     </div>
   );
-}
+};
 export default LogIn;

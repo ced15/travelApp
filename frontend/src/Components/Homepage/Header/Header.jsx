@@ -1,6 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import state from "../../Atom/Atom";
 
 const Header = () => {
+  const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
+  const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
 
   return (
     <header>
@@ -16,18 +20,24 @@ const Header = () => {
             </span>
           </a>
           <div class="flex items-center lg:order-2">
-            <a
-              href="/logIn"
-              class="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Log in
-            </a>
-            <a
-              href="/signUp"
-              class="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Get started
-            </a>
+            {!isUserLogged ? (
+              <>
+                <a
+                  href="/logIn"
+                  className="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                >
+                  Log in
+                </a>
+                <a
+                  href="/signUp"
+                  className="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                >
+                  Get started
+                </a>
+              </>
+            ) : (
+                <div> Hi { loggedUser.first_name}</div>
+            )}
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
@@ -74,13 +84,13 @@ const Header = () => {
                   aria-current="page"
                 >
                   <Link to="/">
-                  <span class="font-bold text-2xl">H</span>
-                  <img
-                    src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
-                    class="h-6 sm:h-9 inline xl:h-8 xl:pb-2"
-                    alt="Flowbite Logo"
-                  />
-                  <span class="font-bold text-2xl">ME</span>
+                    <span class="font-bold text-2xl">H</span>
+                    <img
+                      src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
+                      class="h-6 sm:h-9 inline xl:h-8 xl:pb-2"
+                      alt="Flowbite Logo"
+                    />
+                    <span class="font-bold text-2xl">ME</span>
                   </Link>
                 </a>
               </li>
@@ -101,9 +111,7 @@ const Header = () => {
                   href="#"
                   class="block text-2xl py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  <Link to="/myTrips">
-                    My Trips
-                  </Link>
+                  <Link to="/myTrips">My Trips</Link>
                 </a>
               </li>
               <li>
@@ -111,9 +119,7 @@ const Header = () => {
                   href="#"
                   class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  <Link to="/mementos">
-                  Mementos
-                  </Link>
+                  <Link to="/mementos">Mementos</Link>
                 </a>
               </li>
               <li>
@@ -121,9 +127,7 @@ const Header = () => {
                   href="#"
                   class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  <Link to="/wishlist">
-                  Wishlist
-                  </Link>
+                  <Link to="/wishlist">Wishlist</Link>
                 </a>
               </li>
               <li>
@@ -131,9 +135,7 @@ const Header = () => {
                   href="#"
                   class="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
-                  <Link to="/discover">
-                  Discover
-                  </Link>
+                  <Link to="/discover">Discover</Link>
                 </a>
               </li>
             </ul>

@@ -13,59 +13,15 @@ import Places from "./Places";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Map.css"
-
-// import Distance from "./distance";
-
-// const LatLngLiteral = google.maps.LatLngLiteral;
-// const DirectionsResult = google.maps.DirectionsResult;
-// const MapOptions = google.maps.MapOptions;
 import supabase from "../../supabase";
+import { useAtom } from "jotai";
+import state from "../Atom/Atom";
 
 
 const Map = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
 
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const { data, error } = await supabase
-            .from("token")
-            .select("user_id")
-            .filter("token", "eq", token)
-            .single();
-
-          if (error) {
-            throw error;
-          }
-
-          if (data && data.user_id) {
-            const userId = data.user_id;
-            const userData = await supabase
-              .from("_user")
-              .select("id, first_name, last_name, email")
-              .eq("id", userId)
-              .single();
-
-            if (userData.error) {
-              throw userData.error;
-            }
-            setUser(userData.data);
-            console.log(user);
-          } else {
-            console.error("No user found for the given token.");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error.message);
-        }
-      }
-    };
-    fetchUserData();
-  }, []);
 
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -137,10 +93,6 @@ const Map = () => {
     setMemento("");
   };
 
-  const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date().setMonth(11),
-  });
 
 const handleInputChange = (fieldName, value) => {
   setTrip((prevTrip) => ({
@@ -174,8 +126,9 @@ const handleInputChange = (fieldName, value) => {
     } else {
       setErrorMessage(false);
       setLoading(true);
+    }
     // trip.user = {id:user.id}
-    fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
+    fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -183,13 +136,7 @@ const handleInputChange = (fieldName, value) => {
       },
       body: JSON.stringify(trip),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        console.log(data);
-        console.log("You created your trip successfully");
-        navigate("/");
-      })
+     
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
@@ -202,7 +149,7 @@ const handleInputChange = (fieldName, value) => {
         .catch((error) => {
           console.log(`Failed to create trip! ${error.message}`);
         });
-    }
+
   };
 
 
@@ -257,12 +204,21 @@ const handleInputChange = (fieldName, value) => {
                 <br></br>
                 <div className="pb-1"></div>
                 <textarea
-                  className={`${isActive ? 'text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg' : 'w-full h-24 pl-0.5 text-black font-semibold italic'}`}
+                  className={`${
+                    isActive
+                      ? "text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg"
+                      : "w-full h-24 pl-0.5 text-black font-semibold italic"
+                  }`}
                   type="text"
                   value={memento}
                   onChange={(e) => setMemento(e.target.value)}
                 />
-                <button onClick={memento != "" ? handleAddMemento : displayError}> Add memento </button>
+                <button
+                  onClick={memento != "" ? handleAddMemento : displayError}
+                >
+                  {" "}
+                  Add memento{" "}
+                </button>
               </label>
               <br></br>
               <br></br>
@@ -292,21 +248,25 @@ const handleInputChange = (fieldName, value) => {
                   onSelect={handleArrivalDateChange}
                   open={isArrivalCalendarOpen}
                   onFocus={() => setArrivalCalendarOpen(true)}
+                  minDate={trip.departureDate}
                 />
               </label>
               <br></br>
-              {errorMessage && <div className="pt-2 text-red-500 font-semibold italic text-lg"> Please complete all the fields! </div>}
-              <div className="pt-12 text-center">           
-              <button
-              className="font-semibold italic text-2xl mx-auto text-center"
-              onClick={onSaveTrip}
-            >
-              Save trip
-            </button>
+              {errorMessage && (
+                <div className="pt-2 text-red-500 font-semibold italic text-lg">
+                  {" "}
+                  Please complete all the fields!{" "}
+                </div>
+              )}
+              <div className="pt-12 text-center">
+                <button
+                  className="font-semibold italic text-2xl mx-auto text-center"
+                  onClick={onSaveTrip}
+                >
+                  Save trip
+                </button>
               </div>
             </form>
-            
-            
           </div>
         )}
       </div>

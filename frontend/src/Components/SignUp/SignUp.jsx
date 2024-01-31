@@ -3,11 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import React from "react";
 import Loading from "../Loading/Loading";
+import { useAtom } from "jotai";
+import state from "../Atom/Atom";
+import supabase from "../../supabase";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [backgroundImage, setBackgroundImage] = useState(null);
+  const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
+  const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
   const [user, setUser] = useState({
     firstName: "Denisa",
     lastName: "Cuta",
@@ -81,6 +85,46 @@ const SignUp = () => {
         });
         console.log("Your registration was successfully submitted!");
         localStorage.setItem("token", data.access_token);
+        const fetchUserData = async () => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const { data, error } = await supabase
+                .from("token")
+                .select("user_id")
+                .filter("token", "eq", token)
+                .single();
+
+              if (error) {
+                throw error;
+              }
+
+              if (data && data.user_id) {
+                const userId = data.user_id;
+                const userData = await supabase
+                  .from("_user")
+                  .select("id, first_name, last_name, email")
+                  .eq("id", userId)
+                  .single();
+
+                if (userData.error) {
+                  throw userData.error;
+                }
+
+                setLoggedUser(userData.data);
+                console.log(userData.data);
+              } else {
+                console.error("No user found for the given token.");
+              }
+            } catch (error) {
+              console.error("Error fetching user data:", error.message);
+            }
+          }
+        };
+
+        fetchUserData();
+        setIsUserLogged(true);
         navigate("/");
       })
       .catch((error) => {
@@ -96,7 +140,6 @@ const SignUp = () => {
     <div className="flex relative h-screen smallestPhone:justify-center tablet:justify-end items-center">
       <img
         src="images/racconnBackground.jpg"
-        fill
         className="w-full h-screen brightness-75"
       />
       <form
@@ -149,7 +192,7 @@ const SignUp = () => {
         />
         {errors.password && <p className="error">{errors.password}</p>}
         <button className="mb-2 border-2 rounded-xl py-1 px-4 text-lg font-bold text-white w-full border-white hover:bg-white hover:text-black hover:bg-opacity-40">
-           Sign-Up
+          Sign-Up
         </button>
         <div className="text-center text-white hover:underline cursor-pointer">
           <Link to="/logIn">Do you have an account?</Link>
