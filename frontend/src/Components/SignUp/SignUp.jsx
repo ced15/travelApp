@@ -80,6 +80,7 @@ const SignUp = () => {
           password: "",
         });
         console.log("Your registration was successfully submitted!");
+        localStorage.setItem("token", data.access_token);
         navigate("/");
       })
       .catch((error) => {
