@@ -2,3 +2,7 @@ image.tab-icon {
 	height: 16px !important;
 	width: 16px !important;
 }
+
+body {
+	overflow: hidden;
+  }

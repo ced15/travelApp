@@ -34,7 +34,7 @@ public class Trip {
     private LocalDate departureDate;
     private LocalDate arrivalHomeDate;
     private String event;
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "trip_memento",
@@ -50,6 +50,11 @@ public class Trip {
         this.arrivalHomeDate = arrivalHomeDate;
         this.event = event;
         this.mementos = mementos;
+    }
+
+    public void addMemento(Memento memento) {
+        mementos.add(memento);
+        memento.getTrips().add(this);
     }
 
     public void removeMemento(Memento memento) {

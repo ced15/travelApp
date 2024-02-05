@@ -21,13 +21,11 @@ public class LocationConfig implements CommandLineRunner, Ordered {
     @Transactional
     public void run(String... args) throws Exception {
         Location location1 = new Location(
-                "Restaurant",
                 "La calul alb",
                 "Timisoara",
                 true,
                 "Best cuisine");
         Location location2 = new Location(
-                "Lake",
                 "Ochiul Beiului lake",
                 "Cheile Nerei",
                 true,

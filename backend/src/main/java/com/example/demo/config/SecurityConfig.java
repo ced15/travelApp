@@ -33,6 +33,7 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {
             "/account/**",
             "/trips/**",
+            "/trips/updateMemento/",
             "/PinPoint/**",
             "/memento/**",
             "/memento/createMemento",

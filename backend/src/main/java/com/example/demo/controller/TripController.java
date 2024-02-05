@@ -27,6 +27,8 @@ public class TripController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createTrip/{user_id}")
     public ResponseEntity<Trip> registerNewTrip(@PathVariable Long user_id, @RequestBody Trip trip){
+        System.out.println(trip);
+        System.out.println(trip.getMementos());
         Trip newTrip = tripService.addTrip(trip, user_id);
         return ResponseEntity.ok(newTrip);
     }
@@ -42,11 +44,12 @@ public class TripController {
 
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
-    @PostMapping(path = "/updateMemento/{tripId}")
-    public void addMementoToTrip(
-            @PathVariable("tripId") Long tripId,
-            @RequestBody(required = false) Memento memento) {
-        tripService.addMementoToTrip(tripId, memento);
+    @PostMapping(path = "/updateMemento/{mementoId}")
+    public ResponseEntity<Trip> addMementoToTrip(
+            @PathVariable Long mementoId,
+            @RequestBody Trip trip) {
+        Trip newTrip = tripService.addMementoToTrip(mementoId, trip);
+        return ResponseEntity.ok(newTrip);
     }
 
     //tested
