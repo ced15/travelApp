@@ -136,48 +136,45 @@ const Map = () => {
     setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
   };
 
-  const onSaveTrip = (e) => {
-    e.preventDefault();
+ const onSaveTrip = (e) => {
+   e.preventDefault();
 
-    if (
-      trip.name == "" ||
-      trip.mementoList.length == 0 ||
-      trip.locationList.length == 0 ||
-      trip.arrivalHomeDate == "" ||
-      trip.departureDate == ""
-    ) {
-    if (trip.name == "" || trip.mementos.length == 0 ||
-      trip.locationList.length == 0 || trip.arrivalHomeDate == "" ||
-      trip.departureDate == "") {
-      setErrorMessage(true);
-    } else {
-      setErrorMessage(false);
-      setLoading(true);
-      trip.mementos = mementoId.map((id) =>({id}));
-      console.log(mementoId);
-      console.log(trip.mementos);
-      fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(trip),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setLoading(false);
-          console.log(localStorage.getItem("token"));
-          console.log(data);
-          console.log(trip);
-          console.log("You created your trip successfully");
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(`Failed to create trip! ${error.message}`);
-        });
-    }
-  };
+   if (
+     trip.name == "" ||
+     trip.mementos.length == 0 ||
+     trip.locationList.length == 0 ||
+     trip.arrivalHomeDate == "" ||
+     trip.departureDate == ""
+   ) {
+     setErrorMessage(true);
+   } else {
+     setErrorMessage(false);
+     setLoading(true);
+     trip.mementos = mementoId.map((id) => ({ id }));
+     console.log(mementoId);
+     console.log(trip.mementos);
+     fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${localStorage.getItem("token")}`,
+       },
+       body: JSON.stringify(trip),
+     })
+       .then((res) => res.json())
+       .then((data) => {
+         setLoading(false);
+         console.log(localStorage.getItem("token"));
+         console.log(data);
+         console.log(trip);
+         console.log("You created your trip successfully");
+         navigate("/");
+       })
+       .catch((error) => {
+         console.log(`Failed to create trip! ${error.message}`);
+       });
+   }
+ };
 
 
   if (loading) {
