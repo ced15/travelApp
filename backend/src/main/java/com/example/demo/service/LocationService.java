@@ -56,23 +56,16 @@ public class LocationService {
 
     //tested
     @Transactional
-    public void updateLocationDetails(Long locationId, String type, String locationName, String locationAddress, boolean visited, String notes) {
+    public void updateLocationDetails(Long locationId, String locationName, String locationAddress, boolean visited, String notes) {
         Location location = locationRepository.findLocationById(locationId)
                 .orElseThrow(() -> new IllegalStateException("Location with ID " + locationId + " does not exist"));
         String existingLocationName = location.getLocationName();
-        String existingType = location.getType();
         String existingLocationAddress = location.getLocationAddress();
         String existingNotes = location.getNotes();
         if (locationName != null) {
             location.setLocationName(locationName);
         } else {
             location.setLocationName(existingLocationName);
-        }
-
-        if (type != null) {
-            location.setType(type);
-        } else {
-            location.setType(existingType);
         }
 
         if (locationAddress != null) {

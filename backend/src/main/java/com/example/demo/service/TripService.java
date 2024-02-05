@@ -35,6 +35,7 @@ public class TripService {
     //tested
     public Trip addTrip(Trip trip, Long user_id) {
         trip.setUser(User.builder().id(user_id).build());
+        System.out.println(trip.getMementos());
         tripRepository.save(trip);
         System.out.println(trip);
         return trip;
@@ -92,22 +93,13 @@ public class TripService {
         }
     }
 
-    @Transactional
-    public void addMementoToTrip(Long tripId, Memento memento) {
-        boolean isNotPresentAndNull = false;
-        Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        for(Memento memento1 : trip.getMementos()) {
-            if (memento1 == memento || memento1 == null) {
-                isNotPresentAndNull = true;
-                break;
-            }
-        }
-        if (!isNotPresentAndNull) {
-            trip.getMementos().add(memento);
-            mementoRepository.save(memento);
-        }
-    }
+//    @Transactional
+//    public void addMementoToTrip(Long tripId, Memento memento) {
+//        Trip trip = tripRepository.findById(tripId)
+//                .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
+//            trip.getMementos().add(memento);
+//            mementoRepository.save(memento);
+//    }
 
     //tested
     @Transactional
@@ -124,5 +116,13 @@ public class TripService {
             trip.setDepartureDate(departureDate);
             tripRepository.save(trip);
         }
+    }
+
+    @Transactional
+    public Trip addMementoToTrip(Long memento_id, Trip trip) {
+        trip.addMemento(Memento.builder().id(memento_id).build());
+        tripRepository.save(trip);
+        System.out.println(trip);
+        return trip;
     }
 }

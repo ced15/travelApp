@@ -25,6 +25,7 @@ const Map = () => {
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [mementoId, setMementoId] = useState([]);
   const [memento, setMemento] = useState({
     alarmDate: "",
     mementoMessage: "",
@@ -39,7 +40,7 @@ const Map = () => {
     departureDate: null,
     arrivalHomeDate: null,
     event: "",
-    mementoList: []
+    mementos: []
   });
   const mapRef = useRef();
   const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
@@ -73,16 +74,16 @@ const Map = () => {
   const displayError = (e) => {
     e.preventDefault();
     setTimeout(() => {
-      setMemento({memento_message: ""})
+      setMemento({ mementoMessage: "" })
       setIsActive(false);
     }, 2500);
-    setMemento({memento_message:"Please enter a memento!"});
+    setMemento({ mementoMessage: "Please enter a memento!" });
     setIsActive(true);
   };
 
   const handleAddLocation = () => {
     location != null &&
-      setLocations((prevLocations) => [...prevLocations, location]);
+    setLocations((prevLocations) => [...prevLocations, location]);
     handleInputChange("locationList", [...trip.locationList, location.name]);
     console.log(locations);
     console.log(trip.locationList);
@@ -90,8 +91,9 @@ const Map = () => {
 
   const handleAddMemento = async (e) => {
     e.preventDefault();
-    handleInputChange("mementoList", [...trip.mementoList, memento]);
-
+    handleInputChange("mementos", [...trip.mementos, memento]);
+    setMemento({ mementoMessage: "" }); 
+    
     await fetch(`http://localhost:8080/memento/createMemento`, {
       method: "POST",
       headers: {
@@ -103,6 +105,7 @@ const Map = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setMementoId((prevMementoId) => [...prevMementoId, data.id]);
         console.log("You added your memento successfully");
       })
       .catch((error) => {
@@ -143,11 +146,16 @@ const Map = () => {
       trip.arrivalHomeDate == "" ||
       trip.departureDate == ""
     ) {
+    if (trip.name == "" || trip.mementos.length == 0 ||
+      trip.locationList.length == 0 || trip.arrivalHomeDate == "" ||
+      trip.departureDate == "") {
       setErrorMessage(true);
     } else {
       setErrorMessage(false);
       setLoading(true);
-
+      trip.mementos = mementoId.map((id) =>({id}));
+      console.log(mementoId);
+      console.log(trip.mementos);
       fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
         method: "POST",
         headers: {
@@ -178,7 +186,7 @@ const Map = () => {
 
   return (
     <div className="flex">
-      <div className="w-1/7 p-4 bg-black text-white">
+      <div className="w-1/7 p-4 bg-black text-white relative pt-20">
         <h1 className="font-semibold italic pb-2"> Search for a location </h1>
         <Places
           setLocation={(position) => {
@@ -223,17 +231,16 @@ const Map = () => {
                 <br></br>
                 <div className="pb-1"></div>
                 <textarea
-                  className={`${
-                    isActive
+                  className={`${isActive
                       ? "text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg"
                       : "w-full h-24 pl-0.5 text-black font-semibold italic"
-                  }`}
+                    }`}
                   type="text"
-                  value={memento.memento_message}
-                  onInput={(e) => setMemento({mementoMessage: e.target.value})}
+                  value={memento.mementoMessage}
+                  onInput={(e) => setMemento({ mementoMessage: e.target.value })}
                 />
                 <button
-                  onClick={memento != "" ? handleAddMemento : displayError}
+                  onClick={memento.mementoMessage != "" ? handleAddMemento : displayError}
                 >
                   {" "}
                   Add memento{" "}
@@ -286,8 +293,8 @@ const Map = () => {
                 </button>
               </div>
             </form>
-            
-            
+
+
           </div>
         )}
       </div>
@@ -296,7 +303,7 @@ const Map = () => {
         <GoogleMap
           zoom={15}
           center={center}
-          mapContainerClassName="h-screen w-full"
+          mapContainerClassName="h-screen w-full relative z-0"
           options={options}
           onLoad={onLoad}
         >

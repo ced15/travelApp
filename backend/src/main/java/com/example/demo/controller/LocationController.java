@@ -45,11 +45,10 @@ public class LocationController {
             @PathVariable("locationId") Long locationId,
             @RequestBody(required = false) Location locationUpdate) {
         String locationName = locationUpdate.getLocationName();
-        String type = locationUpdate.getType();
         String locationAddress = locationUpdate.getLocationAddress();
         Boolean visited = locationUpdate.isVisited();
         String notes = locationUpdate.getNotes();
-        locationService.updateLocationDetails(locationId, type, locationName, locationAddress, visited, notes);
+        locationService.updateLocationDetails(locationId, locationName, locationAddress, visited, notes);
         return ResponseEntity.ok("Location successfully updated");
     }
 }

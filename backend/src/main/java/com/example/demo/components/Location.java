@@ -20,8 +20,6 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String type;
-
     private String locationName;
 
     private String locationAddress;
@@ -37,8 +35,7 @@ public class Location {
     @ManyToMany(mappedBy = "locationList", fetch = FetchType.EAGER)
     private Set<Trip> trips = new HashSet<>();
 
-    public Location(String type, String locationName, String locationAddress, boolean visited, String notes) {
-        this.type = type;
+    public Location(String locationName, String locationAddress, boolean visited, String notes) {
         this.locationName = locationName;
         this.locationAddress = locationAddress;
         this.visited = visited;
@@ -49,7 +46,6 @@ public class Location {
     public String toString() {
         return "Location{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
                 ", locationName='" + locationName + '\'' +
                 ", locationAddress='" + locationAddress + '\'' +
                 ", visited=" + visited +
