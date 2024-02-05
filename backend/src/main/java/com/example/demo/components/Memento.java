@@ -23,15 +23,13 @@ public class Memento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String mementoName;
     private String mementoMessage;
     private LocalDate alarmDate;
     @JsonIgnore
     @ManyToMany(mappedBy = "mementos", fetch = FetchType.EAGER)
     Set<Trip> trips = new HashSet<>();
 
-    public Memento(String mementoName, String mementoMessage, LocalDate alarmDate) {
-        this.mementoName = mementoName;
+    public Memento(String mementoMessage, LocalDate alarmDate) {
         this.mementoMessage = mementoMessage;
         this.alarmDate = alarmDate;
     }

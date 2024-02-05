@@ -25,7 +25,10 @@ const Map = () => {
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [memento, setMemento] = useState("");
+  const [memento, setMemento] = useState({
+    alarmDate: "",
+    mementoMessage: "",
+  });
   const [locations, setLocations] = useState([]);
   const [location, setLocation] = useState();
   const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
@@ -70,10 +73,10 @@ const Map = () => {
   const displayError = (e) => {
     e.preventDefault();
     setTimeout(() => {
-      setMemento("")
+      setMemento({memento_message: ""})
       setIsActive(false);
     }, 2500);
-    setMemento("Please enter a memento!");
+    setMemento({memento_message:"Please enter a memento!"});
     setIsActive(true);
   };
 
@@ -85,20 +88,36 @@ const Map = () => {
     console.log(trip.locationList);
   };
 
-  const handleAddMemento = (e) => {
+  const handleAddMemento = async (e) => {
     e.preventDefault();
     handleInputChange("mementoList", [...trip.mementoList, memento]);
-    setMemento("");
+
+    await fetch(`http://localhost:8080/memento/createMemento`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(memento),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log("You added your memento successfully");
+      })
+      .catch((error) => {
+        console.log(`Failed to create memento! ${error.message}`);
+      });
   };
 
 
-const handleInputChange = (fieldName, value) => {
-  setTrip((prevTrip) => ({
-    ...prevTrip,
-    [fieldName]: value,
-  }));
-  console.log(trip);
-};
+  const handleInputChange = (fieldName, value) => {
+    setTrip((prevTrip) => ({
+      ...prevTrip,
+      [fieldName]: value,
+    }));
+    console.log(trip);
+  };
 
   const handleDepartureDateChange = (date) => {
     setTrip({ ...trip, departureDate: date });
@@ -124,6 +143,15 @@ const handleInputChange = (fieldName, value) => {
     } else {
       setErrorMessage(false);
       setLoading(true);
+      // trip.user = {id:user.id}
+      fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(trip),
+      })
     }
     fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
       method: "POST",
@@ -155,8 +183,8 @@ const handleInputChange = (fieldName, value) => {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/6 p-4 bg-black text-white">
+    <div className="flex">
+      <div className="w-1/7 p-4 bg-black text-white">
         <h1 className="font-semibold italic pb-2"> Search for a location </h1>
         <Places
           setLocation={(position) => {
@@ -207,8 +235,8 @@ const handleInputChange = (fieldName, value) => {
                       : "w-full h-24 pl-0.5 text-black font-semibold italic"
                   }`}
                   type="text"
-                  value={memento}
-                  onChange={(e) => setMemento(e.target.value)}
+                  value={memento.memento_message}
+                  onInput={(e) => setMemento({mementoMessage: e.target.value})}
                 />
                 <button
                   onClick={memento != "" ? handleAddMemento : displayError}
@@ -264,6 +292,8 @@ const handleInputChange = (fieldName, value) => {
                 </button>
               </div>
             </form>
+            
+            
           </div>
         )}
       </div>

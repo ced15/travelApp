@@ -46,10 +46,9 @@ public class MementoController {
     public void updateMemento(
             @PathVariable("mementoId") Long mementoId,
             @RequestBody(required = false) Memento mementoUpdate) {
-        String mementoName = mementoUpdate.getMementoName();
         String mementoMessage = mementoUpdate.getMementoMessage();
         LocalDate alarmDate = mementoUpdate.getAlarmDate();
-        mementoService.updateMementoDetails(mementoId, mementoName, mementoMessage, alarmDate);
+        mementoService.updateMementoDetails(mementoId, mementoMessage, alarmDate);
 
     }
 }

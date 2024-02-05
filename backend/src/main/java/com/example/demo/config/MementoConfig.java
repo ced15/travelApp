@@ -20,12 +20,10 @@ public class MementoConfig implements CommandLineRunner, Ordered {
     @Override
     public void run(String... args) throws Exception {
         Memento memento1 = new Memento(
-                "Take glasses",
                 "Don't forget your glasses",
                 LocalDate.now()
         );
         Memento memento2 = new Memento(
-                "Take slippers",
                 "Don't forget your slippers",
                 LocalDate.now()
         );

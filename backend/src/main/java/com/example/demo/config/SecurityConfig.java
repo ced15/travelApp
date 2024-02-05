@@ -35,6 +35,7 @@ public class SecurityConfig {
             "/trips/**",
             "/PinPoint/**",
             "/memento/**",
+            "/memento/createMemento",
             "/locations/**",
             "/trips/createTrip/",
             "/api/v1/auth/**",
