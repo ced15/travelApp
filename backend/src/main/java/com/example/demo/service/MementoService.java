@@ -27,10 +27,6 @@ public class MementoService {
 
     //tested
     public Memento addMemento(Memento memento) {
-        Optional<Memento> mementoOptional = mementoRepository.findMementoById(memento.getId());
-        if (mementoOptional.isPresent()) {
-            throw new IllegalStateException("location already exists in your trip");
-        }
         mementoRepository.save(memento);
         System.out.println(memento);
         return memento;
@@ -56,18 +52,11 @@ public class MementoService {
 
     //tested
     @Transactional
-    public void updateMementoDetails(Long mementoId, String mementoName, String mementoMessage, LocalDate alarmDate) {
+    public void updateMementoDetails(Long mementoId, String mementoMessage, LocalDate alarmDate) {
         Memento memento = mementoRepository.findMementoById(mementoId)
                 .orElseThrow(() -> new IllegalStateException("Location with ID " + mementoId + " does not exist"));
-        String existingMementoName = memento.getMementoName();
         String existingMementoMessage = memento.getMementoMessage();
         LocalDate existingAlarmDate = memento.getAlarmDate();
-
-        if (mementoName != null) {
-            memento.setMementoName(mementoName);
-        } else {
-            memento.setMementoName(existingMementoName);
-        }
 
         if (mementoMessage != null) {
             memento.setMementoMessage(mementoMessage);

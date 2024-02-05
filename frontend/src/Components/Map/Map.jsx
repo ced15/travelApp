@@ -13,17 +13,11 @@ import Places from "./Places";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Map.css"
-
-// import Distance from "./distance";
-
-// const LatLngLiteral = google.maps.LatLngLiteral;
-// const DirectionsResult = google.maps.DirectionsResult;
-// const MapOptions = google.maps.MapOptions;
 import supabase from "../../supabase";
 
 
 const Map = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
 
@@ -71,7 +65,10 @@ const Map = () => {
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [memento, setMemento] = useState("");
+  const [memento, setMemento] = useState({
+    alarmDate: "",
+    mementoMessage: "",
+  });
   const [locations, setLocations] = useState([]);
   const [location, setLocation] = useState();
   const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
@@ -116,10 +113,10 @@ const Map = () => {
   const displayError = (e) => {
     e.preventDefault();
     setTimeout(() => {
-      setMemento("")
+      setMemento({memento_message: ""})
       setIsActive(false);
     }, 2500);
-    setMemento("Please enter a memento!");
+    setMemento({memento_message:"Please enter a memento!"});
     setIsActive(true);
   };
 
@@ -131,10 +128,26 @@ const Map = () => {
     console.log(trip.locationList);
   };
 
-  const handleAddMemento = (e) => {
+  const handleAddMemento = async (e) => {
     e.preventDefault();
     handleInputChange("mementoList", [...trip.mementoList, memento]);
-    setMemento("");
+
+    await fetch(`http://localhost:8080/memento/createMemento`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(memento),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log("You added your memento successfully");
+      })
+      .catch((error) => {
+        console.log(`Failed to create memento! ${error.message}`);
+      });
   };
 
   const [date, setDate] = useState({
@@ -142,13 +155,13 @@ const Map = () => {
     endDate: new Date().setMonth(11),
   });
 
-const handleInputChange = (fieldName, value) => {
-  setTrip((prevTrip) => ({
-    ...prevTrip,
-    [fieldName]: value,
-  }));
-  console.log(trip);
-};
+  const handleInputChange = (fieldName, value) => {
+    setTrip((prevTrip) => ({
+      ...prevTrip,
+      [fieldName]: value,
+    }));
+    console.log(trip);
+  };
 
   const handleDepartureDateChange = (date) => {
     setTrip({ ...trip, departureDate: date });
@@ -174,21 +187,14 @@ const handleInputChange = (fieldName, value) => {
     } else {
       setErrorMessage(false);
       setLoading(true);
-    // trip.user = {id:user.id}
-    fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(trip),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        console.log(data);
-        console.log("You created your trip successfully");
-        navigate("/");
+      // trip.user = {id:user.id}
+      fetch(`http://localhost:8080/trips/createTrip/${user.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(trip),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -211,8 +217,8 @@ const handleInputChange = (fieldName, value) => {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/6 p-4 bg-black text-white">
+    <div className="flex">
+      <div className="w-1/7 p-4 bg-black text-white">
         <h1 className="font-semibold italic pb-2"> Search for a location </h1>
         <Places
           setLocation={(position) => {
@@ -259,8 +265,8 @@ const handleInputChange = (fieldName, value) => {
                 <textarea
                   className={`${isActive ? 'text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg' : 'w-full h-24 pl-0.5 text-black font-semibold italic'}`}
                   type="text"
-                  value={memento}
-                  onChange={(e) => setMemento(e.target.value)}
+                  value={memento.memento_message}
+                  onInput={(e) => setMemento({mementoMessage: e.target.value})}
                 />
                 <button onClick={memento != "" ? handleAddMemento : displayError}> Add memento </button>
               </label>
@@ -296,17 +302,17 @@ const handleInputChange = (fieldName, value) => {
               </label>
               <br></br>
               {errorMessage && <div className="pt-2 text-red-500 font-semibold italic text-lg"> Please complete all the fields! </div>}
-              <div className="pt-12 text-center">           
-              <button
-              className="font-semibold italic text-2xl mx-auto text-center"
-              onClick={onSaveTrip}
-            >
-              Save trip
-            </button>
+              <div className="pt-12 text-center">
+                <button
+                  className="font-semibold italic text-2xl mx-auto text-center"
+                  onClick={onSaveTrip}
+                >
+                  Save trip
+                </button>
               </div>
             </form>
-            
-            
+
+
           </div>
         )}
       </div>
