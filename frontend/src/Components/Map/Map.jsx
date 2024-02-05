@@ -21,8 +21,6 @@ import state from "../Atom/Atom";
 const Map = () => {
   const navigate = useNavigate();
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
-
-
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -127,7 +125,6 @@ const handleInputChange = (fieldName, value) => {
       setErrorMessage(false);
       setLoading(true);
     }
-    // trip.user = {id:user.id}
     fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
       method: "POST",
       headers: {

@@ -1,31 +1,70 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import LogIn from './Components/Login/LogIn';
-import SignUp from './Components/SignUp/SignUp';
+import LogIn from "./Components/LogIn/LogIn";
+import SignUp from "./Components/SignUp/SignUp";
 import "./index.css";
-import Loading from './Components/Loading/Loading';
-import Homepage from './Components/Homepage/Homepage';
-import MyTrips from './Components/MyTrips/MyTrips';
-import Mementos from './Components/Mementos/Mementos';
-import Wishlist from './Components/Wishlist/Wishlist';
-import Discover from './Components/Discover/Discover';
+import Loading from "./Components/Loading/Loading";
+import Homepage from "./Components/Homepage/Homepage";
+import MyTrips from "./Components/MyTrips/MyTrips";
+import Mementos from "./Components/Mementos/Mementos";
+import Wishlist from "./Components/Wishlist/Wishlist";
+import Discover from "./Components/Discover/Discover";
+import Header from "./Components/Homepage/Header/Header";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      {/* <Route path="/" element={<LogIn />} /> */}
+      <Route
+        path="/"
+        element={
+          <React.Fragment>
+            <Header />
+            <Homepage />
+          </React.Fragment>
+        }
+      />
       <Route path="/logIn" element={<LogIn />} />
       <Route path="/loading" element={<Loading />} />
-      <Route path="/" element={<Homepage />}  />
-      <Route path="/myTrips" element={<MyTrips />}  />
-      <Route path="/mementos" element={<Mementos />}  />
-      <Route path="/wishlist" element={<Wishlist />}  />
-      <Route path="/discover" element={<Discover />}  />
-
       <Route path="/signUp" element={<SignUp />} />
+      <Route
+        path="/myTrips"
+        element={
+          <React.Fragment>
+            <Header />
+            <MyTrips />
+          </React.Fragment>
+        }
+      />
+      <Route
+        path="/mementos"
+        element={
+          <React.Fragment>
+            <Header />
+            <Mementos />
+          </React.Fragment>
+        }
+      />
+      <Route
+        path="/wishlist"
+        element={
+          <React.Fragment>
+            <Header />
+            <Wishlist />
+          </React.Fragment>
+        }
+      />
+      <Route
+        path="/discover"
+        element={
+          <React.Fragment>
+            <Header />
+            <Discover />
+          </React.Fragment>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );

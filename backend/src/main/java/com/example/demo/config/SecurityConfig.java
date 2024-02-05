@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/locations/**",
             "/trips/createTrip/",
             "/api/v1/auth/**",
+            "/api/v1/auth/logout",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
