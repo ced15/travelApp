@@ -35,7 +35,7 @@ public class TripService {
     //tested
     public Trip addTrip(Trip trip, Long user_id) {
         trip.setUser(User.builder().id(user_id).build());
-        System.out.println(trip.getMementos());
+        System.out.println(trip.getLocationList());
         tripRepository.save(trip);
         System.out.println(trip);
         return trip;

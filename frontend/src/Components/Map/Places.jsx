@@ -12,14 +12,8 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import "./Map.css";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-// import { saveToken, getToken, removeToken, decodeToken } from "./jwtService";
 
 export default function Places({ setLocation }) {
-  const [user, setUser] = useState("");
-  
-  const [locationsForDatabase, setLocationsForDatabase] = useState([]);
 
   const {
     ready,
@@ -36,11 +30,14 @@ export default function Places({ setLocation }) {
     const { lat, lng } = await getLatLng(results[0]);
     const details = await getDetails({ placeId: results[0].place_id });
     const locationName = details?.name || "Unknown Location";
-    setLocation({ lat, lng, name: locationName });
-    // setLocationsForDatabase([
-    //   ...locationsForDatabase,
-    //   { name: locationName, lat, lng },
-    // ]);
+    const address = details?.formatted_address || "Address not available";
+    setLocation(
+      { lat, 
+        lng, 
+        name: locationName,
+        address, 
+      }
+      );
   };
 
   return (

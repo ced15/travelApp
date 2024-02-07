@@ -16,6 +16,7 @@ import "./Map.css"
 import supabase from "../../supabase";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
+import TripForm from "../TripForm/TripForm";
 
 
 const Map = () => {
@@ -26,6 +27,14 @@ const Map = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [mementoId, setMementoId] = useState([]);
+  const [locationId, setLocationId] = useState([]);
+  const [locationObject, setLocationObject] = useState({
+    locationName: "",
+    locationAddress: "",
+    visited: false,
+    notes: "",
+    pinPoints: null
+  });
   const [memento, setMemento] = useState({
     alarmDate: "",
     mementoMessage: "",
@@ -54,7 +63,7 @@ const Map = () => {
   );
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const image = {
-    url: "https://www.simpleimageresizer.com/_uploads/photos/270d802c/pin_raccoon_1_17.png",
+    url: "/images/pin_raccoon_1_17.png",
   };
 
   useEffect(() => {
@@ -62,8 +71,6 @@ const Map = () => {
       const timeoutId = setTimeout(() => {
         setErrorMessage(false);
       }, 2500);
-
-      // return () => clearTimeout(timeoutId);
     }
   }, [errorMessage]);
 
@@ -81,12 +88,28 @@ const Map = () => {
     setIsActive(true);
   };
 
-  const handleAddLocation = () => {
+  const handleAddLocation = async () => {
     location != null &&
     setLocations((prevLocations) => [...prevLocations, location]);
+    
     handleInputChange("locationList", [...trip.locationList, location.name]);
-    console.log(locations);
-    console.log(trip.locationList);
+
+    await fetch(`http://localhost:8080/locations/createLocation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(locationObject),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLocationId((prevLocationId) => [...prevLocationId, data.id]);
+        console.log("You added your location successfully");
+      })
+      .catch((error) => {
+        console.log(`Failed to create location! ${error.message}`);
+      });
+
   };
 
   const handleAddMemento = async (e) => {
@@ -98,13 +121,11 @@ const Map = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(memento),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMementoId((prevMementoId) => [...prevMementoId, data.id]);
         console.log("You added your memento successfully");
       })
@@ -119,7 +140,6 @@ const Map = () => {
       ...prevTrip,
       [fieldName]: value,
     }));
-    console.log(trip);
   };
 
   const handleDepartureDateChange = (date) => {
@@ -150,9 +170,10 @@ const Map = () => {
    } else {
      setErrorMessage(false);
      setLoading(true);
+    
      trip.mementos = mementoId.map((id) => ({ id }));
-     console.log(mementoId);
-     console.log(trip.mementos);
+     trip.locationList = locationId.map((id) => ({ id }));
+     console.log(trip.locationList);
      fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
        method: "POST",
        headers: {
@@ -164,8 +185,6 @@ const Map = () => {
        .then((res) => res.json())
        .then((data) => {
          setLoading(false);
-         console.log(localStorage.getItem("token"));
-         console.log(data);
          console.log(trip);
          console.log("You created your trip successfully");
          navigate("/");
@@ -182,12 +201,17 @@ const Map = () => {
   }
 
   return (
-    <div className="flex">
-      <div className="w-1/7 p-4 bg-black text-white relative pt-20">
+    <div className="flex relative z-0 justify-end items-center">
+      < TripForm/>
+      {/* <div className="w-1/7 p-4 bg-black text-white relative pt-20">
         <h1 className="font-semibold italic pb-2"> Search for a location </h1>
         <Places
           setLocation={(position) => {
             setLocation(position);
+            setLocationObject({
+              locationName: position.name,
+              locationAddress: position.address
+            })
             mapRef.current?.panTo(position);
           }}
         />
@@ -294,7 +318,7 @@ const Map = () => {
 
           </div>
         )}
-      </div>
+      </div> */}
 
       <div className="h-screen w-full">
         <GoogleMap

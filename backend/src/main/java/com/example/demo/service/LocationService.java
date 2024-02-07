@@ -25,10 +25,6 @@ public class LocationService {
 
     //tested
     public Location addLocation(Location location) {
-        Optional<Location> locationOptional = locationRepository.findLocationById(location.getId());
-        if (locationOptional.isPresent()) {
-            throw new IllegalStateException("location already exist in your trip");
-        }
         locationRepository.save(location);
         System.out.println(location);
         return location;

@@ -23,7 +23,7 @@ public class Trip {
     @ManyToOne
     @JoinColumn(name = "_user_id")
     private User user;
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "trip_location",
