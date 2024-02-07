@@ -12,12 +12,11 @@ import "./Map.css";
 import Places from "./Places";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./Map.css"
+import "./Map.css";
 import supabase from "../../supabase";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
-import TripForm from "../TripForm/TripForm";
-
+// import TripForm from "../TripForm/TripForm";
 
 const Map = () => {
   const navigate = useNavigate();
@@ -26,16 +25,16 @@ const Map = () => {
   const [isActive, setIsActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [mementoId, setMementoId] = useState([]);
-  const [locationId, setLocationId] = useState([]);
   const [locationObject, setLocationObject] = useState({
+    id: "",
     locationName: "",
     locationAddress: "",
     visited: false,
     notes: "",
-    pinPoints: null
+    pinPoints: null,
   });
   const [memento, setMemento] = useState({
+    id: "",
     alarmDate: "",
     mementoMessage: "",
   });
@@ -49,7 +48,7 @@ const Map = () => {
     departureDate: null,
     arrivalHomeDate: null,
     event: "",
-    mementos: []
+    mementos: [],
   });
   const mapRef = useRef();
   const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
@@ -81,7 +80,7 @@ const Map = () => {
   const displayError = (e) => {
     e.preventDefault();
     setTimeout(() => {
-      setMemento({ mementoMessage: "" })
+      setMemento({ mementoMessage: "" });
       setIsActive(false);
     }, 2500);
     setMemento({ mementoMessage: "Please enter a memento!" });
@@ -89,11 +88,6 @@ const Map = () => {
   };
 
   const handleAddLocation = async () => {
-    location != null &&
-    setLocations((prevLocations) => [...prevLocations, location]);
-    
-    handleInputChange("locationList", [...trip.locationList, location.name]);
-
     await fetch(`http://localhost:8080/locations/createLocation`, {
       method: "POST",
       headers: {
@@ -103,20 +97,21 @@ const Map = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLocationId((prevLocationId) => [...prevLocationId, data.id]);
+        console.log(data);
+        trip.locationList.push(data);
+        setLocationObject({ ...locationObject, id: data.id });
         console.log("You added your location successfully");
       })
       .catch((error) => {
         console.log(`Failed to create location! ${error.message}`);
       });
-
   };
 
   const handleAddMemento = async (e) => {
     e.preventDefault();
-    handleInputChange("mementos", [...trip.mementos, memento]);
-    setMemento({ mementoMessage: "" }); 
+    console.log(locationObject);
     
+
     await fetch(`http://localhost:8080/memento/createMemento`, {
       method: "POST",
       headers: {
@@ -126,14 +121,15 @@ const Map = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setMementoId((prevMementoId) => [...prevMementoId, data.id]);
+        setMemento({ ...memento, id: data.id });
+        trip.mementos = [...trip.mementos, data];
+        setMemento({ mementoMessage: "" });
         console.log("You added your memento successfully");
       })
       .catch((error) => {
         console.log(`Failed to create memento! ${error.message}`);
       });
   };
-
 
   const handleInputChange = (fieldName, value) => {
     setTrip((prevTrip) => ({
@@ -143,6 +139,7 @@ const Map = () => {
   };
 
   const handleDepartureDateChange = (date) => {
+    console.log(memento);
     setTrip({ ...trip, departureDate: date });
     setDepartureCalendarOpen(false);
   };
@@ -156,45 +153,63 @@ const Map = () => {
     setArrivalCalendarOpen(false); // Închide calendarul după ce s-a selectat data
   };
 
- const onSaveTrip = (e) => {
-   e.preventDefault();
+  const onSaveTrip = (e) => {
+    e.preventDefault();
 
-   if (
-     trip.name == "" ||
-     trip.mementos.length == 0 ||
-     trip.locationList.length == 0 ||
-     trip.arrivalHomeDate == "" ||
-     trip.departureDate == ""
-   ) {
-     setErrorMessage(true);
-   } else {
-     setErrorMessage(false);
-     setLoading(true);
-    
-     trip.mementos = mementoId.map((id) => ({ id }));
-     trip.locationList = locationId.map((id) => ({ id }));
-     console.log(trip.locationList);
-     fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-         Authorization: `Bearer ${localStorage.getItem("token")}`,
-       },
-       body: JSON.stringify(trip),
-     })
-       .then((res) => res.json())
-       .then((data) => {
-         setLoading(false);
-         console.log(trip);
-         console.log("You created your trip successfully");
-         navigate("/");
-       })
-       .catch((error) => {
-         console.log(`Failed to create trip! ${error.message}`);
-       });
-   }
- };
-
+    if (
+      trip.name == "" ||
+      trip.mementos.length == 0 ||
+      trip.locationList.length == 0 ||
+      trip.arrivalHomeDate == "" ||
+      trip.departureDate == ""
+    ) {
+      setErrorMessage(true);
+    } else {
+      setErrorMessage(false);
+      setLoading(true);
+      console.log(trip.locationList);
+      fetch(`http://localhost:8080/trips/createTrip/${loggedUser.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(trip),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setLoading(false);
+          console.log("You created your trip successfully");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(`Failed to create trip! ${error.message}`);
+        });
+    }
+  };
+  const handleDeleteLocation = (e, id) => {
+    e.preventDefault();
+    fetch(`http://localhost:8080/locations/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("You deleted your location successfully");
+        setTrip((prevTrip) => ({
+          ...prevTrip,
+          locationList: prevTrip.locationList.filter(
+            (location) => location.id !== id
+          ),
+        }));
+      })
+      .catch((error) => {
+        console.log(`Failed to delete location! ${error.message}`);
+      });
+  };
 
   if (loading) {
     return <Loading />;
@@ -202,16 +217,16 @@ const Map = () => {
 
   return (
     <div className="flex relative z-0 justify-end items-center">
-      < TripForm/>
-      {/* <div className="w-1/7 p-4 bg-black text-white relative pt-20">
+      {/* < TripForm/> */}
+      <div className="w-1/7 p-4 bg-black text-white relative pt-20">
         <h1 className="font-semibold italic pb-2"> Search for a location </h1>
         <Places
           setLocation={(position) => {
             setLocation(position);
             setLocationObject({
               locationName: position.name,
-              locationAddress: position.address
-            })
+              locationAddress: position.address,
+            });
             mapRef.current?.panTo(position);
           }}
         />
@@ -241,8 +256,16 @@ const Map = () => {
               <label className="font-semibold italic ">
                 Locations:
                 <ul>
-                  {locations.map((location, index) => (
-                    <li key={index}>{location.name}</li>
+                  {trip.locationList.map((location, index) => (
+                    <li key={index}>
+                      {location.locationName}
+                      <button
+                        className="pl-4"
+                        onClick={(e) => handleDeleteLocation(e, location.id)}
+                      >
+                        X
+                      </button>
+                    </li>
                   ))}
                 </ul>
               </label>
@@ -252,16 +275,23 @@ const Map = () => {
                 <br></br>
                 <div className="pb-1"></div>
                 <textarea
-                  className={`${isActive
+                  className={`${
+                    isActive
                       ? "text-red-500 w-full h-24 pl-0.5 font-semibold italic text-lg"
                       : "w-full h-24 pl-0.5 text-black font-semibold italic"
-                    }`}
+                  }`}
                   type="text"
                   value={memento.mementoMessage}
-                  onInput={(e) => setMemento({ mementoMessage: e.target.value })}
+                  onInput={(e) =>
+                    setMemento({ mementoMessage: e.target.value })
+                  }
                 />
                 <button
-                  onClick={memento.mementoMessage != "" ? handleAddMemento : displayError}
+                  onClick={
+                    memento.mementoMessage != ""
+                      ? handleAddMemento
+                      : displayError
+                  }
                 >
                   {" "}
                   Add memento{" "}
@@ -314,11 +344,9 @@ const Map = () => {
                 </button>
               </div>
             </form>
-
-
           </div>
         )}
-      </div> */}
+      </div>
 
       <div className="h-screen w-full">
         <GoogleMap
