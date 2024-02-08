@@ -32,22 +32,7 @@ public class LocationService {
 
     //tested
     public void deleteLocation(Long locationId) {
-        Location location = locationRepository.findLocationById(locationId)
-                .orElseThrow(() -> new IllegalStateException("Location with ID " + locationId + " does not exist"));
-
-        List<Trip> tripList = tripRepository.findAll();
-
-        if (location != null) {
-            for (Trip trip : tripList) {
-                for (Location location1 : trip.getLocationList()) {
-                    if (location1.getId().equals(locationId)) {
-                        trip.getLocationList().remove(location1);
-                        tripRepository.save(trip);
-                    }
-                }
-            }
-            locationRepository.delete(location);
-        }
+       locationRepository.deleteById(locationId);
     }
 
     //tested

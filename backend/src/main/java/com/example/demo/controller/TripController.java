@@ -80,14 +80,5 @@ public class TripController {
         return ResponseEntity.ok("Memento removed from trip");
     }
 
-    //tested
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PutMapping(path = "{tripId}")
-    public void updateDateForTrip(
-            @PathVariable("tripId") Long tripId,
-            @RequestBody(required = false) Trip tripUpdate) {
-        LocalDate departureDate = tripUpdate.getDepartureDate();
-        LocalDate arrivalDate = tripUpdate.getArrivalHomeDate();
-        tripService.editDatesForTrip(tripId, departureDate, arrivalDate);
-    }
+
 }

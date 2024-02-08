@@ -33,9 +33,9 @@ public class LocationController {
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "{locationId}")
-    public ResponseEntity<String> deleteLocation(@PathVariable("locationId") Long locationId) {
+    public List<String> deleteLocation(@PathVariable("locationId") Long locationId) {
         locationService.deleteLocation(locationId);
-        return ResponseEntity.ok("Location deleted");
+        return List.of("Location Deleted");
     }
 
     //tested

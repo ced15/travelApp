@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Configuration
@@ -21,11 +22,12 @@ public class MementoConfig implements CommandLineRunner, Ordered {
     public void run(String... args) throws Exception {
         Memento memento1 = new Memento(
                 "Don't forget your glasses",
-                LocalDate.now()
+                Date.valueOf(LocalDate.now())
         );
         Memento memento2 = new Memento(
                 "Don't forget your slippers",
-                LocalDate.now()
+                Date.valueOf(LocalDate.now())
+
         );
         mementoRepository.save(memento1);
         mementoRepository.save(memento2);

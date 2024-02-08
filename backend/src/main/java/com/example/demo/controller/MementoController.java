@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -37,18 +38,17 @@ public class MementoController {
     public ResponseEntity<String> deleteMemento(@PathVariable("mementoId") Long mementoId) {
         mementoService.deleteMemento(mementoId);
         return ResponseEntity.ok("Memento deleted");
-
     }
 
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{mementoId}")
-    public void updateMemento(
+    public List<String> updateMemento(
             @PathVariable("mementoId") Long mementoId,
             @RequestBody(required = false) Memento mementoUpdate) {
         String mementoMessage = mementoUpdate.getMementoMessage();
-        LocalDate alarmDate = mementoUpdate.getAlarmDate();
+        Date alarmDate = mementoUpdate.getAlarmDate();
         mementoService.updateMementoDetails(mementoId, mementoMessage, alarmDate);
-
+        return List.of("Memento updated");
     }
 }

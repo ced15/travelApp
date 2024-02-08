@@ -13,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -37,24 +38,24 @@ public class TripConfig implements CommandLineRunner, Ordered {
         Trip trip = new Trip(
                 userRepository.findUserById(1L),
                 Set.of(location1, location2),
-                LocalDate.now(),
-                LocalDate.now().plusDays(7),
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(7)),
                 "Road trip",
                 Set.of(memento1, memento2)
         );
         Trip trip1 = new Trip(
                 userRepository.findUserById(2L),
                 Set.of(location1, location2),
-                LocalDate.now(),
-                LocalDate.now().plusDays(7),
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(7)),
                 "Vacanta de vara",
                 Set.of(memento1, memento2)
         );
         Trip trip2 = new Trip(
                 userRepository.findUserById(3L),
                 Set.of(location1, location2),
-                LocalDate.now(),
-                LocalDate.now().plusDays(7),
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(7)),
                 "Vacanta de vara",
                 Set.of(memento1, memento2)
         );

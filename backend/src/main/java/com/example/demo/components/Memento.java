@@ -8,10 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Builder
 @NoArgsConstructor
@@ -24,12 +21,12 @@ public class Memento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String mementoMessage;
-    private LocalDate alarmDate;
+    private Date alarmDate;
     @JsonIgnore
     @ManyToMany(mappedBy = "mementos", fetch = FetchType.EAGER)
     Set<Trip> trips = new HashSet<>();
 
-    public Memento(String mementoMessage, LocalDate alarmDate) {
+    public Memento(String mementoMessage, Date alarmDate) {
         this.mementoMessage = mementoMessage;
         this.alarmDate = alarmDate;
     }

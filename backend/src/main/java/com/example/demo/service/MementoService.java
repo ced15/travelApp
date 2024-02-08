@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,23 +53,11 @@ public class MementoService {
 
     //tested
     @Transactional
-    public void updateMementoDetails(Long mementoId, String mementoMessage, LocalDate alarmDate) {
+    public void updateMementoDetails(Long mementoId, String mementoMessage, Date alarmDate) {
         Memento memento = mementoRepository.findMementoById(mementoId)
                 .orElseThrow(() -> new IllegalStateException("Location with ID " + mementoId + " does not exist"));
-        String existingMementoMessage = memento.getMementoMessage();
-        LocalDate existingAlarmDate = memento.getAlarmDate();
-
-        if (mementoMessage != null) {
             memento.setMementoMessage(mementoMessage);
-        } else {
-            memento.setMementoMessage(existingMementoMessage);
-        }
-
-        if (alarmDate != null) {
             memento.setAlarmDate(alarmDate);
-        } else {
-            memento.setAlarmDate(existingAlarmDate);
-        }
 
         mementoRepository.save(memento);
     }

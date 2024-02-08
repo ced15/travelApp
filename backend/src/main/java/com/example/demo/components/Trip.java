@@ -31,8 +31,8 @@ public class Trip {
             inverseJoinColumns = @JoinColumn(name = "location_id")
     )
     private Set<Location> locationList = new LinkedHashSet<>();
-    private LocalDate departureDate;
-    private LocalDate arrivalHomeDate;
+    private Date departureDate;
+    private Date arrivalHomeDate;
     private String event;
 //    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -43,7 +43,7 @@ public class Trip {
     )
     private Set<Memento> mementos = new HashSet<>();
 
-    public Trip(User user, Set<Location> locationList, LocalDate departureDate, LocalDate arrivalHomeDate, String event, Set<Memento> mementos) {
+    public Trip(User user, Set<Location> locationList, Date departureDate, Date arrivalHomeDate, String event, Set<Memento> mementos) {
         this.user = user;
         this.locationList = locationList;
         this.departureDate = departureDate;
