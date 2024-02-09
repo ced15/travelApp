@@ -33,6 +33,7 @@ public class LocationService {
     //tested
     public void deleteLocation(Long locationId) {
         locationRepository.deleteById(locationId);
+       locationRepository.deleteById(locationId);
     }
 
     //tested

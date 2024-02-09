@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,21 +103,7 @@ public class TripService {
 //    }
 
     //tested
-    @Transactional
-    public void editDatesForTrip(Long tripId, LocalDate departureDate, LocalDate arrivalHomeDate) {
-        Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        if (!arrivalHomeDate.equals(trip.getArrivalHomeDate())
-                && arrivalHomeDate.isAfter(trip.getDepartureDate())) {
-            trip.setArrivalHomeDate(arrivalHomeDate);
-            tripRepository.save(trip);
-        }
-        if (!departureDate.equals(trip.getDepartureDate())
-                && departureDate.isBefore(trip.getArrivalHomeDate())) {
-            trip.setDepartureDate(departureDate);
-            tripRepository.save(trip);
-        }
-    }
+
 
     @Transactional
     public Trip addMementoToTrip(Long memento_id, Trip trip) {
@@ -125,4 +112,6 @@ public class TripService {
         System.out.println(trip);
         return trip;
     }
+
+
 }

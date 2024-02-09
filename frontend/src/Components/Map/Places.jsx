@@ -12,9 +12,9 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import "./Map.css";
+import { useState } from "react";
 
 export default function Places({ setLocation }) {
-
   const {
     ready,
     value,
@@ -31,13 +31,8 @@ export default function Places({ setLocation }) {
     const details = await getDetails({ placeId: results[0].place_id });
     const locationName = details?.name || "Unknown Location";
     const address = details?.formatted_address || "Address not available";
-    setLocation(
-      { lat, 
-        lng, 
-        name: locationName,
-        address, 
-      }
-      );
+    const photo = `https://maps.googleapis.com/maps/api/streetview?size=400x200&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyDAzO1GRps6khktdBtkUREf_xqUv4vGfyE`
+    setLocation({ lat, lng, name: locationName, address, photo });
   };
 
   return (
@@ -49,7 +44,7 @@ export default function Places({ setLocation }) {
           disabled={!ready}
           className="w-full p-2 text-black"
           placeholder="Search"
-        />      
+        />
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
@@ -59,6 +54,6 @@ export default function Places({ setLocation }) {
           </ComboboxList>
         </ComboboxPopover>
       </Combobox>
-     </div>
+    </div>
   );
 }
