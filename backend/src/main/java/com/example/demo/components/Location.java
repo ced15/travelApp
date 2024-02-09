@@ -28,6 +28,8 @@ public class Location {
 
     private String notes;
 
+    private String photo;
+
     @JsonIgnore
     @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<PinPoint> pinPoints = new HashSet<>();

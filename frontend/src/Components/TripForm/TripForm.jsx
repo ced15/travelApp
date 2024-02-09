@@ -41,7 +41,6 @@ const TripForm = ({ locations, updateLocations }) => {
     }
   }, [errorMessage]);
 
-  
   const displayError = (e) => {
     e.preventDefault();
     setTimeout(() => {
@@ -55,8 +54,8 @@ const TripForm = ({ locations, updateLocations }) => {
   const handleAddMemento = async (e) => {
     e.preventDefault();
     trip.mementos = [...trip.mementos, memento];
-    console.log(trip.mementos)
-    console.log(trip.locationList)
+    console.log(trip.mementos);
+    console.log(trip.locationList);
     if (memento.alarmDate != null) {
       await fetch(`http://localhost:8080/memento/${memento.id}`, {
         method: "PUT",
@@ -68,8 +67,7 @@ const TripForm = ({ locations, updateLocations }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
-          // setMemento({ ...memento, id: data.id });
+          console.log(data);
           setMemento({ mementoMessage: "" });
           console.log("You added your memento successfully");
         })
@@ -110,8 +108,8 @@ const TripForm = ({ locations, updateLocations }) => {
   const onSaveTrip = (e) => {
     e.preventDefault();
     trip.locationList = locations;
-    console.log(trip)
-  
+    console.log(trip);
+
     if (
       trip.name == "" ||
       trip.mementos.length == 0 ||
@@ -165,16 +163,15 @@ const TripForm = ({ locations, updateLocations }) => {
         updateLocations(previousLocations);
       });
   };
-  
+
   const onClickMemento = (selectedMemento) => {
     setMemento({
       ...memento,
       mementoMessage: selectedMemento.mementoMessage,
-      id: selectedMemento.id
-      // update other properties of memento as needed
+      id: selectedMemento.id,
     });
     setMementoDropDown(false);
-  }
+  };
 
   if (loading) {
     return <Loading />;
@@ -193,9 +190,7 @@ const TripForm = ({ locations, updateLocations }) => {
                 <label>Trip Name</label>
                 <input
                   type="text"
-                  name="full_name"
-                  id="full_name"
-                  className="h-10 border mt-1 rounded px-2 w-full bg-gray-50"
+                  className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
                   value={trip.event}
                   placeholder="Add your Trip name"
                   onChange={(e) => handleInputChange("event", e.target.value)}
@@ -205,54 +200,71 @@ const TripForm = ({ locations, updateLocations }) => {
               <div className="md:col-span-6">
                 <label>
                   Locations
-                  <ul>
-                    {locations.map((location, index) => (
-                      <li key={index}>
-                        {location.locationName}
-                        <button
-                          className="pl-4"
-                          onClick={(e) => handleDeleteLocation(e, location.id)}
+                  <div className="bg-white shadow-lg rounded-lg overflow-hidden pt-2">
+                    <ul className="divide-y divide-gray-200">
+                      {locations.map((location, index) => (                      
+                        <li
+                          className="flex justify-between items-center user-card"
+                          key={index}
                         >
-                          X
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                          <div className="flex items-center pl-2">
+                            {<img
+                              className="w-7 h-7 rounded-full"
+                              src={location.photo}
+                              alt="Christy"
+                            />}
+                            <span className="ml-3 font-medium">
+                              {location.locationName}
+                            </span>
+                          </div>
+                          <div>
+                            <button
+                              type="button"
+                              className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                              onClick={(e) =>
+                                handleDeleteLocation(e, location.id)
+                              }
+                            >
+                              <span className="sr-only">Close menu</span>
+                              <svg
+                                className="h-6 w-6"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </label>
-                {/* <input type="text" name="email" id="email" className="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="Add your locations" /> */}
               </div>
 
               <div className="md:col-span-4">
                 <label>Memento</label>
 
                 <div className="max-w-md mx-auto">
-                  <div className="relative">
-                    <div className="h-10 bg-white flex border border-gray-200 rounded items-center">
+                  <div className="relative pt-1">
+                    <div className="h-6 bg-gray-50 flex border border-gray-200 rounded items-center">
                       <input
                         value={memento.mementoMessage}
                         readOnly
                         placeholder="Select your memento"
-                        className="px-4 appearance-none outline-none text-gray-800 w-full"
+                        className="px-2 appearance-none outline-none text-gray-800 w-full bg-gray-50"
                         checked
                       />
 
-                      {/* <button className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600">
-                          <svg
-                            className="w-4 h-4 mx-2 fill-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                          </svg>
-                        </button> */}
-                      <label
-                        className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600"
-                      >
+                      <label className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
                         <svg
                           className="w-4 h-4 mx-2 fill-current"
                           xmlns="http://www.w3.org/2000/svg"
@@ -268,7 +280,6 @@ const TripForm = ({ locations, updateLocations }) => {
                           }
                         >
                           <polyline points="18 15 12 9 6 15"></polyline>
-                          
                         </svg>
                       </label>
                     </div>
@@ -281,65 +292,33 @@ const TripForm = ({ locations, updateLocations }) => {
                       checked
                       readOnly
                     />
-                    {mementoDropDown &&
-                    <div className="absolute rounded shadow bg-white overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200">                      
+                    {mementoDropDown && (
+                      <div className="absolute rounded shadow bg-gray-50 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200 z-10">
                         {allMementos.map((memento) => (
-                          <div 
-                          key={memento.id}
-                          className="cursor-pointer group z-10">
-                            <div className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 z-10"
-                            onClick={() => onClickMemento(memento)}
-                            >                            
+                          <div
+                            key={memento.id}
+                            className="cursor-pointer group z-10"
+                          >
+                            <div
+                              className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100 z-10"
+                              onClick={() => onClickMemento(memento)}
+                            >
                               {memento.mementoMessage}
                             </div>
                           </div>
                         ))}
-
-                      {/* <div className="cursor-pointer group">
-                          <a className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
-                            Python
-                          </a>
-                        </div>
-                        <div className="cursor-pointer group border-t">
-                          <a className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 border-blue-600 group-hover:bg-gray-100">
-                            Javascript
-                          </a>
-                        </div>
-                        <div className="cursor-pointer group border-t">
-                          <a className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
-                            Node
-                          </a>
-                        </div>
-                        <div className="cursor-pointer group border-t">
-                          <a className="block p-2 border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
-                            PHP
-                          </a>
-                        </div> */}
-                    </div>}
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  className={`${
-                    isActive
-                      ? "text-red-500 h-6 border mt-1 rounded px-2 w-full bg-gray-50"
-                      : "h-6 border mt-1 rounded px-2 w-full bg-gray-50"
-                  }`}
-                  value={memento.mementoMessage}
-                  placeholder="Add your memento"
-                  onInput={(e) =>
-                    setMemento({ mementoMessage: e.target.value })
-                  }
-                /> */}
                 <button
                   onClick={
                     memento.mementoMessage != ""
                       ? handleAddMemento
                       : displayError
                   }
+                  className="pt-1"
                 >
                   Add memento
                 </button>
@@ -349,7 +328,7 @@ const TripForm = ({ locations, updateLocations }) => {
                 <label>
                   Alarm Date
                   <DatePicker
-                    className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-0"
+                    className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-10"
                     selected={memento.alarmDate}
                     value={memento.alarmDate}
                     onSelect={handleMementoDateChange}
@@ -358,7 +337,6 @@ const TripForm = ({ locations, updateLocations }) => {
                     minDate={new Date()}
                   />
                 </label>
-                {/* <textarea type="text" name="address" id="address" className="h-16 pt-2 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="Add your alarm date" /> */}
               </div>
 
               <div className="md:col-span-3">
@@ -396,9 +374,9 @@ const TripForm = ({ locations, updateLocations }) => {
                 </h1>
               )}
               <div className="md:col-span-6 text-right">
-                <div className="inline-flex items-end">
+                <div className="inline-flex items-end pt-4">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                    className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded-md"
                     onClick={onSaveTrip}
                   >
                     Save Trip

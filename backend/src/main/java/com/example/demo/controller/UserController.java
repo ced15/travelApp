@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.authentication.ChangePasswordRequest;
+import com.example.demo.components.Trip;
 import com.example.demo.components.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.security.PublicKey;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +27,11 @@ public class UserController {
         userService.changePassword(request, connectedUser);
         return ResponseEntity.ok().build();
     }
-
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping(path = "/getTrips/{id}")
+    public Set<Trip> getTripsByUser(@PathVariable("id") Long id){
+        return userService.getUserTrips(id);
+    }
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllUsers")

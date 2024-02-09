@@ -30,6 +30,7 @@ const Map = () => {
     visited: false,
     notes: "",
     pinPoints: null,
+    photo: null,
   });
   const [locations, setLocations] = useState([]);
   const [location, setLocation] = useState();
@@ -61,8 +62,8 @@ const Map = () => {
         .then((data) => {
           console.log(data);
           setLocations((prevLocation) => [...prevLocation, data]);
-          // trip.locationList.push(data);
           setLocationObject({ ...locationObject, id: data.id });
+          console.log(locationObject);
           console.log("You added your location successfully");
         })
         .catch((error) => {
@@ -98,16 +99,14 @@ const Map = () => {
         >
           {location && <Marker key="0" icon={image.url} position={location} />}
           <div className="p-4 text-black absolute pt-16">
-            <h1 className="font-semibold italic pb-2">
-              {" "}
-              Search for a location{" "}
-            </h1>
+            <h1 className="font-semibold italic pb-2">Search for a location</h1>
             <Places
               setLocation={(position) => {
                 setLocation(position);
                 setLocationObject({
                   locationName: position.name,
                   locationAddress: position.address,
+                  photo: position.photo,
                 });
                 mapRef.current?.panTo(position);
               }}

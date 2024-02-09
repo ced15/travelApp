@@ -13,10 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +46,10 @@ public class UserService {
     //tested
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public Set<Trip> getUserTrips(Long id){
+        return userRepository.findUserById(id).getTrips();
     }
 
     //tested
