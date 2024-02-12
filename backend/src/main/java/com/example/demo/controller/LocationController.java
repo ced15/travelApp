@@ -37,7 +37,6 @@ public class LocationController {
     public List<String> deleteLocation(@PathVariable("locationId") Long locationId) {
         locationService.deleteLocation(locationId);
         return List.of("Location deleted");
-        return List.of("Location Deleted");
     }
 
     //tested

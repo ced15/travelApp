@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -112,6 +109,4 @@ public class TripService {
         System.out.println(trip);
         return trip;
     }
-
-
 }
