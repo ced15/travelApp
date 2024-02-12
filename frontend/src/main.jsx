@@ -12,6 +12,7 @@ import Mementos from "./Components/Mementos/Mementos";
 import Wishlist from "./Components/Wishlist/Wishlist";
 import Discover from "./Components/Discover/Discover";
 import Header from "./Components/Homepage/Header/Header";
+import MementoForm from "./Components/Mementos/MementoForm";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -44,6 +45,15 @@ root.render(
           <React.Fragment>
             <Header />
             <Mementos />
+          </React.Fragment>
+        }
+      />
+      <Route
+        path="/createMemento"
+        element={
+          <React.Fragment>
+            <Header />
+            <MementoForm />
           </React.Fragment>
         }
       />

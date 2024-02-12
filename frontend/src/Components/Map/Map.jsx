@@ -20,6 +20,7 @@ import TripForm from "../TripForm/TripForm";
 
 const Map = () => {
   const navigate = useNavigate();
+  
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
