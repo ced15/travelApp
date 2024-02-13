@@ -4,7 +4,8 @@ const state = {
     token: atom(""),
     loggedUser: atom({}),
     isUserLogged: atom(false),
-    allMementos: atom([])
+    allMementos: atom([]),
+    counter: atom(1)
 }
 
 export default state

@@ -54,8 +54,6 @@ const TripForm = ({ locations, updateLocations }) => {
   const handleAddMemento = async (e) => {
     e.preventDefault();
     trip.mementos = [...trip.mementos, memento];
-    console.log(trip.mementos);
-    console.log(trip.locationList);
     if (memento.alarmDate != null) {
       await fetch(`http://localhost:8080/memento/${memento.id}`, {
         method: "PUT",
@@ -69,7 +67,7 @@ const TripForm = ({ locations, updateLocations }) => {
         .then((data) => {
           console.log(data);
           setMemento({ mementoMessage: "" });
-          console.log("You added your memento successfully");
+          console.log("You updated your memento successfully");
         })
         .catch((error) => {
           console.log(`Failed to create memento! ${error.message}`);
