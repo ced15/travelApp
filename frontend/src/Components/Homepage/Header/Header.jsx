@@ -15,6 +15,7 @@ const Header = () => {
     e.preventDefault();
     localStorage.removeItem("token");
     setIsUserLogged(false);
+    navigate("/logIn")
   };
 
   return (
@@ -71,32 +72,37 @@ const Header = () => {
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
-                          <div
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm cursor-pointer"
-                            )}
-                          >
-                            <Link to="/accountSettings">Account settings</Link>
-                          </div>
-                        )}
-                      </Menu.Item>
-                      <form method="POST" action="#">
-                        <Menu.Item>
-                          {({ active }) => (
+                          <Link to="/accountSettings">
                             <div
-                              onClick={handleLogout}
                               className={classNames(
                                 active
                                   ? "bg-gray-100 text-gray-900"
                                   : "text-gray-700",
-                                "block w-full px-4 py-2 text-left text-sm cursor-pointer"
+                                "block px-4 py-2 text-sm cursor-pointer"
                               )}
                             >
-                              Sign out
+                              Account settings
                             </div>
+                          </Link>
+                        )}
+                      </Menu.Item>
+
+                      <form method="POST" action="#">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link to="/logIn">
+                              <div
+                                onClick={handleLogout}
+                                className={classNames(
+                                  active
+                                    ? "bg-gray-100 text-gray-900"
+                                    : "text-gray-700",
+                                  "block w-full px-4 py-2 text-left text-sm cursor-pointer"
+                                )}
+                              >
+                                Sign out
+                              </div>
+                            </Link>
                           )}
                         </Menu.Item>
                       </form>
