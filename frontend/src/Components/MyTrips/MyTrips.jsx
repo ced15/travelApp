@@ -10,6 +10,7 @@ const MyTrips = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    if(loggedUser.id) {
     setLoading(true);
     fetch(`http://localhost:8080/account/getTrips/${loggedUser.id}`, {
       method: "GET",
@@ -27,7 +28,8 @@ const MyTrips = () => {
       .catch((error) => {
         console.log(`Failed to create trip! ${error.message}`);
       });
-  }, []);
+    }
+  }, [loggedUser]);
 
   return (
     <>

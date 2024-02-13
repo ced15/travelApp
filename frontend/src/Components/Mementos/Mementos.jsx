@@ -7,10 +7,10 @@ import { useState } from "react";
 const Mementos = () => {
   const navigate = useNavigate();
   const [allMementos, setAllMementos] = useAtom(state.allMementos);
-  const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigateToCreateMemento = (event) => {
-
     setShowForm(true)
   };
 
@@ -26,7 +26,7 @@ const Mementos = () => {
             <div className="flex-shrink-0 m-6 relative overflow-hidden bg-cyan-600 rounded-lg max-w-xs shadow-lg">
               <div
                 onClick={navigateToCreateMemento}
-                className="relative flex items-center justify-center"
+                className="relative flex items-center justify-center cursor-pointer"
               >
                 <div className="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3"></div>
                 <svg
