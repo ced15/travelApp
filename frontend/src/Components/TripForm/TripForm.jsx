@@ -178,6 +178,12 @@ const TripForm = ({ locations, updateLocations }) => {
   }
 
   return (
+    <>
+    {loading ? (
+        <div className="flex items-center justify-center h-screen">
+          <Loading />
+        </div>
+      ) : (
     <div className="absolute z-10 max-w-screen-sm pr-8">
       <div>
         <div className="bg-white rounded-lg shadow-lg p-4 px-4 md:p-8 mb-6 h-full">
@@ -388,6 +394,8 @@ const TripForm = ({ locations, updateLocations }) => {
         </div>
       </div>
     </div>
+    )}
+    </>
   );
 };
 export default TripForm;
