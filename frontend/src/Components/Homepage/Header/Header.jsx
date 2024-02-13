@@ -79,7 +79,7 @@ const Header = () => {
                               "block px-4 py-2 text-sm cursor-pointer"
                             )}
                           >
-                            Account settings
+                            <Link to="/accountSettings">Account settings</Link>
                           </div>
                         )}
                       </Menu.Item>

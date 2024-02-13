@@ -13,6 +13,7 @@ import Wishlist from "./Components/Wishlist/Wishlist";
 import Discover from "./Components/Discover/Discover";
 import Header from "./Components/Homepage/Header/Header";
 import MementoForm from "./Components/Mementos/MementoForm";
+import AccountSettings from "./Components/Homepage/Header/AccountSettings";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -30,6 +31,16 @@ root.render(
       <Route path="/logIn" element={<LogIn />} />
       <Route path="/loading" element={<Loading />} />
       <Route path="/signUp" element={<SignUp />} />
+
+      <Route
+        path="/accountSettings"
+        element={
+          <React.Fragment>
+            <Header />
+            <AccountSettings />
+          </React.Fragment>
+        }
+      />
       <Route
         path="/myTrips"
         element={
