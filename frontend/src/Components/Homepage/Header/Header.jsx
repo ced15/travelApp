@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <header className="fixed z-10 w-full">
-      <nav className="bg-white border-gray-200 px-4 py-2.5 dark:bg-gray-800">
+      <nav className="bg-gray-300 border-gray-200 px-4 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between mx-auto">
           <a href="/" className="flex items-center">
             <img
@@ -47,7 +47,7 @@ const Header = () => {
                 </a>
               </>
             ) : (
-              <Menu as="div" className="relative inline-block text-left">
+              <Menu as="div" className="relative inline-block">
                 <div>
                   <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     Hello {loggedUser.first_name}
@@ -108,7 +108,7 @@ const Header = () => {
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
-              className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="mobile-menu-2"
               aria-expanded="false"
             >
@@ -140,10 +140,10 @@ const Header = () => {
             </button>
           </div>
           <div
-            className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+            className="hidden justify-between items-center w-full xl:flex xl:w-auto xl:order-1"
             id="mobile-menu-2"
           >
-            <ul className="flex flex-col mt-4 font-mediuml lg:flex-row lg:space-x-8 xl:space-x-20 lg:mt-0">
+            <ul className="flex flex-col mt-4 font-mediuml lg:flex-row lg:space-x-4 xl:space-x-14 lg:mt-0">
               <li className="">
                 <div
                   className="flex py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0 dark:text-white"

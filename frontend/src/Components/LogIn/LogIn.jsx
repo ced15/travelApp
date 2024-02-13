@@ -12,7 +12,6 @@ const LogIn = () => {
   const [loading, setLoading] = useState(false);
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
-
   const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
     password: "123456",
