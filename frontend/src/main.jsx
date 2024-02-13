@@ -70,7 +70,6 @@ const Main = () => {
             }
 
             setLoggedUser(userData.data);
-            // setIsUserLogged(true);
             console.log(userData.data);
           } else {
             console.error("No user found for the given token.");
@@ -78,7 +77,7 @@ const Main = () => {
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
-      } 
+      }
     };
     fetchUserData();
   }, [setLoggedUser]);
@@ -93,8 +92,6 @@ const Main = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/logIn" element={<LogIn />} />
-        <Route path="/signUp" element={<SignUp />} />
         <Route
           path="/"
           element={
@@ -104,7 +101,19 @@ const Main = () => {
             </React.Fragment>
           }
         />
+        <Route path="/logIn" element={<LogIn />} />
         <Route path="/loading" element={<Loading />} />
+        <Route path="/signUp" element={<SignUp />} />
+
+        <Route
+          path="/accountSettings"
+          element={
+            <React.Fragment>
+              <Header />
+              <AccountSettings />
+            </React.Fragment>
+          }
+        />
         <Route
           path="/myTrips"
           element={
@@ -155,79 +164,6 @@ const Main = () => {
   );
 };
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <React.Fragment>
-            <Header />
-            <Homepage />
-          </React.Fragment>
-        }
-      />
-      <Route path="/logIn" element={<LogIn />} />
-      <Route path="/loading" element={<Loading />} />
-      <Route path="/signUp" element={<SignUp />} />
-
-      <Route
-        path="/accountSettings"
-        element={
-          <React.Fragment>
-            <Header />
-            <AccountSettings />
-          </React.Fragment>
-        }
-      />
-      <Route
-        path="/myTrips"
-        element={
-          <React.Fragment>
-            <Header />
-            <MyTrips />
-          </React.Fragment>
-        }
-      />
-      <Route
-        path="/mementos"
-        element={
-          <React.Fragment>
-            <Header />
-            <Mementos />
-          </React.Fragment>
-        }
-      />
-      <Route
-        path="/createMemento"
-        element={
-          <React.Fragment>
-            <Header />
-            <MementoForm />
-          </React.Fragment>
-        }
-      />
-      <Route
-        path="/wishlist"
-        element={
-          <React.Fragment>
-            <Header />
-            <Wishlist />
-          </React.Fragment>
-        }
-      />
-      <Route
-        path="/discover"
-        element={
-          <React.Fragment>
-            <Header />
-            <Discover />
-          </React.Fragment>
-        }
-      />
-    </Routes>
-  </BrowserRouter>
-);
 
 root.render(<Main />);
 reportWebVitals();
