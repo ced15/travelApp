@@ -17,14 +17,17 @@ import supabase from "../../supabase";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 import TripForm from "../TripForm/TripForm";
+import UpdateTripForm from "../UpdateTripForm/UpdateTripForm";
 
 const Map = () => {
   const navigate = useNavigate();
   
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
   const [locationObject, setLocationObject] = useState({
     id: "",
     locationName: "",
@@ -50,6 +53,10 @@ const Map = () => {
   const image = {
     url: "/images/pin_raccoon_1_17.png",
   };
+
+  useEffect(() => {
+    console.log(showFormAndTrip)
+  },[])
 
   const handleAddLocation = async () => {
     if (location != null) {
@@ -91,6 +98,9 @@ const Map = () => {
       {isFormVisible && (
         <TripForm locations={locations} updateLocations={updateLocations} />
       )}
+      {showFormAndTrip.state && (
+        <UpdateTripForm showFormAndTrip={showFormAndTrip} setShowFormAndTrip={setShowFormAndTrip}/>
+      )}
       <div className="h-screen w-full">
         <GoogleMap
           zoom={15}
@@ -115,9 +125,9 @@ const Map = () => {
             />
             <button
               className="flex flex-row items-center rounded-xl bg-black-100 py-3 text-base font-medium text-navy-700"
-              onClick={isFormVisible ? handleAddLocation : handleCreateTrip}
+              onClick={isFormVisible || showFormAndTrip.state ? handleAddLocation : handleCreateTrip}
             >
-              {isFormVisible ? "Add Location" : "Create Trip"}
+              {isFormVisible || showFormAndTrip.state ? "Add Location" : "Create Trip"}
             </button>
           </div>
         </GoogleMap>

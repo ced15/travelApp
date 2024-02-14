@@ -18,6 +18,7 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 import supabase from "./supabase";
 import state from "./Components/Atom/Atom";
+import UpdateTripForm from "./Components/UpdateTripForm/UpdateTripForm";
 
 const Main = () => {
   const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
@@ -100,8 +101,7 @@ const Main = () => {
               <Homepage />
             </React.Fragment>
           }
-        />
-        <Route path="/logIn" element={<LogIn />} />
+        />        
         <Route path="/loading" element={<Loading />} />
         <Route path="/signUp" element={<SignUp />} />
 
@@ -120,6 +120,15 @@ const Main = () => {
             <React.Fragment>
               <Header />
               <MyTrips />
+            </React.Fragment>
+          }
+        />
+        <Route
+          path="/myTrips/updateTripForm"
+          element={
+            <React.Fragment>
+              <Header />
+              <UpdateTripForm />
             </React.Fragment>
           }
         />
