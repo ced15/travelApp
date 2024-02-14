@@ -8,19 +8,33 @@ export default function UpdateTripForm({ showFormAndTrip, setShowFormAndTrip }) 
     console.log(showFormAndTrip.trip.locationList)
   },[showFormAndTrip])
 
-  const handleDeleteLocation = (id) => {
-    // Filter out the location with the specified id from the locationList
+  const handleDeleteLocation = (e, id) => {
+    e.preventDefault();
     const updatedLocationList = showFormAndTrip.trip.locationList.filter(
       (location) => location.id !== id
     );
-  
-    // Update the state with the new locationList
+
     setShowFormAndTrip({
       ...showFormAndTrip,
       trip: {
         locationList: updatedLocationList,
       },
     });
+    
+    fetch(`http://localhost:8080/deleteLocationFromTrip/${showFormAndTrip.trip.id}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        console.log("You deleted your location successfully");    
+      })
+      .catch((error) => {
+        console.log(`Failed to delete location! ${error.message}`);
+      });
   };
 
   return (
@@ -61,8 +75,8 @@ export default function UpdateTripForm({ showFormAndTrip, setShowFormAndTrip }) 
                             <button
                               type="button"
                               className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                              onClick={() =>
-                                handleDeleteLocation(location.id)
+                              onClick={(e) =>
+                                handleDeleteLocation(e, location.id)
                               }
                             >
                               <span className="sr-only">Close menu</span>

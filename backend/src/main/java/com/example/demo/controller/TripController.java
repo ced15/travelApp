@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.components.Location;
 import com.example.demo.components.Memento;
 import com.example.demo.components.Trip;
+import com.example.demo.service.LocationService;
 import com.example.demo.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
+    private final LocationService locationService;
     //tested
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllTrips")
@@ -68,6 +70,7 @@ public class TripController {
             @PathVariable("tripId") Long tripId,
             @PathVariable("locationId") Long locationId) {
         tripService.removeLocationFromTrip(tripId, locationId);
+        locationService.deleteLocation(locationId);
         return ResponseEntity.ok("Location deleted from trip");
     }
 

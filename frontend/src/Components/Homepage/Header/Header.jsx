@@ -149,7 +149,7 @@ const Header = () => {
                   className="flex py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0 dark:text-white"
                   aria-current="page"
                 >
-                  <Link to="/">
+                  <a href="/" className="flex items-center">
                     <span className="font-bold text-2xl">H</span>
                     <img
                       src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
@@ -157,7 +157,7 @@ const Header = () => {
                       alt="Flowbite Logo"
                     />
                     <span className="font-bold text-2xl">ME</span>
-                  </Link>
+                  </a>
                 </div>
               </li>
               <li>

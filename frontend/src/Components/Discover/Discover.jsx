@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import info from "./info.json"
+import state from "../Atom/Atom";
+import { useAtom } from "jotai";
 
 const Discover = () => {
   const [articles, setArticles] = useState([]);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip);
+
+  useEffect(() => {
+    setShowFormAndTrip({state: false});
+  },[])
 
   useEffect(() => {
     setArticles(info);

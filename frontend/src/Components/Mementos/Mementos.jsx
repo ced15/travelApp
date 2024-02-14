@@ -2,13 +2,18 @@ import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
 import MementoForm from "./MementoForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Mementos = () => {
   const navigate = useNavigate();
   const [allMementos, setAllMementos] = useAtom(state.allMementos);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setShowFormAndTrip({state: false});
+  },[])
 
   const navigateToCreateMemento = (event) => {
     setShowForm(true)
