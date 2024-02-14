@@ -24,23 +24,23 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+        if (connectedUser != null && connectedUser instanceof UsernamePasswordAuthenticationToken) {
+            var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-
-        // check if the current password is correct
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalStateException("Wrong password");
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Connected user not found or invalid authentication token");
         }
-        // check if the two new passwords are the same
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-            throw new IllegalStateException("Password are not the same");
-        }
+//
+//        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+//            throw new IllegalStateException("Wrong password");
+//        }
+//        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+//            throw new IllegalStateException("Password are not the same");
+//        }
 
-        // update the password
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
-        // save the new password
-        userRepository.save(user);
     }
 
     //tested

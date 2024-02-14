@@ -13,6 +13,7 @@ import Wishlist from "./Components/Wishlist/Wishlist";
 import Discover from "./Components/Discover/Discover";
 import Header from "./Components/Homepage/Header/Header";
 import MementoForm from "./Components/Mementos/MementoForm";
+import AccountSettings from "./Components/Homepage/Header/AccountSettings";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import supabase from "./supabase";
@@ -70,7 +71,6 @@ const Main = () => {
             }
 
             setLoggedUser(userData.data);
-            // setIsUserLogged(true);
             console.log(userData.data);
           } else {
             console.error("No user found for the given token.");
@@ -78,7 +78,7 @@ const Main = () => {
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
-      } 
+      }
     };
     fetchUserData();
   }, [setLoggedUser]);
@@ -93,8 +93,6 @@ const Main = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/logIn" element={<LogIn />} />
-        <Route path="/signUp" element={<SignUp />} />
         <Route
           path="/"
           element={
@@ -105,6 +103,17 @@ const Main = () => {
           }
         />        
         <Route path="/loading" element={<Loading />} />
+        <Route path="/signUp" element={<SignUp />} />
+
+        <Route
+          path="/accountSettings"
+          element={
+            <React.Fragment>
+              <Header />
+              <AccountSettings />
+            </React.Fragment>
+          }
+        />
         <Route
           path="/myTrips"
           element={

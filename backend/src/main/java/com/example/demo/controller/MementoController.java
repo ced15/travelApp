@@ -13,19 +13,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path = "/memento")
 public class MementoController {
     private final MementoService mementoService;
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllMementos")
     public List<Memento> getMementos() {
         return mementoService.getMementos();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createMemento")
     public ResponseEntity<Memento> createMemento(@RequestBody Memento memento) {
         Memento newMemento = mementoService.addMemento(memento);
@@ -33,7 +32,6 @@ public class MementoController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "{mementoId}")
     public ResponseEntity<String> deleteMemento(@PathVariable("mementoId") Long mementoId) {
         mementoService.deleteMemento(mementoId);
@@ -41,7 +39,6 @@ public class MementoController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping(path = "{mementoId}")
     public List<String> updateMemento(
             @PathVariable("mementoId") Long mementoId,

@@ -5,6 +5,7 @@ import com.example.demo.components.Trip;
 import com.example.demo.components.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,32 +16,37 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173/**")
 @RequestMapping(path = "/account")
 public class UserController {
     private final UserService userService;
-
-    @PatchMapping
-    public ResponseEntity<?> changePassword(
+    @PatchMapping(path = "/changePassword")
+    public ResponseEntity<String> changePassword(
             @RequestBody ChangePasswordRequest request,
-            Principal connectedUser
+            Principal connectedUser,
+              @RequestHeader("Authorization") String authorizationHeader
     ) {
-        userService.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
+        System.out.println("Connected user: " + connectedUser);
+        try {
+            userService.changePassword(request, connectedUser);
+            return ResponseEntity.ok("Password was changed.");
+        } catch (Exception e) {
+            System.out.println("Error changing password:"+e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error changing password: " + e.getMessage());
+        }
     }
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getTrips/{id}")
     public Set<Trip> getTripsByUser(@PathVariable("id") Long id){
         return userService.getUserTrips(id);
     }
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllUsers")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createUser")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
         User newRegisterUser = userService.addUsers(user);
@@ -48,14 +54,12 @@ public class UserController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173/*")
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173/*")
     @PutMapping(path = "{userId}")
     public void updateUser(
             @PathVariable("userId") Long userId,
