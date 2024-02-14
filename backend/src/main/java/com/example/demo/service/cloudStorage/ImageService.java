@@ -19,9 +19,10 @@ import java.util.UUID;
 public class ImageService {
     @Autowired
     private ImageUrlRepository imageUrlRepository;
-    private final String BUCKET_NAME = "restaurant-mania"; // Replace with your bucket name
-    private final String CREDENTIALS_PATH = "el-proyecte-grande-sprint-1-java-ced15/backend/src/main/resources/genuine-cirrus-407109-a00df84b82eb.json"; // Replace with the actual path
-//    private final String CREDENTIALS_PATH = Paths.get("Backend/src/main/resources/linear-range-375117-a874aad140b4.json").toAbsolutePath().toString();
+    private final String BUCKET_NAME = "raccoon_media"; // Replace with your bucket name
+
+    private final String CREDENTIALS_PATH = "src\\main\\resources\\genuine-cirrus-407109-a00df84b82eb.json";
+
 
 
     private final Storage storage = StorageOptions.newBuilder()

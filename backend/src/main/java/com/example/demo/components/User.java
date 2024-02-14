@@ -1,6 +1,7 @@
 package com.example.demo.components;
 
 import com.example.demo.components.Trip;
+import com.example.demo.service.cloudStorage.Image;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,9 +43,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
-//    private String avatar;
+    @OneToOne
+    private Image avatar;
 
-    
+
     public User(String firstName, String lastName, String email, String password, Set<Trip> trips) {
         this.firstName = firstName;
         this.lastName = lastName;

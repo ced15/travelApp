@@ -101,7 +101,8 @@ const Main = () => {
               <Homepage />
             </React.Fragment>
           }
-        />        
+        />
+        <Route path="/logIn" element={<LogIn />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/signUp" element={<SignUp />} />
 

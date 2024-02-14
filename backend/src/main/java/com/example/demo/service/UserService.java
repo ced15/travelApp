@@ -6,6 +6,8 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.components.Trip;
 import com.example.demo.repository.TripRepository;
 import com.example.demo.components.User;
+import com.example.demo.service.cloudStorage.Image;
+import com.example.demo.service.cloudStorage.ImageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
+    private final ImageService imageService;
 
     private final PasswordEncoder passwordEncoder;
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -114,4 +117,12 @@ public class UserService {
     }
 
 
+    public void addImage(Long userId, Image imageObj) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user.getAvatar() != null && user.getAvatar().getImageUrl() != null){
+            String url = user.getAvatar().getImageUrl();
+            imageService.deleteImageByUrl(url);
+        }
+        userRepository.updateAvatarById(userId, imageObj);
+    }
 }
