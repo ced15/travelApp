@@ -42,8 +42,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
-    private String avatar;
+//    private String avatar;
 
+    
     public User(String firstName, String lastName, String email, String password, Set<Trip> trips) {
         this.firstName = firstName;
         this.lastName = lastName;

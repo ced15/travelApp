@@ -31,9 +31,6 @@ public class Location {
     private String photo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<PinPoint> pinPoints = new HashSet<>();
-    @JsonIgnore
     @ManyToMany(mappedBy = "locationList", fetch = FetchType.EAGER)
     private Set<Trip> trips = new HashSet<>();
 

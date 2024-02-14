@@ -14,18 +14,17 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path = "/trips")
 @RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping(path = "/getAllTrips")
     public List<Trip> getGetTrips(){return tripService.getTrips();
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/createTrip/{user_id}")
     public ResponseEntity<Trip> registerNewTrip(@PathVariable Long user_id, @RequestBody Trip trip){
         System.out.println(trip);
@@ -35,7 +34,6 @@ public class TripController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updateLocation/{tripId}")
     public void addLocationToTrip(
             @PathVariable("tripId") Long tripId,
@@ -44,7 +42,6 @@ public class TripController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(path = "/updateMemento/{mementoId}")
     public ResponseEntity<Trip> addMementoToTrip(
             @PathVariable Long mementoId,
@@ -54,7 +51,6 @@ public class TripController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteTrip/{tripId}")
     public ResponseEntity<String> deleteTrip(@PathVariable("tripId") Long tripId) {
         tripService.deleteTripById(tripId);
@@ -62,7 +58,6 @@ public class TripController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteLocationFromTrip/{tripId}/{locationId}")
     public ResponseEntity<String> deleteLocationFromTrip(
             @PathVariable("tripId") Long tripId,
@@ -72,7 +67,6 @@ public class TripController {
     }
 
     //tested
-    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping(path = "/deleteMementoFromTrip/{tripId}/{mementoId}")
     public ResponseEntity<String> deleteMementoFromTrip(
             @PathVariable("tripId") Long tripId,

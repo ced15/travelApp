@@ -4,6 +4,7 @@ import state from "../../Atom/Atom";
 import { useState } from "react";
 import supabase from "../../../supabase";
 
+
 const AccountSettings = () => {
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -13,8 +14,19 @@ const AccountSettings = () => {
 
   const handlePatchRequest = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
+      const fileInput = document.getElementById("file");
+      const file = fileInput.files[0];
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .upload(`avatars/${file.name}`, file);
 
+      if (error) {
+        console.error("Error uploading avatar:", error.message);
+        return;
+      }
+
+      const avatarUrl = data[0].url;
 
     try {
       const response = await fetch(
@@ -118,6 +130,8 @@ const AccountSettings = () => {
           </div>
           <h1 className="mb-2 font-bold text-lg text-gray-900">Avatar</h1>
           <div className="inline-flex  mb-4">
+            <br></br>
+
             <input
               className="border py-2 px-3 text-grey-800"
               type="file"
