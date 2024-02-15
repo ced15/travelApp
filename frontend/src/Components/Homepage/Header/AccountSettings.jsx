@@ -9,13 +9,12 @@ const AccountSettings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmationPassword, setConfirmationPassword] = useState("");
-  const [avatar, setAvatar] = useAtom(state.avatar)
-  const inputRef = useRef(null)
+  const [avatar, setAvatar] = useAtom(state.avatar);
+  const inputRef = useRef(null);
 
   function handleImageChange(e) {
-    e.preventDefault(e)
+    e.preventDefault(e);
     const file = inputRef.current.files[0];
-    console.log(file);
     if (!file) return;
     const formData = new FormData();
     formData.append("image", file);
@@ -28,7 +27,6 @@ const AccountSettings = () => {
       body: formData,
     })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((data) => {
@@ -79,6 +77,7 @@ const AccountSettings = () => {
         <h1 className="block w-full text-center text-gray-800 text-2xl font-bold mb-6">
           Account Settings
         </h1>
+
         <form action="/" method="post">
           <div className="flex flex-col mb-4">
             <label className="mb-2 font-bold text-lg text-gray-900">
