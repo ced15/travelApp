@@ -17,7 +17,7 @@ const Header = () => {
     e.preventDefault();
     localStorage.removeItem("token");
     setIsUserLogged(false);
-    navigate("/logIn")
+    navigate("/")
   };
 
   return (
@@ -37,7 +37,7 @@ const Header = () => {
             {!isUserLogged ? (
               <>
                 <a
-                  href="/logIn"
+                  href="/"
                   className="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
                 >
                   Log in
@@ -97,7 +97,6 @@ const Header = () => {
                       <form method="POST" action="#">
                         <Menu.Item>
                           {({ active }) => (
-                            <Link to="/logIn">
                               <div
                                 onClick={handleLogout}
                                 className={classNames(
@@ -109,7 +108,6 @@ const Header = () => {
                               >
                                 Sign out
                               </div>
-                            </Link>
                           )}
                         </Menu.Item>
                       </form>
@@ -162,7 +160,7 @@ const Header = () => {
                   className="flex py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0 dark:text-white"
                   aria-current="page"
                 >
-                  <Link to="/">
+                  <a href="/homepage" className="flex items-center">
                     <span className="font-bold text-2xl">H</span>
                     <img
                       src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
@@ -170,7 +168,7 @@ const Header = () => {
                       alt="Flowbite Logo"
                     />
                     <span className="font-bold text-2xl">ME</span>
-                  </Link>
+                  </a>
                 </div>
               </li>
               <li>

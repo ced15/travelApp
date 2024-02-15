@@ -72,7 +72,7 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="pt-20 flex truncate overflow-hidden justify-center items-center bg-cover bg-no-repeat bg-fixed bg-green-400">
+    <div className="pt-20 flex truncate overflow-hidden justify-center items-center min-h-screen bg-cover bg-no-repeat bg-fixed bg-green-400">
       <div className="w-1/2 bg-white rounded shadow-2xl p-4 m-4">
         <h1 className="block w-full text-center text-gray-800 text-2xl font-bold mb-6">
           Account Settings

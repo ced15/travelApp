@@ -13,6 +13,10 @@ const MyTrips = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    setShowFormAndTrip({state: false});
+  },[])
+
+  useEffect(() => {
     if (loggedUser.id) {
       setLoading(true);
       fetch(`http://localhost:8080/account/getTrips/${loggedUser.id}`, {
@@ -88,7 +92,7 @@ const MyTrips = () => {
                 data-ripple-light="true"
                 onClick={() => setShowFormAndTrip({state: true, trip: trip})}
               >
-                <Link to="/">
+                <Link to="/homepage">
                   Edit Trip
                 </Link>
               </button>

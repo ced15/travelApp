@@ -93,18 +93,9 @@ const Main = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <React.Fragment>
-              <Header />
-              <Homepage />
-            </React.Fragment>
-          }
-        />
-        <Route path="/logIn" element={<LogIn />} />
+        <Route path="/" element={<LogIn />} />
+        <Route path="/signUp" element={<SignUp />} />     
         <Route path="/loading" element={<Loading />} />
-        <Route path="/signUp" element={<SignUp />} />
 
         <Route
           path="/accountSettings"
@@ -166,6 +157,15 @@ const Main = () => {
             <React.Fragment>
               <Header />
               <Discover />
+            </React.Fragment>
+          }
+        />
+        <Route
+          path="/homepage"
+          element={
+            <React.Fragment>
+              <Header />
+              <Homepage />
             </React.Fragment>
           }
         />

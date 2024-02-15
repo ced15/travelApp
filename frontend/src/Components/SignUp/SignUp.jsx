@@ -125,7 +125,7 @@ const SignUp = () => {
 
         fetchUserData();
         setIsUserLogged(true);
-        navigate("/");
+        navigate("/homepage");
       })
       .catch((error) => {
         console.log(`Registration failed! ${error.message}`);
@@ -195,7 +195,7 @@ const SignUp = () => {
           Sign-Up
         </button>
         <div className="text-center text-white hover:underline cursor-pointer">
-          <Link to="/logIn">Do you have an account?</Link>
+          <Link to="/">Do you have an account?</Link>
         </div>
       </form>
     </div>

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.components.Location;
 import com.example.demo.components.Memento;
 import com.example.demo.components.Trip;
+import com.example.demo.service.LocationService;
 import com.example.demo.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
+    private final LocationService locationService;
     //tested
     @GetMapping(path = "/getAllTrips")
     public List<Trip> getGetTrips(){return tripService.getTrips();
@@ -59,11 +61,11 @@ public class TripController {
 
     //tested
     @DeleteMapping(path = "/deleteLocationFromTrip/{tripId}/{locationId}")
-    public ResponseEntity<String> deleteLocationFromTrip(
+    public List<String> deleteLocationFromTrip(
             @PathVariable("tripId") Long tripId,
             @PathVariable("locationId") Long locationId) {
         tripService.removeLocationFromTrip(tripId, locationId);
-        return ResponseEntity.ok("Location deleted from trip");
+        return List.of("Location deleted from trip");
     }
 
     //tested

@@ -2,13 +2,18 @@ import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 import { useNavigate } from "react-router-dom";
 import MementoForm from "./MementoForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Mementos = () => {
   const navigate = useNavigate();
   const [allMementos, setAllMementos] = useAtom(state.allMementos);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setShowFormAndTrip({state: false});
+  },[])
 
   const navigateToCreateMemento = (event) => {
     setShowForm(true)
@@ -21,7 +26,7 @@ const Mementos = () => {
           (<MementoForm setShowForm={setShowForm} setAllMementos={setAllMementos} />)
         </div>
       ) : (
-        <div className="bg-[url('/images/memento_bk.jpg')] bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-3 2xl:grid-cols-6 lg:grid-cols-4 grid-cols-1  pt-20 gap-6">
+        <div className="bg-[url('/images/memento_bk.jpg')] min-h-screen bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-3 2xl:grid-cols-6 lg:grid-cols-4 grid-cols-1  pt-20 gap-6">
           <div>
             <div className="flex-shrink-0 m-6 relative overflow-hidden bg-cyan-600 rounded-lg max-w-xs shadow-lg">
               <div
