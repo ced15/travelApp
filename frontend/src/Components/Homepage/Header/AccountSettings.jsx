@@ -1,33 +1,48 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useAtom } from "jotai";
 import state from "../../Atom/Atom";
 import { useState } from "react";
-import supabase from "../../../supabase";
-
 
 const AccountSettings = () => {
+  const token = localStorage.getItem("token");
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmationPassword, setConfirmationPassword] = useState("");
-  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatar, setAvatar] = useAtom(state.avatar)
+  const inputRef = useRef(null)
+
+  function handleImageChange(e) {
+    e.preventDefault(e)
+    const file = inputRef.current.files[0];
+    console.log(file);
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch(`http://localhost:8080/account/addAvatar/${loggedUser.id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.imageUrl);
+        setAvatar(data.imageUrl);
+      })
+      .catch((error) => {
+        console.error("Error while uploading image:", error);
+      });
+  }
 
   const handlePatchRequest = async (e) => {
     e.preventDefault();
-      const token = localStorage.getItem("token");
-      const fileInput = document.getElementById("file");
-      const file = fileInput.files[0];
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .upload(`avatars/${file.name}`, file);
-
-      if (error) {
-        console.error("Error uploading avatar:", error.message);
-        return;
-      }
-
-      const avatarUrl = data[0].url;
-
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         "http://localhost:8080/account/changePassword",
@@ -135,12 +150,14 @@ const AccountSettings = () => {
             <input
               className="border py-2 px-3 text-grey-800"
               type="file"
+              ref={inputRef}
               name="file"
+              accept="image/*"
               id="file"
             />
             <button
               className="block bg-green-400 hover:bg-green-600 text-white uppercase text-lg mx-auto p-3 rounded"
-              type="submit"
+              onClick={(e) => handleImageChange(e)}
             >
               Add Avatar
             </button>

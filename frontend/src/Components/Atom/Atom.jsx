@@ -6,7 +6,8 @@ const state = {
     isUserLogged: atom(false),
     allMementos: atom([]),
     counter: atom(1), 
-    currentTrip: atom({state: false, trip: {}})
+    currentTrip: atom({ state: false, trip: {} }),
+    avatar :atom(null)
 }
 
 export default state
