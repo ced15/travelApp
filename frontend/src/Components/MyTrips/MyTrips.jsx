@@ -92,7 +92,7 @@ const MyTrips = () => {
                 data-ripple-light="true"
                 onClick={() => setShowFormAndTrip({state: true, trip: trip})}
               >
-                <Link to="/">
+                <Link to="/homepage">
                   Edit Trip
                 </Link>
               </button>

@@ -58,7 +58,8 @@ const Map = () => {
     console.log(showFormAndTrip)
   },[])
 
-  const handleAddLocation = async () => {
+  const handleAddLocation = async (e) => {
+    e.preventDefault()
     if (location != null) {
       await fetch(`http://localhost:8080/locations/createLocation`, {
         method: "POST",
@@ -71,6 +72,15 @@ const Map = () => {
         .then((data) => {
           console.log(data);
           setLocations((prevLocation) => [...prevLocation, data]);
+          if(showFormAndTrip.state) {
+            setShowFormAndTrip((prevTrip) => ({
+              trip: {
+                ...prevTrip.trip,
+                locationList: [...prevTrip.trip.locationList, data],
+              },
+              state: true
+            }));
+          }
           setLocationObject({ ...locationObject, id: data.id });
           console.log(locationObject);
           console.log("You added your location successfully");

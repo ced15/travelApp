@@ -61,12 +61,11 @@ public class TripController {
 
     //tested
     @DeleteMapping(path = "/deleteLocationFromTrip/{tripId}/{locationId}")
-    public ResponseEntity<String> deleteLocationFromTrip(
+    public List<String> deleteLocationFromTrip(
             @PathVariable("tripId") Long tripId,
             @PathVariable("locationId") Long locationId) {
         tripService.removeLocationFromTrip(tripId, locationId);
-        locationService.deleteLocation(locationId);
-        return ResponseEntity.ok("Location deleted from trip");
+        return List.of("Location deleted from trip");
     }
 
     //tested

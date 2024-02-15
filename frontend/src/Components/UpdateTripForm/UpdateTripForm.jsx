@@ -1,39 +1,40 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 
-export default function UpdateTripForm({ showFormAndTrip, setShowFormAndTrip }) {
-
+export default function UpdateTripForm({
+  showFormAndTrip
+}) {
   const token = localStorage.getItem("token");
+  const [locationsFromTrip, setLocationsFromTrip] = useState([
+    ...showFormAndTrip.trip.locationList,
+  ]);
 
   useEffect(() => {
-    console.log(showFormAndTrip.trip.locationList)
+    console.log(showFormAndTrip);
+    setLocationsFromTrip([...showFormAndTrip.trip.locationList])
   },[showFormAndTrip])
 
   const handleDeleteLocation = (e, id) => {
     e.preventDefault();
-    const updatedLocationList = showFormAndTrip.trip.locationList.filter(
-      (location) => location.id !== id
-    );
+    const previousLocations = [...locationsFromTrip]
+    setLocationsFromTrip(locationsFromTrip.filter((location) => location.id !== id))
 
-    setShowFormAndTrip({
-      ...showFormAndTrip,
-      trip: {
-        locationList: updatedLocationList,
-      },
-    });
-    
-    fetch(`http://localhost:8080/deleteLocationFromTrip/${showFormAndTrip.trip.id}/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(`http://localhost:8080/trips/deleteLocationFromTrip/${showFormAndTrip.trip.id}/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then(() => {
-        console.log("You deleted your location successfully");    
+        console.log("You deleted your location successfully");
       })
       .catch((error) => {
         console.log(`Failed to delete location! ${error.message}`);
+        setLocationsFromTrip(previousLocations)
       });
   };
 
@@ -60,46 +61,44 @@ export default function UpdateTripForm({ showFormAndTrip, setShowFormAndTrip }) 
                 Locations
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden pt-2">
                   <ul className="divide-y divide-gray-200">
-                    {showFormAndTrip.trip.locationList.map(
-                      (location, index) => (
-                        <li
-                          className="flex justify-between items-center user-card"
-                          key={index}
-                        >
-                          <div className="flex items-center pl-2">
-                            <span className="ml-3 font-medium">
-                              {location.locationName}
-                            </span>
-                          </div>
-                          <div>
-                            <button
-                              type="button"
-                              className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                              onClick={(e) =>
-                                handleDeleteLocation(e, location.id)
-                              }
+                    {locationsFromTrip.map((location, index) => (
+                      <li
+                        className="flex justify-between items-center user-card"
+                        key={index}
+                      >
+                        <div className="flex items-center pl-2">
+                          <span className="ml-3 font-medium">
+                            {location.locationName}
+                          </span>
+                        </div>
+                        <div>
+                          <button
+                            type="button"
+                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                            onClick={(e) =>
+                              handleDeleteLocation(e, location.id)
+                            }
+                          >
+                            <span className="sr-only">Close menu</span>
+                            <svg
+                              className="h-6 w-6"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
                             >
-                              <span className="sr-only">Close menu</span>
-                              <svg
-                                className="h-6 w-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M6 18L18 6M6 6l12 12"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </li>
-                      )
-                    )}
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </label>

@@ -132,7 +132,7 @@ const TripForm = ({ locations, updateLocations }) => {
         .then((data) => {
           setLoading(false);
           console.log("You created your trip successfully");
-          navigate("/");
+          navigate("/homepage");
         })
         .catch((error) => {
           console.log(`Failed to create trip! ${error.message}`);

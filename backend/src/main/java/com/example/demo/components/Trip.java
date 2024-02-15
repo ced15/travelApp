@@ -24,6 +24,7 @@ public class Trip {
     @JoinColumn(name = "_user_id")
     private User user;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "trip_location",

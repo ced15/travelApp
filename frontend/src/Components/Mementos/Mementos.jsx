@@ -26,7 +26,7 @@ const Mementos = () => {
           (<MementoForm setShowForm={setShowForm} setAllMementos={setAllMementos} />)
         </div>
       ) : (
-        <div className="bg-[url('/images/memento_bk.jpg')] bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-3 2xl:grid-cols-6 lg:grid-cols-4 grid-cols-1  pt-20 gap-6">
+        <div className="bg-[url('/images/memento_bk.jpg')] min-h-screen bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-3 2xl:grid-cols-6 lg:grid-cols-4 grid-cols-1  pt-20 gap-6">
           <div>
             <div className="flex-shrink-0 m-6 relative overflow-hidden bg-cyan-600 rounded-lg max-w-xs shadow-lg">
               <div

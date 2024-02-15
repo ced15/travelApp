@@ -85,7 +85,7 @@ const LogIn = () => {
 
         console.log("You logged in successfully");
         setIsUserLogged(true);
-        navigate("/");
+        navigate("/homepage");
       })
       .catch((error) => {
         console.log(`Failed to Log In! ${error.message}`);
