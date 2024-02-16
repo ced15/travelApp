@@ -195,7 +195,7 @@ const TripForm = ({ locations, updateLocations }) => {
               className="absolute right-32 bottom-80 w-80 h-80 object-cover z-0"
             />
             <div className="bg-primary-100 rounded-lg -top-4 shadow-lg md:p-8 mb-6 h-full">
-              <div className="text-gray-600 pb-4 text-center">
+              <div className="text-black pb-4 text-center">
                 <p className="pr-4">Create your Trip</p>
               </div>
               <div className="lg:col-span-2">
