@@ -11,6 +11,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip)
   const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
   const [user, setUser] = useState({
     firstName: "Denisa",
@@ -125,6 +126,7 @@ const SignUp = () => {
 
         fetchUserData();
         setIsUserLogged(true);
+        setShowFormAndTrip({state: false});
         navigate("/homepage");
       })
       .catch((error) => {

@@ -12,7 +12,7 @@ const TripForm = ({ locations, updateLocations }) => {
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [allMementos, setAllMementos] = useAtom(state.allMementos);
+  
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [mementoDropDown, setMementoDropDown] = useState(false);

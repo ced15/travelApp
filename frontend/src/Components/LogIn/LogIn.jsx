@@ -11,6 +11,7 @@ const LogIn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
+  const [showFormAndTrip, setShowFormAndTrip] = useAtom(state.currentTrip);
   const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
   const [user, setUser] = useState({
     email: "denisa1506@yahoo.com",
@@ -85,6 +86,7 @@ const LogIn = () => {
 
         console.log("You logged in successfully");
         setIsUserLogged(true);
+        setShowFormAndTrip({state: false});
         navigate("/homepage");
       })
       .catch((error) => {
