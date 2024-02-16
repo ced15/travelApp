@@ -4,20 +4,16 @@ import Loading from "../Loading/Loading";
 import {
   GoogleMap,
   Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer,
 } from "@react-google-maps/api";
 import "./Map.css";
 import Places from "./Places";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Map.css";
-import supabase from "../../supabase";
 import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 import TripForm from "../TripForm/TripForm";
 import UpdateTripForm from "../UpdateTripForm/UpdateTripForm";
+import { Button } from "flowbite-react";
 
 const Map = () => {
   const navigate = useNavigate();
@@ -104,12 +100,15 @@ const Map = () => {
   }
 
   return (
-    <div className="flex relative z-0 justify-end items-center">
+    <div className="flex pt-4 relative z-0 justify-end items-center">
       {isFormVisible && (
         <TripForm locations={locations} updateLocations={updateLocations} />
       )}
       {showFormAndTrip.state && (
-        <UpdateTripForm showFormAndTrip={showFormAndTrip} setShowFormAndTrip={setShowFormAndTrip}/>
+        <UpdateTripForm
+          showFormAndTrip={showFormAndTrip}
+          setShowFormAndTrip={setShowFormAndTrip}
+        />
       )}
       <div className="h-screen w-full">
         <GoogleMap
@@ -123,6 +122,7 @@ const Map = () => {
           <div className="p-4 text-black absolute pt-16">
             <h1 className="font-semibold italic pb-2">Search for a location</h1>
             <Places
+              className="pb-6"
               setLocation={(position) => {
                 setLocation(position);
                 setLocationObject({
@@ -133,12 +133,21 @@ const Map = () => {
                 mapRef.current?.panTo(position);
               }}
             />
-            <button
-              className="flex flex-row items-center rounded-xl bg-black-100 py-3 text-base font-medium text-navy-700"
-              onClick={isFormVisible || showFormAndTrip.state ? handleAddLocation : handleCreateTrip}
-            >
-              {isFormVisible || showFormAndTrip.state ? "Add Location" : "Create Trip"}
-            </button>
+            <div className="mt-4">
+              <Button
+                onClick={
+                  isFormVisible || showFormAndTrip.state
+                    ? handleAddLocation
+                    : handleCreateTrip
+                }
+                outline
+                gradientDuoTone="greenToBlue"
+              >
+                {isFormVisible || showFormAndTrip.state
+                  ? "Add Location"
+                  : "Create Trip"}
+              </Button>
+            </div>
           </div>
         </GoogleMap>
       </div>

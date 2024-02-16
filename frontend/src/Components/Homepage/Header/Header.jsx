@@ -11,25 +11,31 @@ const Header = () => {
   const navigate = useNavigate();
   const [isUserLogged, setIsUserLogged] = useAtom(state.isUserLogged);
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
-  const [avatar, setAvatar]= useAtom(state.avatar)
+  const [avatar, setAvatar] = useAtom(state.avatar);
 
   const handleLogout = async (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
     setIsUserLogged(false);
-    navigate("/")
+    navigate("/");
   };
 
+  const displayAvatar = avatar ? (
+    <Avatar img={avatar} className="w-10 h-7" rounded />
+  ) : (
+    <Avatar rounded />
+  );
+
   return (
-    <header className="fixed z-10 w-full">
-      <nav className="bg-gray-300 border-gray-200 px-4 py-2.5 dark:bg-gray-800">
+    <header className="fixed  z-10 w-full">
+      <nav className="bg-primary-100 px-4 py-2.5">
         <div className="flex flex-wrap justify-between mx-auto">
-          <a href="/" className="flex items-center">
+          <a href="/homepage" className="flex items-center">
             <img
-              src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
+              src="./images/headerRaccoon.png"
               className="mr-3 h-8 sm:h-9 absolute xl:h-10 xl:w-16"
             />
-            <span className="pb-2 text-xl font-semibold whitespace-nowrap dark:text-white pl-16">
+            <span className="pb-2 text-xl font-semibold pl-16">
               Travelling Raccoons
             </span>
           </a>
@@ -38,13 +44,13 @@ const Header = () => {
               <>
                 <a
                   href="/"
-                  className="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                  className="text-black cursor-pointer hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                 >
                   Log in
                 </a>
                 <a
                   href="/signUp"
-                  className="text-gray-800 cursor-pointer dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                  className="text-black cursor-pointer hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                 >
                   Get started
                 </a>
@@ -52,17 +58,15 @@ const Header = () => {
             ) : (
               <Menu as="div" className="relative inline-block">
                 <div className="">
-                  <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                      <Avatar
-                        img={avatar}
-                        className="w-auto h-auto"
-                        rounded
-                      />
-                    {loggedUser.first_name}
-                    <ChevronDownIcon
-                      className="-mr-1 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
+                  <Menu.Button className="bg-primary-200 inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-inset hover:bg-primary-300">
+                    {displayAvatar}
+                    <span
+                      className={
+                        !avatar ? "text-lg font-bold  pt-1.5 ml-2" : ""
+                      }
+                    >
+                      {loggedUser.first_name}
+                    </span>
                   </Menu.Button>
                 </div>
 
@@ -75,7 +79,7 @@ const Header = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-primary-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
@@ -83,8 +87,8 @@ const Header = () => {
                             <div
                               className={classNames(
                                 active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
+                                  ? "bg-gray-100 text-black"
+                                  : "text-black",
                                 "block px-4 py-2 text-sm cursor-pointer"
                               )}
                             >
@@ -97,17 +101,17 @@ const Header = () => {
                       <form method="POST" action="#">
                         <Menu.Item>
                           {({ active }) => (
-                              <div
-                                onClick={handleLogout}
-                                className={classNames(
-                                  active
-                                    ? "bg-gray-100 text-gray-900"
-                                    : "text-gray-700",
-                                  "block w-full px-4 py-2 text-left text-sm cursor-pointer"
-                                )}
-                              >
-                                Sign out
-                              </div>
+                            <div
+                              onClick={handleLogout}
+                              className={classNames(
+                                active
+                                  ? "bg-gray-100 text-black"
+                                  : "text-black",
+                                "block w-full px-4 py-2 text-left text-sm cursor-pointer"
+                              )}
+                            >
+                              Sign out
+                            </div>
                           )}
                         </Menu.Item>
                       </form>
@@ -119,7 +123,7 @@ const Header = () => {
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
-              className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 ml-1 text-sm text-black rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
               aria-controls="mobile-menu-2"
               aria-expanded="false"
             >
@@ -157,27 +161,23 @@ const Header = () => {
             <ul className="flex flex-col mt-4 font-mediuml lg:flex-row lg:space-x-4 xl:space-x-14 lg:mt-0">
               <li className="">
                 <div
-                  className="flex py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0 dark:text-white"
+                  className="flex py-2 pr-4 pl-3 text-black rounded bg-primary-700 lg:bg-transparent lg:text-zinc-950 lg:p-0"
                   aria-current="page"
                 >
                   <a href="/homepage" className="flex items-center">
                     <span className="font-bold text-2xl">H</span>
                     <img
-                      src="https://cdn.discordapp.com/attachments/1080482388221640805/1179367597372866611/earth-4823_256.gif?ex=657986aa&is=656711aa&hm=a12a57ca18e1c7410b70b648dba4c278107525ceaee525188b1678a95f66e777&"
+                      src="./images/earth.gif"
                       className="h-6 sm:h-9 inline xl:h-8 xl:pb-2"
-                      alt="Flowbite Logo"
                     />
                     <span className="font-bold text-2xl">ME</span>
                   </a>
                 </div>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >
+                <a className="block py-2 pr-4 pl-3 text-black border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0">
                   <img
-                    src="https://cdn.discordapp.com/attachments/1080482388221640805/1179396900902928456/image_2023-11-29_142157241-removebg-preview.png?ex=6579a1f5&is=65672cf5&hm=a1d742bfd3886b27f454fde1249cbf0e9e3d54f0541656ff72b411bb56d53bb1&"
+                    src="./images/headerRaccoon.png"
                     className="mr-3 sm:h-9 xl:h-10 xl:w-20"
                     alt="Raccoon"
                   />
@@ -185,14 +185,14 @@ const Header = () => {
               </li>
 
               <li>
-                <div className="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                <div className="block py-2 text-2xl pr-4 pl-3 text-black border-b font-bold border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0">
                   <Link to="/myTrips">My Trips</Link>
                 </div>
               </li>
               <li>
                 <Link
                   to="/mementos"
-                  className="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 text-2xl pr-4 pl-3 text-black border-b font-bold border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0"
                 >
                   Mementos
                 </Link>
@@ -200,7 +200,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/wishlist"
-                  className="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 text-2xl pr-4 pl-3 text-black border-b font-bold border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0"
                 >
                   Wishlist
                 </Link>
@@ -208,7 +208,7 @@ const Header = () => {
               <li>
                 <Link
                   to="/discover"
-                  className="block py-2 text-2xl pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 text-2xl pr-4 pl-3 text-black border-b font-bold border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0"
                 >
                   Discover
                 </Link>
@@ -217,7 +217,6 @@ const Header = () => {
           </div>
         </div>
       </nav>
-      <div className="border-t border-gray-200"></div>
     </header>
   );
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Button } from "flowbite-react";
 
 const MementoForm = ({ setShowForm, setAllMementos }) => {
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ const MementoForm = ({ setShowForm, setAllMementos }) => {
   }
 
   return (
-    <div className="bg-[url('/images/memento_bk.jpg')] bg-cover bg-no-repeat bg-fixed">
+    <div className="bg-[url('/images/mementoTravel.jpg')] bg-cover bg-no-repeat bg-fixed">
       <div className="min-h-screen flex items-center justify-center">
         <div className="backdrop-blur-2xl bg-white/30 p-8 rounded-lg shadow-lg max-w-md w-full">
           <h1 className="text-xl font-semibold mb-4">Create your memento</h1>
@@ -51,17 +51,18 @@ const MementoForm = ({ setShowForm, setAllMementos }) => {
               <textarea
                 name="mementoMessage"
                 placeholder="Add your memento"
-                className="input w-full px-4 py-2 border rounded-lg text-gray-700 focus:border-blue-500"
+                className="input w-full px-4 py-2 rounded-lg text-gray-700 focus:border-primary-50 focus:outline-none focus:ring-primary-50"
                 onChange={handleInputChange}
                 value={memento.mementoMessage}
               />
             </div>
-            <button
+            <Button
               type="submit"
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none"
+              outline
+              gradientDuoTone="greenToBlue"
             >
               Save
-            </button>
+            </Button>
           </form>
         </div>
       </div>
