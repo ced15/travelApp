@@ -31,6 +31,12 @@ public class LocationService {
         return location;
     }
 
+    @Transactional
+    public void deleteLocationAndAssociations(Long locationId) {
+        locationRepository.deleteLocationAndAssociations(locationId);
+    }
+
+    @Transactional
     //tested
     public void deleteLocation(Long locationId) {
         locationRepository.deleteById(locationId);

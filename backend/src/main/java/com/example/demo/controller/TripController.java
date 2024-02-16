@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -77,5 +78,16 @@ public class TripController {
         return ResponseEntity.ok("Memento removed from trip");
     }
 
-
+    @PutMapping(path = "/updateTrip/{tripId}")
+    public List<String> updateTrip(
+            @PathVariable("tripId") Long tripId,
+            @RequestBody(required = false) Trip tripUpdate) {
+        Set<Location> locations = tripUpdate.getLocationList();
+        Date departureDate = tripUpdate.getDepartureDate();
+        Date arrivalDate = tripUpdate.getArrivalHomeDate();
+        String event = tripUpdate.getEvent();
+        Set<Memento> mementos = tripUpdate.getMementos();
+        tripService.updateTrip(tripId, locations, departureDate, arrivalDate, event, mementos);
+        return List.of("Trip successfully updated");
+    }
 }

@@ -33,7 +33,7 @@ public class LocationController {
     //tested
     @DeleteMapping(path = "{locationId}")
     public List<String> deleteLocation(@PathVariable("locationId") Long locationId) {
-        locationService.deleteLocation(locationId);
+        locationService.deleteLocationAndAssociations(locationId);
         return List.of("Location deleted");
     }
 

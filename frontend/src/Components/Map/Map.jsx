@@ -68,15 +68,13 @@ const Map = () => {
         .then((data) => {
           console.log(data);
           setLocations((prevLocation) => [...prevLocation, data]);
-          if(showFormAndTrip.state) {
-            setShowFormAndTrip((prevTrip) => ({
+          setShowFormAndTrip((prevTrip) => ({
               trip: {
                 ...prevTrip.trip,
                 locationList: [...prevTrip.trip.locationList, data],
               },
               state: true
-            }));
-          }
+          }));
           setLocationObject({ ...locationObject, id: data.id });
           console.log(locationObject);
           console.log("You added your location successfully");

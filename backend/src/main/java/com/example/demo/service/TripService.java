@@ -9,11 +9,8 @@ import com.example.demo.repository.TripRepository;
 import com.example.demo.components.Trip;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -55,7 +52,7 @@ public class TripService {
     public void removeLocationFromTrip(Long tripId, Long locationId) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        for(Location location : trip.getLocationList()) {
+        for (Location location : trip.getLocationList()) {
             if (location.getId().equals(locationId)) {
                 trip.getLocationList().remove(location);
                 tripRepository.save(trip);
@@ -66,7 +63,7 @@ public class TripService {
     public void removeMementoFromTrip(Long tripId, Long mementoId) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        for(Memento memento : trip.getMementos()) {
+        for (Memento memento : trip.getMementos()) {
             if (memento.getId().equals(mementoId)) {
                 trip.getMementos().remove(memento);
                 tripRepository.save(trip);
@@ -79,28 +76,17 @@ public class TripService {
         boolean isNotPresentAndNull = false;
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-        for(Location location1 : trip.getLocationList()) {
+        for (Location location1 : trip.getLocationList()) {
             if (location1 == location || location == null) {
                 isNotPresentAndNull = true;
                 break;
             }
         }
-        if(!isNotPresentAndNull) {
+        if (!isNotPresentAndNull) {
             trip.getLocationList().add(location);
             locationRepository.save(location);
         }
     }
-
-//    @Transactional
-//    public void addMementoToTrip(Long tripId, Memento memento) {
-//        Trip trip = tripRepository.findById(tripId)
-//                .orElseThrow(() -> new IllegalStateException("trip with id " + tripId + " does not exist"));
-//            trip.getMementos().add(memento);
-//            mementoRepository.save(memento);
-//    }
-
-    //tested
-
 
     @Transactional
     public Trip addMementoToTrip(Long memento_id, Trip trip) {
@@ -108,5 +94,18 @@ public class TripService {
         tripRepository.save(trip);
         System.out.println(trip);
         return trip;
+    }
+
+    @Transactional
+    public void updateTrip(Long tripId, Set<Location> locations, Date departureDate, Date arrivalHomeDate, String event, Set<Memento> mementos) {
+        Trip trip = tripRepository.findTripById(tripId)
+                .orElseThrow(() -> new IllegalStateException("Trip with ID " + tripId + " does not exist"));
+        trip.setLocationList(locations);
+        trip.setDepartureDate(departureDate);
+        trip.setArrivalHomeDate(arrivalHomeDate);
+        trip.setEvent(event);
+        trip.setMementos(mementos);
+
+        tripRepository.save(trip);
     }
 }
