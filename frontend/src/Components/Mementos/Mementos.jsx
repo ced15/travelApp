@@ -31,19 +31,18 @@ const Mementos = () => {
           )
         </div>
       ) : (
-        <div className="bg-[url('/images/mementoTravel.jpg')] min-h-screen bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-3 2xl:grid-cols-6 lg:grid-cols-4 grid-cols-1  pt-20 gap-6">
+        <div className="bg-[url('/images/mementoTravel.jpg')] min-h-screen bg-cover bg-no-repeat bg-fixed grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 grid-cols-1 p-10 pt-20 gap-6">
           <div>
-            <div className="flex-shrink-0 m-6 relative overflow-hidden bg-primary-200 rounded-lg max-w-xs shadow-lg h-100">
+            <div className="flex-shrink-0 m-6 relative overflow-hidden bg-primary-200 rounded-lg shadow-lg">
               <div
                 onClick={navigateToCreateMemento}
                 className="relative flex items-center p-5 justify-center cursor-pointer"
               >
                 <img
                   src="./images/plus.png"
-                  className="w-80  hover:opacity-80"
+                  className="relative w-80 hover:opacity-80"
                 />
               </div>
-              <br></br>
               <div className="relative text-black px-6 pb-6 mt-6">
                 <div className="flex justify-between">
                   <span className="block font-semibold text-xl">
@@ -55,8 +54,8 @@ const Mementos = () => {
           </div>
           {allMementos.map((memento) => (
             <div>
-              <div className="flex-shrink-0 m-6 relative overflow-hidden bg-primary-200 rounded-lg shadow-lg h-100">
-                <div className="relative flex items-center justify-center">
+              <div className="flex-shrink-0 m-6 relative overflow-hidden bg-primary-200 rounded-lg shadow-lg">
+                <div className="relative flex items-center justify-center p-5">
                   <img
                     className="relative w-80"
                     src="images/clock.png"

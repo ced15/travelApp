@@ -15,7 +15,6 @@ const TripForm = ({ locations, updateLocations }) => {
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  
   const [errorMessage, setErrorMessage] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [mementoDropDown, setMementoDropDown] = useState(false);
@@ -27,6 +26,7 @@ const TripForm = ({ locations, updateLocations }) => {
   const [isDepartureCalendarOpen, setDepartureCalendarOpen] = useState(false);
   const [isArrivalCalendarOpen, setArrivalCalendarOpen] = useState(false);
   const [isAlarmDateOpen, setIsAlarmDateOpen] = useState(false);
+  const [allMementos, setAllMementos] = useAtom(state.allMementos);
   const [trip, setTrip] = useState({
     user: null,
     locationList: [],
@@ -35,6 +35,7 @@ const TripForm = ({ locations, updateLocations }) => {
     event: "",
     mementos: [],
   });
+  const raccoon = "/images/raccoonHolder.png"
 
   useEffect(() => {
     if (errorMessage) {
@@ -179,7 +180,6 @@ const TripForm = ({ locations, updateLocations }) => {
   if (loading) {
     return <Loading />;
   }
-  const raccoon = "./images/raccoonHolder.png";
   return (
     <>
       {loading ? (
@@ -187,21 +187,21 @@ const TripForm = ({ locations, updateLocations }) => {
           <Loading />
         </div>
       ) : (
-        <div className="absolute z-10 max-w-screen-sm pr-8">
+        <div className="absolute z-10 max-w-screen-sm pr-8 top-56">
           <div>
-            <img
-              src={raccoon}
-              alt="Raccoon Holder"
-              className="absolute right-32 bottom-80 w-80 h-80 object-cover z-0"
-            />
             <div className="bg-primary-100 rounded-lg -top-4 shadow-lg md:p-8 mb-6 h-full">
-              <div className="text-black pb-4 text-center">
+              {/* <img
+                src={raccoon}
+                alt="Raccoon Holder"
+                className="absolute right-32 bottom-80 w-96 h-80 object-cover z-0"
+              /> */}
+              <div className="text-black font-bold pb-4 text-center">
                 <p className="pr-4">Create your Trip</p>
               </div>
               <div className="lg:col-span-2">
                 <div className="grid gap-4 gap-y-4 text-sm grid-cols-1 md:grid-cols-6">
                   <div className="md:col-span-6">
-                    <label>Trip Name</label>
+                    <label className="text-black  font-bold">Trip Name</label>
                     <input
                       type="text"
                       className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
@@ -214,7 +214,7 @@ const TripForm = ({ locations, updateLocations }) => {
                   </div>
 
                   <div className="md:col-span-6">
-                    <label>
+                    <label className="text-black  font-bold">
                       Locations
                       <div className=" shadow-lg rounded-lg overflow-hidden pt-2">
                         <ul className=" bg-primary-200 rounded-lg divide-y divide-gray-200">
@@ -238,7 +238,7 @@ const TripForm = ({ locations, updateLocations }) => {
                               <div>
                                 <button
                                   type="button"
-                                  className="bg-primary-200 rounded-md p-2 inline-flex items-center justify-center text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                                  className="bg-primary-200 rounded-md p-2 inline-flex items-center justify-center  font-bold text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                                   onClick={(e) =>
                                     handleDeleteLocation(e, location.id)
                                   }
@@ -268,8 +268,40 @@ const TripForm = ({ locations, updateLocations }) => {
                     </label>
                   </div>
 
+                  <div className="inline-flex md:col-span-6 gap-24">
+                    <div >
+                      <label className="text-black  font-bold">
+                        Select Departure Date:
+                        <DatePicker
+                          className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-0"
+                          selected={trip.departureDate}
+                          value={trip.departureDate}
+                          onSelect={handleDepartureDateChange}
+                          open={isDepartureCalendarOpen}
+                          onFocus={() => setDepartureCalendarOpen(true)}
+                          minDate={new Date()}
+                        />
+                      </label>
+                    </div>
+
+                    <div >
+                      <label className="text-black  font-bold">
+                        Select Arrival Date
+                        <DatePicker
+                          className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
+                          selected={trip.arrivalHomeDate}
+                          value={trip.arrivalHomeDate}
+                          onSelect={handleArrivalDateChange}
+                          open={isArrivalCalendarOpen}
+                          onFocus={() => setArrivalCalendarOpen(true)}
+                          minDate={trip.departureDate}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
                   <div className="md:col-span-4">
-                    <label>Memento</label>
+                    <label className="text-black  font-bold">Memento</label>
 
                     <div className="max-w-md mx-auto">
                       <div className="relative pt-1">
@@ -351,7 +383,7 @@ const TripForm = ({ locations, updateLocations }) => {
                             ? handleAddMemento
                             : displayError
                         }
-                        className="top-2"
+                        className="top-4"
                       >
                         Add memento
                       </Button>
@@ -359,7 +391,7 @@ const TripForm = ({ locations, updateLocations }) => {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label>
+                    <label className="text-black  font-bold">
                       Alarm Date
                       <DatePicker
                         className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-10"
@@ -369,39 +401,11 @@ const TripForm = ({ locations, updateLocations }) => {
                         open={isAlarmDateOpen}
                         onFocus={() => setIsAlarmDateOpen(true)}
                         minDate={new Date()}
+                        maxDate={trip.departureDate}
                       />
                     </label>
                   </div>
 
-                  <div className="md:col-span-3">
-                    <label>
-                      Select Departure Date:
-                      <DatePicker
-                        className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-0"
-                        selected={trip.departureDate}
-                        value={trip.departureDate}
-                        onSelect={handleDepartureDateChange}
-                        open={isDepartureCalendarOpen}
-                        onFocus={() => setDepartureCalendarOpen(true)}
-                        minDate={new Date()}
-                      />
-                    </label>
-                  </div>
-
-                  <div className="md:col-span-3">
-                    <label>
-                      Select Arrival Date
-                      <DatePicker
-                        className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
-                        selected={trip.arrivalHomeDate}
-                        value={trip.arrivalHomeDate}
-                        onSelect={handleArrivalDateChange}
-                        open={isArrivalCalendarOpen}
-                        onFocus={() => setArrivalCalendarOpen(true)}
-                        minDate={trip.departureDate}
-                      />
-                    </label>
-                  </div>
                   {errorMessage && (
                     <h1 className="text-red-500 font-semibold italic w-48">
                       Please complete all the fields!

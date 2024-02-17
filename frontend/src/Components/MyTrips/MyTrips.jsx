@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import state from "../Atom/Atom";
 import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
-import UpdateTripForm from "../UpdateTripForm/UpdateTripForm";
+import { Button } from "flowbite-react";
 
 const MyTrips = () => {
   const [loggedUser, setLoggedUser] = useAtom(state.loggedUser);
@@ -13,8 +13,8 @@ const MyTrips = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    setShowFormAndTrip({state: false});
-  },[])
+    setShowFormAndTrip({ state: false });
+  }, []);
 
   useEffect(() => {
     if (loggedUser.id) {
@@ -62,8 +62,11 @@ const MyTrips = () => {
                   height="30"
                   viewBox="0 0 24 24"
                 >
-                  <path className="cursor-pointer" style={{fill: "white"}} d="M 12 0 C 5.371094 0 0 5.371094 0 12 C 0 18.628906 5.371094 24 12 24 C 18.628906 24 24 18.628906 24 12 C 24 5.371094 18.628906 0 12 0 Z M 12 2 C 17.523438 2 22 6.476563 22 12 C 22 17.523438 17.523438 22 12 22 C 6.476563 22 2 17.523438 2 12 C 2 6.476563 6.476563 2 12 2 Z M 12 5.8125 C 11.816406 5.8125 11.664063 5.808594 11.5 5.84375 C 11.335938 5.878906 11.183594 5.96875 11.0625 6.0625 C 10.941406 6.15625 10.851563 6.285156 10.78125 6.4375 C 10.710938 6.589844 10.6875 6.769531 10.6875 7 C 10.6875 7.226563 10.710938 7.40625 10.78125 7.5625 C 10.851563 7.71875 10.941406 7.84375 11.0625 7.9375 C 11.183594 8.03125 11.335938 8.085938 11.5 8.125 C 11.664063 8.164063 11.816406 8.1875 12 8.1875 C 12.179688 8.1875 12.371094 8.164063 12.53125 8.125 C 12.691406 8.085938 12.816406 8.03125 12.9375 7.9375 C 13.058594 7.84375 13.148438 7.71875 13.21875 7.5625 C 13.289063 7.410156 13.34375 7.226563 13.34375 7 C 13.34375 6.769531 13.289063 6.589844 13.21875 6.4375 C 13.148438 6.285156 13.058594 6.15625 12.9375 6.0625 C 12.816406 5.96875 12.691406 5.878906 12.53125 5.84375 C 12.371094 5.808594 12.179688 5.8125 12 5.8125 Z M 10.78125 9.15625 L 10.78125 18.125 L 13.21875 18.125 L 13.21875 9.15625 Z">
-                  </path>
+                  <path
+                    className="cursor-pointer"
+                    style={{ fill: "white" }}
+                    d="M 12 0 C 5.371094 0 0 5.371094 0 12 C 0 18.628906 5.371094 24 12 24 C 18.628906 24 24 18.628906 24 12 C 24 5.371094 18.628906 0 12 0 Z M 12 2 C 17.523438 2 22 6.476563 22 12 C 22 17.523438 17.523438 22 12 22 C 6.476563 22 2 17.523438 2 12 C 2 6.476563 6.476563 2 12 2 Z M 12 5.8125 C 11.816406 5.8125 11.664063 5.808594 11.5 5.84375 C 11.335938 5.878906 11.183594 5.96875 11.0625 6.0625 C 10.941406 6.15625 10.851563 6.285156 10.78125 6.4375 C 10.710938 6.589844 10.6875 6.769531 10.6875 7 C 10.6875 7.226563 10.710938 7.40625 10.78125 7.5625 C 10.851563 7.71875 10.941406 7.84375 11.0625 7.9375 C 11.183594 8.03125 11.335938 8.085938 11.5 8.125 C 11.664063 8.164063 11.816406 8.1875 12 8.1875 C 12.179688 8.1875 12.371094 8.164063 12.53125 8.125 C 12.691406 8.085938 12.816406 8.03125 12.9375 7.9375 C 13.058594 7.84375 13.148438 7.71875 13.21875 7.5625 C 13.289063 7.410156 13.34375 7.226563 13.34375 7 C 13.34375 6.769531 13.289063 6.589844 13.21875 6.4375 C 13.148438 6.285156 13.058594 6.15625 12.9375 6.0625 C 12.816406 5.96875 12.691406 5.878906 12.53125 5.84375 C 12.371094 5.808594 12.179688 5.8125 12 5.8125 Z M 10.78125 9.15625 L 10.78125 18.125 L 13.21875 18.125 L 13.21875 9.15625 Z"
+                  ></path>
                 </svg>
               </div>
               <div className="inline-flex w-full justify-between">
@@ -86,16 +89,20 @@ const MyTrips = () => {
             </div>
 
             <div className="p-4 pt-3">
-              <button
-                className="block w-full select-none rounded-xl bg-green-700 py-3.5 px-7 text-center align-middle font-sans text-sm font-extrabold uppercase text-white shadow-md transition-all hover:shadow-lg hover:shadow-black focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button"
-                data-ripple-light="true"
-                onClick={() => setShowFormAndTrip({state: true, trip: trip})}
-              >
-                <Link to="/homepage">
+              <Link to="/homepage">
+                <Button
+                  className="block w-full rounded-xl"
+                  // className="block w-full select-none rounded-xl bg-green-700 py-3.5 px-7 text-center align-middle font-sans text-sm font-extrabold uppercase text-white shadow-md transition-all hover:shadow-lg hover:shadow-black focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  outline
+                  gradientDuoTone="greenToBlue"
+                  // data-ripple-light="true"
+                  onClick={() =>
+                    setShowFormAndTrip({ state: true, trip: trip })
+                  }
+                >
                   Edit Trip
-                </Link>
-              </button>
+                </Button>
+              </Link>
             </div>
           </div>
         ))}

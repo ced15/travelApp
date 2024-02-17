@@ -118,7 +118,6 @@ const Map = () => {
         >
           {location && <Marker key="0" icon={image.url} position={location} />}
           <div className="p-4 text-black absolute pt-16">
-            <h1 className="font-semibold italic pb-2">Search for a location</h1>
             <Places
               className="pb-6"
               setLocation={(position) => {

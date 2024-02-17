@@ -5,6 +5,7 @@ import state from "../Atom/Atom";
 import DatePicker from "react-datepicker";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
+import { Button } from "flowbite-react";
 
 export default function UpdateTripForm({
   showFormAndTrip,
@@ -182,19 +183,22 @@ export default function UpdateTripForm({
     } else {
       setErrorMessage(false);
       setLoading(true);
-      fetch(`http://localhost:8080/trips/updateTrip/${showFormAndTrip.trip.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(showFormAndTrip.trip),
-      })
+      fetch(
+        `http://localhost:8080/trips/updateTrip/${showFormAndTrip.trip.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(showFormAndTrip.trip),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
           console.log("You updated your trip successfully");
-          setShowFormAndTrip({state: false});
+          setShowFormAndTrip({ state: false });
           navigate("/homepage");
         })
         .catch((error) => {
@@ -206,19 +210,19 @@ export default function UpdateTripForm({
   return (
     <>
       {loading ? (
-        <div className="absolute z-50 h-screen w-full">
+        <div className="absolute z-50 h-screen w-full ">
           <Loading />
         </div>
       ) : (
-        <div className="absolute z-10 max-w-screen-sm right-72">
-          <div className="bg-white rounded-lg shadow-lg p-4 px-4 md:p-8 mb-6 z-10">
-            <div className="text-gray-600 pb-4 text-center">
+        <div className="absolute z-10 max-w-screen-sm px-10">
+          <div className="bg-primary-100 rounded-lg shadow-lg p-4 px-4 md:p-8 mb-6 z-10">
+            <div className="text-black font-bold pb-4 text-center">
               <p>Update Trip</p>
             </div>
             <div className="lg:col-span-2">
               <div className="grid gap-4 gap-y-4 text-sm grid-cols-1 md:grid-cols-6">
                 <div className="md:col-span-6">
-                  <label>Trip Name</label>
+                  <label className="text-black font-bold">Trip Name</label>
                   <input
                     type="text"
                     className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
@@ -229,17 +233,17 @@ export default function UpdateTripForm({
                 </div>
 
                 <div className="md:col-span-6">
-                  <label>
+                  <label className="text-black font-bold">
                     Locations
-                    <div className="bg-white shadow-lg rounded-lg overflow-hidden pt-2">
-                      <ul className="divide-y divide-gray-200">
+                    <div className=" shadow-lg rounded-lg overflow-hidden pt-2">
+                      <ul className=" bg-white rounded-lg  divide-y divide-gray-200">
                         {showFormAndTrip.trip.locationList.map(
                           (location, index) => (
                             <li
                               className="flex justify-between items-center user-card"
                               key={index}
                             >
-                              <div className="flex items-center pl-2">
+                              <div className="flex items-center ">
                                 <span className="ml-3 font-medium">
                                   {location.locationName}
                                 </span>
@@ -277,9 +281,42 @@ export default function UpdateTripForm({
                     </div>
                   </label>
                 </div>
+                <div className="inline-flex md:col-span-6 gap-24">
+                  <div className=" ">
+                    <label className="text-black font-bold">
+                      Select check-in:
+                      <DatePicker
+                        className="h-6 border  text-xs mt-1 rounded px-2 pl-1 w-full bg-gray-50 z-0"
+                        selected={new Date(showFormAndTrip.trip.departureDate)}
+                        value={new Date(showFormAndTrip.trip.departureDate)}
+                        onSelect={handleDepartureDateChange}
+                        open={isDepartureCalendarOpen}
+                        onFocus={() => setDepartureCalendarOpen(true)}
+                        minDate={new Date()}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="">
+                    <label className="text-black font-bold">
+                      Select check-out
+                      <DatePicker
+                        className="h-6  text-xs border mt-1 rounded pl-1 px-2 w-full bg-gray-50"
+                        selected={
+                          new Date(showFormAndTrip.trip.arrivalHomeDate)
+                        }
+                        value={new Date(showFormAndTrip.trip.arrivalHomeDate)}
+                        onSelect={handleArrivalDateChange}
+                        open={isArrivalCalendarOpen}
+                        onFocus={() => setArrivalCalendarOpen(true)}
+                        minDate={showFormAndTrip.trip.departureDate}
+                      />
+                    </label>
+                  </div>
+                </div>
 
                 <div className="md:col-span-4">
-                  <label>
+                  <label className="text-black font-bold">
                     Memento
                     <div className="max-w-md pt-1">
                       <div className="relative pt-1">
@@ -345,7 +382,7 @@ export default function UpdateTripForm({
                   </label>
                 </div>
                 <div className="md:col-span-2 pt-1">
-                  <label>
+                  <label className="text-black font-bold">
                     Alarm Date
                     <DatePicker
                       className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-10"
@@ -355,11 +392,14 @@ export default function UpdateTripForm({
                       open={isAlarmDateOpen}
                       onFocus={() => setIsAlarmDateOpen(true)}
                       minDate={new Date()}
+                      maxDate={showFormAndTrip.trip.departureDate}
                     />
                   </label>
                 </div>
 
-                <button
+                <Button
+                  outline
+                  gradientDuoTone="greenToBlue"
                   onClick={() => handleAddMemento()}
                   className={`md:col-span-2 text-left ${
                     isButtonDisabled
@@ -368,11 +408,11 @@ export default function UpdateTripForm({
                   }`}
                 >
                   Add memento
-                </button>
+                </Button>
 
                 <div className="md:col-span-6">
-                  <div className="bg-white shadow-lg rounded-lg overflow-hidden pt-2">
-                    <ul className="divide-y divide-gray-200">
+                  <div className="shadow-lg rounded-lg overflow-hidden ">
+                    <ul className="divide-y  bg-white  divide-gray-200">
                       {showFormAndTrip.trip.mementos.map((memento, index) => (
                         <li
                           className="flex justify-between items-center user-card"
@@ -415,36 +455,6 @@ export default function UpdateTripForm({
                   </div>
                 </div>
 
-                <div className="md:col-span-3">
-                  <label>
-                    Select Departure Date:
-                    <DatePicker
-                      className="h-6 border mt-1 rounded px-2 w-full bg-gray-50 z-0"
-                      selected={new Date(showFormAndTrip.trip.departureDate)}
-                      value={new Date(showFormAndTrip.trip.departureDate)}
-                      onSelect={handleDepartureDateChange}
-                      open={isDepartureCalendarOpen}
-                      onFocus={() => setDepartureCalendarOpen(true)}
-                      minDate={new Date()}
-                    />
-                  </label>
-                </div>
-
-                <div className="md:col-span-3">
-                  <label>
-                    Select Arrival Date
-                    <DatePicker
-                      className="h-6 border mt-1 rounded px-2 w-full bg-gray-50"
-                      selected={new Date(showFormAndTrip.trip.arrivalHomeDate)}
-                      value={new Date(showFormAndTrip.trip.arrivalHomeDate)}
-                      onSelect={handleArrivalDateChange}
-                      open={isArrivalCalendarOpen}
-                      onFocus={() => setArrivalCalendarOpen(true)}
-                      minDate={showFormAndTrip.trip.departureDate}
-                    />
-                  </label>
-                </div>
-
                 {errorMessage && (
                   <h1 className="text-red-500 font-semibold italic w-48">
                     Please complete all the fields!
@@ -453,12 +463,13 @@ export default function UpdateTripForm({
 
                 <div className="md:col-span-6 text-right">
                   <div className="inline-flex items-end pt-4">
-                    <button
+                    <Button
                       onClick={onSaveTrip}
-                      className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded-md"
+                      outline
+                      gradientDuoTone="greenToBlue"
                     >
                       Save Trip
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

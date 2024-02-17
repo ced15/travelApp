@@ -37,13 +37,14 @@ export default function Places({ setLocation }) {
 
   return (
     <div>
-      <Combobox onSelect={handleSelect}>
+      <Combobox onSelect={handleSelect}
+      >
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}
-          className="w-full p-2 text-black"
-          placeholder="Search"
+          className="w-60 p-3 rounded-xl   focus:outline-0 focus:outline-primary-100 focus:ring-2 focus:ring-primary-100 bg-gray-50 text-black font-bold"
+          placeholder="Search for a location"
         />
         <ComboboxPopover>
           <ComboboxList>
