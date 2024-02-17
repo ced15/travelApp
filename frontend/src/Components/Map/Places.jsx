@@ -29,16 +29,16 @@ export default function Places({ setLocation }) {
     const results = await getGeocode({ address: val });
     const { lat, lng } = await getLatLng(results[0]);
     const details = await getDetails({ placeId: results[0].place_id });
+    const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     const locationName = details?.name || "Unknown Location";
     const address = details?.formatted_address || "Address not available";
-    const photo = `https://maps.googleapis.com/maps/api/streetview?size=400x200&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=AIzaSyDAzO1GRps6khktdBtkUREf_xqUv4vGfyE`
+    const photo = `https://maps.googleapis.com/maps/api/streetview?size=400x200&location=${lat},${lng}&fov=90&heading=235&pitch=10&key=${googleMapsApiKey}`;
     setLocation({ lat, lng, name: locationName, address, photo });
   };
 
   return (
     <div>
-      <Combobox onSelect={handleSelect}
-      >
+      <Combobox onSelect={handleSelect}>
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
